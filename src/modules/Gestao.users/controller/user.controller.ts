@@ -2,13 +2,13 @@ import { Response, Request } from "express";
 import { hash } from "bcryptjs";
 import { domain } from "../../../config/baseUrl/url";
 import { autenticationService } from "../../../utils/authentication/authentication";
-import { VisitorRepository } from "../../Gestao.visitas/repository/visitor.repository";
 import { User } from "../dto/user.dto";
 import { Logs } from "../types/types";
 import { userRepository } from "../repository/user.repository";
 import { UserService } from "../user.service";
 import { getDeviceInfo } from "../../../utils/identify.device";
 import { funcionarioRepository } from "../../Gestao.funcionarios/repository/funcionario.repository";
+import { VisitorRepository } from "../../Gestao.seguranca.interna/visitas/repository/visitor.repository";
 
 
 
@@ -84,6 +84,8 @@ export async function sigin(req: Request, res: Response) {
             res.redirect("/user/home");
         }else if(user.fk_grupo==5){
          res.redirect("/areas/PainelControlArea");
+        } else if(user.fk_grupo==2){
+          res.redirect("/visitas/painelVisitas"); 
         }else{
             console.log('Grupo não encontrado')
             req.flash("error", "Grupo não encontrado !");

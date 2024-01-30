@@ -4,15 +4,16 @@ import funcionarioRouter from "../modules/Gestao.funcionarios/funcionario.router
 import { userAuth } from "../utils/middlewares/session";
 import areasRouter from "../modules/Gestao.areas/areas.routes";
 import auxRouter from "../modules/Gestao.auxiliares/aux.routes";
+import visitasRouter from "../modules/Gestao.seguranca.interna/visitas/visitas.routes";
 const routes = Router()
 routes.use('/user',userRouter)
 routes.use('/funcionario',funcionarioRouter)
 routes.use('/areas',areasRouter)
-routes.use('/auxiliares',auxRouter)
+routes.use('/auxiliares',auxRouter) 
+routes.use('/visitas',visitasRouter) 
 
 routes.get('/', async (req, res) => {
      try {
-
         res.render("Dashboard/form/authentication-sign", {
           message:'Segurança Institucional',
           error: req.flash("error"),

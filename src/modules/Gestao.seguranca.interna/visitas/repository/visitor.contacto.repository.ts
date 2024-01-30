@@ -1,10 +1,10 @@
-import prisma from "../../../config/lib/prisma";
+import prisma from "../../../../config/lib/prisma";
 
 
 export const Visitor_contacto_Repository = {
   async finbyNumber(n: string){
     try {
-      const number = await prisma.visitante_contacto.findMany({
+      const number = await prisma.tb_Visitante_contacto.findMany({
         where:{
           contacto:n
         }
@@ -16,9 +16,9 @@ export const Visitor_contacto_Repository = {
   },
   async findAll(){
     try {
-      const number = await prisma.visitante_contacto.findMany({
+      const number = await prisma.tb_Visitante_contacto.findMany({
        include:{
-        visitantes:true,
+        tb_visitantes:true,
        }
       })
       return number
@@ -28,12 +28,12 @@ export const Visitor_contacto_Repository = {
   },
   async findById(id:number){
     try {
-      const number = await prisma.visitante_contacto.findMany({
+      const number = await prisma.tb_Visitante_contacto.findMany({
         where:{
         fk_visitante:id,
         },
        include:{
-        visitantes:true,
+        tb_visitantes:true,
        }
       })
       return number

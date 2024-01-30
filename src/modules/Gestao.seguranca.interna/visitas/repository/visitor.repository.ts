@@ -1,5 +1,7 @@
 
-import prisma from "../../../config/lib/prisma";
+
+import prisma from "../../../../config/lib/prisma";
+import { generateCurrentDate } from "../../../../utils/fuction";
 import { Visitante } from "../dto/visitor.dto";
 export interface VisitorIdentification {
   // You can replace 'string' with the appropriate type
@@ -13,10 +15,9 @@ export const VisitorRepository = {
     try {
       const visitor = await prisma.tb_Visitas.findMany({
         include: {
-          tb_direccao: true,
-          tb_cod_acesso_area: true,
-          tb_departamento:true,
-          tb_Tipo_visita:true,
+          tb_area: true,
+
+          tb_Tipo_visita: true,
         },
       });
       return visitor;
@@ -24,17 +25,16 @@ export const VisitorRepository = {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
-  async findOneVisita(visitaId:number) {
+  async findOneVisita(visitaId: number) {
     try {
       const visitor = await prisma.tb_Visitas.findUnique({
-        where:{
-        visitaId:visitaId
+        where: {
+          visitaId: visitaId
         },
         include: {
-          tb_direccao: true,
-          tb_cod_acesso_area: true,
-          tb_departamento:true,
-          tb_Tipo_visita:true,
+          tb_area: true,
+
+          tb_Tipo_visita: true,
         },
       });
       return visitor;
@@ -54,30 +54,30 @@ export const VisitorRepository = {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
-  async findVisitaVisitante(visitaId:number) {
+  async findVisitaVisitante(visitaId: number) {
     try {
       const visita_visitante = await prisma.tb_Visita_visitantes.findMany({
-        where:{
-      fk_visita:visitaId
+        where: {
+          fk_visita: visitaId
         },
-        include:{
-            tb_situacao_visitante:true,
-            tb_visitantes: true
-         
+        include: {
+          tb_situacao_visitante: true,
+          tb_visitantes: true
+
         }
-        
-     
+
+
       });
       return visita_visitante;
     } catch (error) {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
-  async findVisitaVisitanteById(Id:number) {
+  async findVisitaVisitanteById(Id: number) {
     try {
       const visita_visitante = await prisma.tb_Visita_visitantes.findMany({
-        where:{
-            visita_visitantesId:Id
+        where: {
+          visita_visitantesId: Id
         }
       });
       return visita_visitante;
@@ -98,11 +98,11 @@ export const VisitorRepository = {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
-  async findAllVisitaVisitanteidVisita(id:number) {
+  async findAllVisitaVisitanteidVisita(id: number) {
     try {
       const visita_visitante = await prisma.tb_Visita_visitantes.findMany({
-        where:{
-            fk_visita:id
+        where: {
+          fk_visita: id
         },
       });
       return visita_visitante;
@@ -110,46 +110,46 @@ export const VisitorRepository = {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
-  async findAllVisitaVisitanteAllupdate(id:number,other:number) {
+  async findAllVisitaVisitanteAllupdate(id: number, other: number) {
     try {
       const visita_visitante = await prisma.tb_Visita_visitantes.updateMany({
-       where:{
-        fk_visita:id
-       },
-       data:{
-        fk_situacao_visitante:other
-       }
+        where: {
+          fk_visita: id
+        },
+        data: {
+          fk_situacao_visitante: other
+        }
       });
       return visita_visitante;
     } catch (error) {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
-  async findAllVisitaVisitanteOneupdate(id:number,status:number,visita:number) {
+  async findAllVisitaVisitanteOneupdate(id: number, status: number, visita: number) {
     try {
       const visita_visitante = await prisma.tb_Visita_visitantes.updateMany({
-       where:{
-        visita_visitantesId:id,
-        fk_visita:visita
-       },
-       data:{
-        fk_situacao_visitante:status
-       }
+        where: {
+          visita_visitantesId: id,
+          fk_visita: visita
+        },
+        data: {
+          fk_situacao_visitante: status
+        }
       });
       return visita_visitante;
     } catch (error) {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
-  async updateDateOute(id:number,date:string) {
+  async updateDateOute(id: number, date: string) {
     try {
       const visita_visitante = await prisma.tb_Visita_visitantes.updateMany({
-       where:{
-        visita_visitantesId:id
-       },
-       data:{
-        hora_saida:date
-       }
+        where: {
+          visita_visitantesId: id
+        },
+        data: {
+          hora_saida: date
+        }
       });
       return visita_visitante;
     } catch (error) {
@@ -158,15 +158,19 @@ export const VisitorRepository = {
   },
   async findAllVisitaVisitantetoday() {
 
-
+    const today = await generateCurrentDate()
     try {
 
       const visita_visitante = await prisma.tb_Visita_visitantes.findMany({
-         include: {    
+        where: {
+          tb_visitas: {
+            data_visita: today
+          }
+        },
+        include: {
           tb_visitas: true,
-        
           tb_visitantes: true,
-          tb_situacao_visitante:true,
+          tb_situacao_visitante: true,
         },
       });
 
@@ -175,7 +179,7 @@ export const VisitorRepository = {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
-  async  contarVisitas() {
+  async contarVisitas() {
     try {
       const resultados = await prisma.tb_Visita_visitantes.groupBy({
         by: ['fk_visita'],
@@ -183,18 +187,18 @@ export const VisitorRepository = {
           fk_visita: true,
         },
       });
-    
-      const resultadosFormatados = resultados.map((resultado) => {
+
+      const resultadosFormatados = resultados.map((resultado: any) => {
         return {
           visitaId: resultado.fk_visita,
           quantidade: resultado._count.fk_visita
         };
-       
-      }); 
+
+      });
       return resultadosFormatados
 
     } catch (error) {
-      throw new Error(`Erro ao buscar Quantidade: ${error}`); 
+      throw new Error(`Erro ao buscar Quantidade: ${error}`);
     }
   },
 
@@ -212,27 +216,27 @@ export const VisitorRepository = {
   },
   async persistDataVisitor(data: Visitante) {
     try {
-  
+
       const visitante = await prisma.tb_Visitantes.create({
         data: {
-          nome:data.nome,
-          sobrenome:data.sobrenome
+          nome: data.nome,
+          sobrenome: data.sobrenome
         },
       });
-       // Crie contatos
-       if(data.contactos.length > 0) {
-       for (const contatoData of data.contactos) {
-        await prisma.tb_Visitante_contacto.create({
-          data: {
-            contacto: contatoData.contacto,
-            fk_visitante: visitante.visitanteId,
-          },
-        });
+      // Crie contatos
+      if (data.contactos.length > 0) {
+        for (const contatoData of data.contactos) {
+          await prisma.tb_Visitante_contacto.create({
+            data: {
+              contacto: contatoData.contacto,
+              fk_visitante: visitante.visitanteId,
+            },
+          });
+        }
       }
-    }
-      
-       // Associe pertences, se disponíveis
-    if(data.pertences.length > 0) {
+
+      // Associe pertences, se disponíveis
+      if (data.pertences.length > 0) {
         for (const pertenceData of data.pertences) {
           await prisma.tb_Visita_visitante_pertence.create({
             data: {
@@ -243,27 +247,27 @@ export const VisitorRepository = {
           });
         }
       }
-         // Associe o visitante à visita
-         await prisma.tb_Visitante_identificacao.create({
-          data: {
-            validade:data.Data_validade_doc,
-            num_identificacao:data.num_identificacao,
-            fk_tipo_identificacao:data.fk_tipo_identificacao,
-            fk_visitante:visitante.visitanteId
-          },
-        });
-       await prisma.tb_Visita_visitantes.create({
+      // Associe o visitante à visita
+      await prisma.tb_Visitante_identificacao.create({
         data: {
-          hora_saida:'---',
-          hora_entrada:data.hora_entrada,
-          fk_tp_identificacao:data.fk_tipo_identificacao,
-          num_passe_acesso:'', 
-         fk_situacao_visitante:1,
-         fk_visitante: visitante.visitanteId,  
-         fk_visita:data.visitaId, 
+          validade: data.Data_validade_doc,
+          num_identificacao: data.num_identificacao,
+          fk_tipo_identificacao: data.fk_tipo_identificacao,
+          fk_visitante: visitante.visitanteId
         },
       });
-      
+      await prisma.tb_Visita_visitantes.create({
+        data: {
+          hora_saida: '---',
+          hora_entrada: data.hora_entrada,
+          fk_tp_identificacao: data.fk_tipo_identificacao,
+          num_passe_acesso: '',
+          fk_situacao_visitante: 1,
+          fk_visitante: visitante.visitanteId,
+          fk_visita: data.visitaId,
+        },
+      });
+
       return { sucess: " Visitante Cadastrado !", };
     } catch (error) {
       console.log(error);
