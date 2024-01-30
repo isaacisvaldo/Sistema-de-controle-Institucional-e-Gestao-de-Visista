@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/geral/head') %>
+
+<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
+
+  <script src="/assets/js/hs.theme-appearance.js"></script>
+  <script src="/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  <!-- ========== HEADER ========== -->
+  <style>
+  
+    .calendar {
+        max-width: 700px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        width: 9000px;
+    }
+
+    .month {
+        background-color: #3498db;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .controls button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .controls button:hover {
+        background-color: #2271b3;
+    }
+
+    .days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        padding: 15px;
+    }
+
+    .day {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        cursor: pointer;
+        border: 2px solid #ccc;
+    }
+
+    .today {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+    /* Modal Styling */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        max-width: 400px;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+    .day.with-data {
+        background-color: #f9c953;
+    }
+</style>
+  <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
+    <div class="navbar-nav-wrap">
+      <!-- Logo -->
+      <%- include('../partials/geral/logo') %>
+      <!-- End Logo -->
+
+      <%- include('../partials/geral/navbar') %>
+    </div>
+  </header>
+
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+
+  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+    <div class="navbar-vertical-container">
+      <div class="navbar-vertical-footer-offset">
+        <!-- Logo -->
+
+        <%- include('../partials/geral/logo') %>
+
+        <!-- End Logo -->
+
+        <!-- Navbar Vertical Toggle -->
+        <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
+          <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+          <i class="bi-arrow-bar-right navbar-toggler-full-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+        </button>
+
+        <!-- End Navbar Vertical Toggle -->
+
+        <!-- Content -->
+        <%- include('./middlewares/middlewares.ejs') %>
+      
+      
+        <!-- End Content -->
+        <!-- Footer -->
+        <div class="navbar-vertical-footer">
+          <ul class="navbar-vertical-footer-list">
+          </ul>
+        </div>
+        <!-- End Footer -->
+      </div>
+    </div>
+  </aside>
+
+ 
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content container-fluid">
+    
+
+      <div class="d-sm-flex align-items-sm-center">
+        <div class="calendar">
+          <div class="month">
+              <div class="controls">
+                  <button id="prevMonth">Anterior</button>
+                  <span id="currentMonth"></span>
+                  <button id="nextMonth">Próximo</button>
+              </div>
+          </div>
+          <div class="days" id="daysContainer"></div>
+      </div>
+      </div>
+      <div class="modal" id="myModal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModal">&times;</span>
+            <h2 id="title"></h2>
+            <p>Selecione a data: <span id="selectedDate"></span></p>
+            <div id="information">
+
+            
+              <div class="col mb-3 mb-lg-5">
+                <!-- Card -->
+                <div class="card h-100">
+                  
+
+                  <!-- Body -->
+                  <div class="card-body text-center">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl avatar-soft-primary avatar-circle avatar-centered mb-3">
+                      <span class="avatar-initials">P</span>
+                      <span class="avatar-status avatar-sm-status avatar-status-warning"></span>
+                    </div>
+                    <!-- End Avatar -->
+
+                    <h3 class="mb-1">
+                      <a class="text-dark" href="#" id="permName"></a>
+                    </h3>
+
+                    <div class="mb-3">
+                      <i class="bi-building me-1"></i>
+                      <span>Permanente</span>
+                    </div>
+
+                    <!-- Badges -->
+                    <ul class="list-inline mb-0">
+                      <li class="list-inline-item"><a class="badge bg-soft-secondary text-secondary p-2" href="#">UI/UX</a></li>
+                      <li class="list-inline-item"><a class="badge bg-soft-secondary text-secondary p-2" href="#">Sketch</a></li>
+                      <li class="list-inline-item"><a class="badge bg-soft-secondary text-secondary p-2" href="#">Figma</a></li>
+                    </ul>
+                    <!-- End Badges -->
+                  </div>
+                  <!-- End Body -->
+
+                 
+                </div>
+                <!-- End Card -->
+              </div>
+              <!-- End Col -->
+
+              <div class="col mb-3 mb-lg-5">
+                <!-- Card -->
+                <div class="card h-100">
+                  
+
+                  <!-- Body -->
+                  <div class="card-body text-center">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl avatar-soft-primary avatar-circle avatar-centered mb-3">
+                      <span class="avatar-initials">R</span>
+                      <span class="avatar-status avatar-sm-status avatar-status-warning"></span>
+                    </div>
+                    <!-- End Avatar -->
+
+                    <h3 class="mb-1">
+                      <a class="text-dark" href="#" id="reserName"></a>
+                    </h3>
+
+                    <div class="mb-3">
+                      <i class="bi-building me-1"></i>
+                      <span>Reserva</span>
+                    </div>
+
+                    <!-- Badges -->
+                    <ul class="list-inline mb-0">
+                      <li class="list-inline-item"><a class="badge bg-soft-secondary text-secondary p-2" href="#">UI/UX</a></li>
+                      <li class="list-inline-item"><a class="badge bg-soft-secondary text-secondary p-2" href="#">Sketch</a></li>
+                      <li class="list-inline-item"><a class="badge bg-soft-secondary text-secondary p-2" href="#">Figma</a></li>
+                    </ul>
+                    <!-- End Badges -->
+                  </div>
+                  <!-- End Body -->
+
+                 
+                </div>
+                <!-- End Card -->
+              </div>
+              <!-- End Col -->
+            </div>
+            
+            <div class="card-body" id="dataModel">
+              <div class="row">
+                <div class="col-sm-12">
+                  <!-- Form -->
+                   <!-- Form -->
+            <div class="row mb-4">
+              <label for="departmentLabel" class="col-sm-3 col-form-label form-label">Permanente</label>
+
+              <div class="col-sm-9">
+                   
+                <select class="js-select form-select" id="reservaId" autocomplete="off" data-hs-tom-select-options='{
+                  "placeholder": "Select Funcionario"
+                }'  class="form-control form-control-lg"
+                name="funcionario"
+                required>
+               
+              <% employee.forEach(function(f) { %>
+
+                <option value="<%= f.funcionarioID %>"><%= f.nome %> <%= f.sobre_nome %></option>
+               
+              <% });%>
+        
+         </select>
+              
+              </div>
+            </div>
+            <!-- End Form -->
+                  <!-- End Form -->
+                </div>
+                <!-- End Col -->
+
+                <div class="row mb-4">
+                  <label for="departmentLabel" class="col-sm-3 col-form-label form-label">Reserva</label>
+    
+                  <div class="col-sm-9">
+                       
+                    <select class="js-select form-select" id="permanenteId" autocomplete="off" data-hs-tom-select-options='{
+                      "placeholder": "Select Funcionario"
+                    }'  class="form-control form-control-lg"
+                    name="funcionario"
+                    required>
+                   
+                  <% employee.forEach(function(f) { %>
+    
+                    <option value="<%= f.funcionarioID %>"><%= f.nome %> <%= f.sobre_nome %></option>
+                   
+                  <% });%>
+            
+             </select>
+                  
+                  </div>
+                </div>
+              </div>
+              <!-- End Row -->
+
+              <!-- End Form Check -->
+              <div
+              style="align-center: center"
+              class=""
+              id="result"
+            ></div>
+              <div class="d-flex justify-content-end gap-3">
+             
+                <button type="button" class="btn btn-primary" id="saveData"   onclick="postData()">Salvar</button>
+              </div>
+            </div>
+        </div>
+    </div>
+      <!-- End Fullcalendar -->
+    </div>
+    <!-- End Content -->
+   
+    <!-- Footer -->
+    <%- include('../partials/geral/footer') %>
+    <!-- End Footer -->
+    <input type="hidden" id="domainID" value="<%= domain%>" />
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ONLY DEV -->
+
+
+  <script>
+      const domain = document.getElementById("domainID").value;
+    // Elementos do calendário
+    const currentMonthElement = document.getElementById('currentMonth');
+    const daysContainer = document.getElementById('daysContainer');
+    const prevMonthButton = document.getElementById('prevMonth');
+    const nextMonthButton = document.getElementById('nextMonth');
+    const modal = document.getElementById('myModal');
+    const closeModal = document.getElementById('closeModal');
+    const selectedDateElement = document.getElementById('selectedDate');
+    const information = document.getElementById('information');
+    const saveDataButton = document.getElementById('saveData');
+    const dataModel =document.getElementById('dataModel');
+    const title = document.getElementById('title');
+    const permName = document.getElementById('permName');
+    const reserName = document.getElementById('reserName');
+
+ 
+    
+
+    // Data atual e data selecionada
+    let currentDate = new Date();
+    let selectedDate = new Date();
+    renderCalendar(currentDate);
+
+    function renderCalendar(date) {
+        const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+        currentMonthElement.textContent = `${getMonthName(date.getMonth())} ${date.getFullYear()}`;
+        daysContainer.innerHTML = '';
+
+        for (let day = 1; day <= lastDay.getDate(); day++) {
+            const dayElement = document.createElement('div');
+            dayElement.classList.add('day');
+            dayElement.textContent = day;
+            dayElement.addEventListener('click', () => openModal(date.getFullYear(), date.getMonth(), day));
+
+            if (date.getFullYear() === currentDate.getFullYear() && date.getMonth() === currentDate.getMonth() && day === currentDate.getDate()) {
+                dayElement.classList.add('today');
+            }
+
+            const formattedDate = `${date.getMonth() + 1}/${day}/${date.getFullYear()}`;
+            if (getStoredData(formattedDate)) {
+                dayElement.classList.add('with-data');
+            }
+
+            daysContainer.appendChild(dayElement);
+        }
+    }
+
+    function getMonthName(month) {
+        const months = [
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ];
+        return months[month];
+    }
+
+    prevMonthButton.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar(currentDate);
+    });
+
+    nextMonthButton.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar(currentDate);
+    });
+
+    function openModal(year, month, day) {
+        selectedDate.setFullYear(year, month, day);
+        selectedDateElement.textContent = selectedDate.toDateString();
+
+        const formattedDate = `${selectedDate.getMonth() + 1}/${day}/${selectedDate.getFullYear()}`;
+        const storedData = getStoredData(formattedDate);
+        if (storedData) {
+             information.value = storedData.permanente;
+             information.style.display = 'block';
+             saveDataButton.style.display = 'none';
+            dataModel.style.display='none';
+            title.innerHTML="Visializando... "
+            permName.innerHTML=storedData.permanente.nome;
+            reserName.innerHTML=storedData.reserva.nome;
+        } else {
+          title.innerHTML="Inserindo...";
+            information.style.display = 'none';
+            saveDataButton.style.display = 'block';
+            dataModel.style.display='block';
+        }
+
+        modal.style.display = 'block';
+    }
+
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+   
+      function postData() {
+        const permanenteId = document.getElementById('permanenteId').value;
+        const reservaId = document.getElementById('reservaId').value;
+        const formattedDate = `${selectedDate.getMonth() + 1}/${selectedDate.getDate()}/${selectedDate.getFullYear()}`;
+        const data = {
+          permanenteId: parseInt(permanenteId),
+          reservaId:parseInt(reservaId),
+          formattedDate:formattedDate
+          }
+        console.log(`Dados salvos para ${formattedDate}: ${data}`);
+      
+        const options = {
+      method: "POST",
+      headers: {
+              "Content-Type": "application/json", 
+            },
+            body: JSON.stringify(data),
+    };
+    fetch(`${domain}/Escala_permanencaSave`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+    if(data.error){
+    document.getElementById('result').innerHTML =data.error; 
+    document.getElementById('result').setAttribute('class', 'text-danger')
+  }else{
+    document.getElementById('result').innerHTML =data.sucess;
+    document.getElementById('result').setAttribute('class', 'text-success')
+    window.location="/Form_Add_Escala_Permaneca"
+  }
+ }).catch((error) => {
+        
+       console.log(error)
+      });
+         
+    };
+
+
+
+    function getStoredData(date) {
+            const data = {
+                '10/20/2023': {
+                    permanente:{
+                        nome:"Isaac Bunga"
+                    },
+                    reserva:{
+                        nome:"Paulo Mateus"
+                    }
+                },
+                '11/20/2023': {
+                    permanente:{
+                        nome:"Isaac Bunga"
+                    },
+                    reserva:{
+                        nome:"Paulo Mateus"
+                    }
+                },
+
+                        "12/2/2023": {
+                        "permanente": {
+                        "nome": "Osvaldo Teste"
+                        },
+                        "reserva": {
+                        "nome": "Afonso Teste"
+                        },
+                        
+
+    },
+    
+                
+            };
+            return data[date];
+        }
+
+//     function getStoredData(date) {
+      
+//    document.addEventListener('DOMContentLoaded', function() {
+//   fetch(`${domain}/escalapermaneca`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json' 
+     
+//     }
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Erro ao obter os dados');
+//     }
+//     return response.json(); 
+//   })
+//   .then(dataResponse => {
+   
+//     const data = dataResponse.data;
+//     console.log('Dados recebidos:', data);
+//     return data[date];
+//   })
+//   .catch(error => {
+  
+//     console.error('Ocorreu um erro:', error);
+//   });
+// })   
+//     }
+  
+</script>
+
+
+  <script src="assets/js/demo.js"></script>
+  <script src="assets/js/vendor.min.js"></script>
+  <script src="assets/js/theme.min.js"></script>
+
+
+
+  <script>
+      (function () {
+        // STYLE SWITCHER
+        // =======================================================
+        const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+        const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+        // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+        const setActiveStyle = function () {
+          $variants.forEach($item => {
+            if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+              $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+              return $item.classList.add('active')
+            }
+
+            $item.classList.remove('active')
+          })
+        }
+
+        // Add a click event to all items of the dropdown to set the style
+        $variants.forEach(function ($item) {
+          $item.addEventListener('click', function () {
+            HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+          })
+        })
+
+        // Call the setActiveStyle on load page
+        setActiveStyle()
+
+        // Add event listener on change style to call the setActiveStyle function
+        window.addEventListener('on-hs-appearance-change', function () {
+          setActiveStyle()
+        })
+      })()
+    </script>
+
+</body>
+</html>

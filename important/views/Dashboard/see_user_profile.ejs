@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/geral/head') %>
+
+<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
+
+  <script src="/assets/js/hs.theme-appearance.js"></script>
+  <script src="/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  <!-- ========== HEADER ========== -->
+  <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
+    <div class="navbar-nav-wrap">
+      <!-- Logo -->
+      <%- include('./partials/geral/logo') %>
+      <!-- End Logo -->
+
+      <%- include('./partials/geral/navbar') %>
+    </div>
+  </header>
+
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+
+  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+    <div class="navbar-vertical-container">
+      <div class="navbar-vertical-footer-offset">
+        <!-- Logo -->
+
+        <%- include('./partials/geral/logo') %>
+
+        <!-- End Logo -->
+
+        <!-- Navbar Vertical Toggle -->
+        <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
+          <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+          <i class="bi-arrow-bar-right navbar-toggler-full-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+        </button>
+
+        <!-- End Navbar Vertical Toggle -->
+
+        <!-- Content -->
+        <%- include('./middlewares/middlewares.ejs') %>
+      
+        <!-- End Content -->
+        <!-- Footer -->
+        <div class="navbar-vertical-footer">
+          <ul class="navbar-vertical-footer-list">
+          </ul>
+        </div>
+        <!-- End Footer -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- End Navbar Vertical -->
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content container-fluid">
+      <div class="row justify-content-lg-center">
+        <div class="col-lg-10">
+          <!-- Profile Cover -->
+          <div class="profile-cover">
+            <div class="profile-cover-img-wrapper">
+              <img id="profileCoverImg" class="profile-cover-img" src="/assets/img/logo/MININT.png" alt="Image Description">
+
+              <!-- Custom File Cover -->
+              <div class="profile-cover-content profile-cover-uploader p-3">
+              
+                
+              </div>
+              <!-- End Custom File Cover -->
+            </div>
+          </div>
+          <!-- End Profile Cover -->
+
+          <!-- Profile Header -->
+          <div class="text-center mb-5">
+            <!-- Avatar -->
+            <label class="avatar avatar-xxl avatar-circle avatar-uploader profile-cover-avatar" for="editAvatarUploaderModal">
+              <img id="editAvatarImgModal" class="avatar-img" src="/uploads/<%- use.imagen %>" alt="Image Description">
+
+             
+            </label>
+            <!-- End Avatar -->
+
+            <h1 class="page-header-title"><%= use.username %><i class="bi-patch-check-fill fs-2 text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Top endorsed"></i></h1>
+
+            <!-- List -->
+            <ul class="list-inline list-px-2">
+              <li class="list-inline-item">
+                <i class="bi-building me-1"></i>
+                <span><%=use.orgao %></span>
+                <a href="#">MININT</a>
+              </li>
+
+              <li class="list-inline-item">
+                <i class="bi-geo-alt me-1"></i>
+                <a href="#"><%=user.patente %></a>
+               
+              </li>
+
+              <li class="list-inline-item">
+                <i class="bi-calendar-week me-1"></i>
+                <span> 2023</span>
+              </li>
+            </ul>
+            <!-- End List -->
+          </div>
+          <!-- End Profile Header -->
+
+          <!-- Nav -->
+          <div class="js-nav-scroller hs-nav-scroller-horizontal mb-5">
+            <span class="hs-nav-scroller-arrow-prev" style="display: none;">
+              <a class="hs-nav-scroller-arrow-link" href="javascript:;">
+                <i class="bi-chevron-left"></i>
+              </a>
+            </span>
+
+            <span class="hs-nav-scroller-arrow-next" style="display: none;">
+              <a class="hs-nav-scroller-arrow-link" href="javascript:;">
+                <i class="bi-chevron-right"></i>
+              </a>
+            </span>
+
+            <ul class="nav nav-tabs align-items-center">
+              <li class="nav-item">
+                <a class="nav-link active disabled" href="#">Perfil</a>
+              </li>
+             
+
+              <li class="nav-item ms-auto">
+                <div class="d-flex gap-2">
+                  <a class="btn btn-white btn-sm" href="#">
+                    <i class="bi-person-plus-fill me-1"></i> Editar Perfil
+                  </a>
+
+                  <a class="btn btn-white btn-icon btn-sm" href="#">
+                    <i class="bi-list-ul me-1"></i>
+                  </a>
+
+                  <!-- Dropdown -->
+                
+                  <!-- End Dropdown -->
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- End Nav -->
+
+          <div class="row">
+            <div class="col-lg-4">
+              <!-- Card -->
+              
+
+              <!-- Card -->
+              <div class="card mb-3 mb-lg-5">
+                <!-- Header -->
+                <div class="card-header card-header-content-between">
+                  <h4 class="card-header-title">Perfil</h4>
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <div class="card-body">
+                  <ul class="list-unstyled list-py-2 text-dark mb-0">
+                    <li class="pb-0"><span class="card-subtitle">Sobre </span></li>
+                    <li><i class="bi-person dropdown-item-icon"></i> <%= use.username %></li>
+                    
+                    <li><i class="bi-building dropdown-item-icon"></i> Segurança Institucional.</li>
+
+                    <li class="pt-4 pb-0"><span class="card-subtitle">Dados</span></li>
+                    <li><i class="bi-at dropdown-item-icon"></i> <%= use.email %></li>
+                    <li><i class="bi-phone dropdown-item-icon"></i> <%= use.funcionario.nip %></li>
+
+                    <li class="pt-4 pb-0"><span class="card-subtitle">Area</span></li>
+                    <li class="fs-6 text-body"><i class="bi-people dropdown-item-icon"></i> <%= use.funcionario.Area.nome %> (<%= use.funcionario.Area .sigla %>)</li>
+                    <li class="fs-6 text-body"><i class="bi-stickies dropdown-item-icon"></i><%= use.grupo_user.designacao %> </li>
+                  </ul>
+                </div>
+                <!-- End Body -->
+              </div>
+              <!-- End Card -->
+              <!-- Card -->
+              <!-- End Card -->
+            </div>
+            <!-- End Col -->
+            <div class="col-lg-8">
+              <div class="d-grid gap-3 gap-lg-5">
+                <!-- Card -->
+                <div class="card">
+                  <!-- Header -->
+                  <div class="card-header card-header-content-between">
+                    <h4 class="card-header-title">Actividades</h4>
+
+                 
+                  </div>
+                  <!-- End Header -->
+
+                  <!-- Body -->
+                  <div class="card-body card-body-height" style="height: 19.5rem;">
+                    <!-- Step -->
+                    <ul class="step step-icon-xs mb-0">
+                    <% logs.reverse().slice(0,4).map(e=>{ %>
+                      <li class="step-item">
+                        <div class="step-content-wrapper">
+                          <span class="step-icon step-icon-pseudo step-icon-soft-dark"></span>
+
+                          <div class="step-content">
+                            <h5 class="step-title">
+                              <a class="text-dark" href="#"><%=e.titulo %>.</a>
+                            </h5>
+
+                            <p class="fs-5 mb-1"><%=e.descricao %> <a class="text-uppercase" href="#"><i class="bi-journal-bookmark-fill"></i> </a></p>
+
+                           
+
+                            <span class="text-muted small text-uppercase"><%=e.createdAt.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })%>
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    
+                      <%  }) %>
+                    
+                     
+                    
+
+                   
+                      <% logs.map(e=>{ %>
+                        <li id="collapseActivitySection" class="step-item collapse">
+                          <div class="step-content-wrapper">
+                            <span class="step-icon step-icon-pseudo step-icon-soft-dark"></span>
+  
+                            <div class="step-content">
+                              <h5 class="step-title">
+                                <a class="text-dark" href="#"><%=e.titulo %>.</a>
+                              </h5>
+  
+                              <p class="fs-5 mb-1"><%=e.descricao %> <a class="text-uppercase" href="#"><i class="bi-info-circle"></i> </a></p>
+  
+                             
+  
+                              <span class="text-muted small text-uppercase"><%=e.createdAt.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })%>
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      
+                        <%  }) %>
+                      
+                      <!-- End Step Item -->
+                    </ul>
+                    <!-- End Step -->
+                  </div>
+                  <!-- End Body -->
+
+                  <!-- Footer -->
+                  <div class="card-footer">
+                    <a class="link link-collapse" data-bs-toggle="collapse" href="#collapseActivitySection" role="button" aria-expanded="false" aria-controls="collapseActivitySection">
+                      <span class="link-collapse-default">Ver todos</span>
+                      <span class="link-collapse-active">Ver menos</span>
+                    </a>
+                  </div>
+                  <!-- End Footer -->
+                </div>
+            
+
+                <!-- Card -->
+               
+                <!-- End Card -->
+              </div>
+
+              <!-- Sticky Block End Point -->
+              <div id="stickyBlockEndPoint"></div>
+            </div>
+          
+          </div>
+          <!-- End Row -->
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+
+ 
+<%- include('./partials/geral/footer') %>
+
+    <!-- End Footer -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ONLY DEV -->
+
+  <!-- Builder -->
+
+  <script src="assets/js/demo.js"></script>
+
+  <!-- END ONLY DEV -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+
+
+
+  <!-- Create a new user Modal -->
+
+
+  <script src="/assets/js/vendor.min.js"></script>
+
+  <script src="/assets/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script>
+
+  <!-- JS Front -->
+  <script src="/assets/js/theme.min.js"></script>
+  <script src="/assets/js/hs.theme-appearance-charts.js"></script>
+  <%- include('./alerts/alerts') %>
+  <input type="hidden" id="domainID" value="<%= domain%>" />
+  <script>
+    $(document).on('ready', function () {
+      // INITIALIZATION OF DATERANGEPICKER
+      // =======================================================
+      $('.js-daterangepicker').daterangepicker();
+
+      $('.js-daterangepicker-times').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(32, 'hour'),
+        locale: {
+          format: 'M/DD hh:mm A'
+        }
+      });
+
+      var start = moment();
+      var end = moment();
+
+      function cb(start, end) {
+        $('#js-daterangepicker-predefined .js-daterangepicker-predefined-preview').html(start.format('MMM D') + ' - ' + end.format('MMM D, YYYY'));
+      }
+
+      $('#js-daterangepicker-predefined').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+
+      cb(start, end);
+    });
+
+
+    // INITIALIZATION OF DATATABLES
+    // =======================================================
+    HSCore.components.HSDatatables.init($('#datatable'), {
+      select: {
+        style: 'multi',
+        selector: 'td:first-child input[type="checkbox"]',
+        classMap: {
+          checkAll: '#datatableCheckAll',
+          counter: '#datatableCounter',
+          counterInfo: '#datatableCounterInfo'
+        }
+      },
+      language: {
+        zeroRecords: `<div class="text-center p-4">
+              <img class="mb-3" src="./assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
+              <img class="mb-3" src="./assets/svg/illustrations-light/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
+            <p class="mb-0">No data to show</p>
+            </div>`
+      }
+    });
+
+    const datatable = HSCore.components.HSDatatables.getItem(0)
+
+    document.querySelectorAll('.js-datatable-filter').forEach(function (item) {
+      item.addEventListener('change',function(e) {
+        const elVal = e.target.value,
+    targetColumnIndex = e.target.getAttribute('data-target-column-index'),
+    targetTable = e.target.getAttribute('data-target-table');
+
+    HSCore.components.HSDatatables.getItem(targetTable).column(targetColumnIndex).search(elVal !== 'null' ? elVal : '').draw()
+      })
+    })
+  </script>
+
+ 
+
+  <script>
+      (function () {
+        // STYLE SWITCHER
+        // =======================================================
+        const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+        const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+        // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+        const setActiveStyle = function () {
+          $variants.forEach($item => {
+            if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+              $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+              return $item.classList.add('active')
+            }
+
+            $item.classList.remove('active')
+          })
+        }
+
+        // Add a click event to all items of the dropdown to set the style
+        $variants.forEach(function ($item) {
+          $item.addEventListener('click', function () {
+            HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+          })
+        })
+
+        // Call the setActiveStyle on load page
+        setActiveStyle()
+
+        // Add event listener on change style to call the setActiveStyle function
+        window.addEventListener('on-hs-appearance-change', function () {
+          setActiveStyle()
+        })
+      })()
+    </script>
+  <script>
+    (function() {
+      window.onload = function () {
+        
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF SELECT
+        // =======================================================
+        HSCore.components.HSTomSelect.init('.js-select')
+
+
+        // INITIALIZATION OF ADD FIELD
+        // =======================================================
+        new HSAddField('.js-add-field', {
+          addedField: field => {
+            HSCore.components.HSTomSelect.init(field.querySelector('.js-select-dynamic'))
+            HSCore.components.HSMask.init(field.querySelector('.js-input-mask'))
+          }
+        })
+
+
+        // INITIALIZATION OF INPUT MASK
+        // =======================================================
+        HSCore.components.HSMask.init('.js-input-mask')
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+
+  <script>
+      (function () {
+        // STYLE SWITCHER
+        // =======================================================
+        const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+        const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+        // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+        const setActiveStyle = function () {
+          $variants.forEach($item => {
+            if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+              $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+              return $item.classList.add('active')
+            }
+
+            $item.classList.remove('active')
+          })
+        }
+
+        // Add a click event to all items of the dropdown to set the style
+        $variants.forEach(function ($item) {
+          $item.addEventListener('click', function () {
+            HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+          })
+        })
+
+        // Call the setActiveStyle on load page
+        setActiveStyle()
+
+        // Add event listener on change style to call the setActiveStyle function
+        window.addEventListener('on-hs-appearance-change', function () {
+          setActiveStyle()
+        })
+      })()
+    </script>
+
+
+</body>
+
+<!-- Mirrored from htmlstream.com/preview/front-dashboard-v2.0/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 09 Jul 2022 06:35:35 GMT -->
+</html>

@@ -1,0 +1,277 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model tb_Perfil {
+  perfilId   Int       @id @default(autoincrement())
+  designacao String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  tb_user    tb_User[]
+}
+
+model tb_Grupo {
+  grupoId    Int       @id @default(autoincrement())
+  designacao String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  tb_user    tb_User[]
+}
+
+model tb_Orgao {
+  orgaoId    Int          @id @default(autoincrement())
+  designacao String       @unique
+  sigla      String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  tb_patente tb_Patente[]
+}
+
+model tb_Patente {
+  PatenteId      Int              @id @default(autoincrement())
+  designacao     String           @unique
+  tb_orgao       tb_Orgao?        @relation(fields: [fk_Orgao], references: [orgaoId])
+  fk_Orgao       Int
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  tb_funcionario tb_Funcionario[]
+}
+
+model tb_Categoria_area {
+  categoriaId Int      @id @default(autoincrement())
+  designacao  String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tb_area        tb_Area[]
+}
+
+model tb_Area {
+  areaId            Int               @id @default(autoincrement())
+  nome              String            @unique
+  sigla             String            @unique
+  tb_categoria_area    tb_Categoria_area?   @relation(fields: [fk_categoria], references: [categoriaId])
+  fk_categoria      Int
+  // Relacionamento unário para áreas superiores
+  areaSuperior      tb_Area?             @relation("Subordinada", fields: [areaSuperiorId], references: [areaId])
+  areaSuperiorId    Int?
+  // Relacionamento unário para áreas subordinadas
+  areasSubordinadas tb_Area[]            @relation("Subordinada")
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  funcionario       tb_Funcionario[]
+  tb_area_chefe_area   tb_Area_Chefe_Area[]
+  tb_visitas           tb_Visitas[]
+}
+model tb_Area_Chefe_Area {
+  Id          Int          @id @default(autoincrement())
+  tb_area          tb_Area?        @relation(fields: [fk_area], references: [areaId])
+  fk_area        Int          @unique
+  funcionario   tb_Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioId])
+  fk_funcionario Int          @unique
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+model tb_Situacao_funcionario {
+  situacaoId     Int              @id @default(autoincrement())
+  designacao     String           @unique
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  tb_Funcionario tb_Funcionario[]
+}
+
+model tb_Funcionario {
+  funcionarioId           Int                      @id @default(autoincrement())
+  nome                    String
+  sobre_nome              String
+  tb_patente              tb_Patente?              @relation(fields: [fk_patente], references: [PatenteId])
+  fk_patente              Int
+  nip                     String
+  tb_situacao_funcionario tb_Situacao_funcionario? @relation(fields: [fk_situacao], references: [situacaoId])
+  fk_situacao             Int
+  tb_area      tb_Area? @relation(fields: [fk_area], references: [areaId])
+  fk_area Int 
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  tb_user                 tb_User[]
+  tb_contacto             tb_Contacto[]
+  tb_area_chefe_area   tb_Area_Chefe_Area[]
+  
+}
+
+model tb_Contacto {
+  contactoId     Int             @id @default(autoincrement())
+  designacao     String          @unique
+  funcionario    tb_Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioId], onDelete: Cascade, onUpdate: Cascade)
+  fk_funcionario Int
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model tb_User {
+  userId         Int             @id @default(autoincrement())
+  username       String          @unique
+  image          String
+  email          String          @unique
+  tb_perfil      tb_Perfil?      @relation(fields: [fk_perfil], references: [perfilId], onDelete: Cascade, onUpdate: Cascade)
+  fk_perfil      Int
+  tb_grupo       tb_Grupo?       @relation(fields: [fk_grupo], references: [grupoId], onDelete: Cascade, onUpdate: Cascade)
+  fk_grupo       Int
+  password       String
+  tb_funcionario    tb_Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioId], onDelete: Cascade, onUpdate: Cascade)
+  fk_funcionario Int
+  status_ative   Boolean         @default(false)
+  tb_Log         tb_Log[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model tb_Log {
+  logId       Int      @id @default(autoincrement())
+  titulo      String
+  descricao   String
+  dispositivo String?
+  ip          String?
+  lat         Float?
+  lng         Float?
+  tb_user     tb_User? @relation(fields: [fk_user], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  fk_user     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+//Gestão de visitas 
+
+model tb_Anexos {
+  anexoId    Int      @id @default(autoincrement())
+  designacao String
+  tipo       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model tb_Pertences {
+  pertenceId                   Int                            @id @default(autoincrement())
+  designacao                   String
+  createdAt                    DateTime                       @default(now())
+  updatedAt                    DateTime                       @updatedAt
+  tb_Visita_visitante_pertence tb_Visita_visitante_pertence[]
+}
+
+model tb_Tipo_visita {
+  tipo_visitaId Int          @id @default(autoincrement())
+  designacao    String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  tb_visitas    tb_Visitas[]
+}
+
+model tb_Visitantes {
+  visitanteId                  Int                            @id @default(autoincrement())
+  nome                         String
+  sobrenome                    String
+  status                       Boolean                        @default(false)
+  createdAt                    DateTime                       @default(now())
+  updatedAt                    DateTime                       @updatedAt
+  tb_visitante_contacto        tb_Visitante_contacto[]
+  tb_visitante_identificacao   tb_Visitante_identificacao[]
+  tb_visita_visitantes         tb_Visita_visitantes[]
+  tb_visita_visitante_pertence tb_Visita_visitante_pertence[]
+}
+
+model tb_Situacao_visitante {
+  situacaoId           Int                    @id @default(autoincrement())
+  designacao           String
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  tb_Visita_visitantes tb_Visita_visitantes[]
+}
+
+model tb_Tipos_doc_identificacao_visitante {
+  tipo_identifiId            Int                          @id @default(autoincrement())
+  designacao                 String
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  tb_visitante_identificacao tb_Visitante_identificacao[]
+  tb_Visita_visitantes       tb_Visita_visitantes[]
+}
+
+model tb_Visitante_contacto {
+  contactoId    Int            @id @default(autoincrement())
+  contacto      String
+  tb_visitantes tb_Visitantes? @relation(fields: [fk_visitante], references: [visitanteId], onDelete: Cascade, onUpdate: Cascade)
+  fk_visitante  Int
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model tb_Visitante_identificacao {
+  visit_identId                        Int                                   @id @default(autoincrement())
+  num_identificacao                    String
+  validade                             String
+  tb_tipos_doc_identificacao_visitante tb_Tipos_doc_identificacao_visitante? @relation(fields: [fk_tipo_identificacao], references: [tipo_identifiId])
+  fk_tipo_identificacao                Int
+  tb_visitantes                        tb_Visitantes?                        @relation(fields: [fk_visitante], references: [visitanteId], onDelete: Cascade, onUpdate: Cascade)
+  fk_visitante                         Int
+  createdAt                            DateTime                              @default(now())
+  updatedAt                            DateTime                              @updatedAt
+}
+
+model tb_Visitas {
+  visitaId                     Int                            @id @default(autoincrement())
+  data_visita                  String
+ tb_area          tb_Area?        @relation(fields: [fk_area], references: [areaId])
+  fk_area        Int 
+  tb_Tipo_visita               tb_Tipo_visita?                @relation(fields: [fk_tipo_visita], references: [tipo_visitaId], onDelete: Cascade, onUpdate: Cascade)
+  fk_tipo_visita               Int
+  createdAt                    DateTime                       @default(now())
+  updatedAt                    DateTime                       @updatedAt
+  tb_visita_visitantes         tb_Visita_visitantes[]
+  tb_visita_visitante_pertence tb_Visita_visitante_pertence[]
+  tb_cod_acesso_area           tb_Cod_acesso_area[]
+}
+
+model tb_Cod_acesso_area {
+  codId      Int         @id @default(autoincrement())
+  tb_visitas tb_Visitas? @relation(fields: [fk_visita], references: [visitaId])
+  fk_visita  Int
+  cod        String      @default("0001")
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model tb_Visita_visitantes {
+  visita_visitantesId                  Int                                   @id @default(autoincrement())
+  tb_visitas                           tb_Visitas?                           @relation(fields: [fk_visita], references: [visitaId])
+  fk_visita                            Int
+  tb_visitantes                        tb_Visitantes?                        @relation(fields: [fk_visitante], references: [visitanteId])
+  fk_visitante                         Int
+  hora_entrada                         String
+  hora_saida                           String
+  tb_Tipos_doc_identificacao_visitante tb_Tipos_doc_identificacao_visitante? @relation(fields: [fk_tp_identificacao], references: [tipo_identifiId])
+  fk_tp_identificacao                  Int
+  num_passe_acesso                     String
+  tb_situacao_visitante                tb_Situacao_visitante?                @relation(fields: [fk_situacao_visitante], references: [situacaoId])
+  fk_situacao_visitante                Int
+  createdAt                            DateTime                              @default(now())
+  updatedAt                            DateTime                              @updatedAt
+}
+
+model tb_Visita_visitante_pertence {
+  visita_visitante_pertenceId Int            @id @default(autoincrement())
+  tb_visitas                  tb_Visitas?    @relation(fields: [fk_visita], references: [visitaId])
+  fk_visita                   Int
+  tb_visitantes               tb_Visitantes? @relation(fields: [fk_visitante], references: [visitanteId])
+  fk_visitante                Int
+  tb_pertences                tb_Pertences?  @relation(fields: [fk_pertence], references: [pertenceId])
+  fk_pertence                 Int
+  createdAt                   DateTime       @default(now())
+  updatedAt                   DateTime       @updatedAt
+}

@@ -1,0 +1,424 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Perfil {
+  perfilID   Int      @id @default(autoincrement())
+  designacao String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User[]
+}
+
+model Grupo_user {
+  grupoID    Int      @id @default(autoincrement())
+  designacao String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User[]
+}
+
+model Orgao {
+  orgaoID    Int       @id @default(autoincrement())
+  designacao String    @unique
+  sigla      String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  patente    Patente[]
+}
+
+model Patente {
+  PatenteID   Int           @id @default(autoincrement())
+  designacao  String        @unique
+  Orgao       Orgao?        @relation(fields: [fk_Orgao], references: [orgaoID])
+  fk_Orgao    Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  foncionario Funcionario[]
+}
+
+model Categoria_area {
+  categoriaID Int      @id @default(autoincrement())
+  designacao  String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Area        Area[]
+}
+
+model Area {
+  areaID            Int               @id @default(autoincrement())
+  nome              String            @unique
+  sigla             String            @unique
+  categoria_area    Categoria_area?   @relation(fields: [fk_categoria], references: [categoriaID])
+  fk_categoria      Int
+  // Relacionamento unário para áreas superiores
+  areaSuperior      Area?             @relation("Subordinada", fields: [areaSuperiorId], references: [areaID])
+  areaSuperiorId    Int?
+  // Relacionamento unário para áreas subordinadas
+  areasSubordinadas Area[]            @relation("Subordinada")
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  funcionario       Funcionario[]
+  area_chefe_area   Area_Chefe_Area[]
+  visitas           Visitas[]
+}
+
+
+
+model Situacao_funcionario {
+  situacaoID  Int           @id @default(autoincrement())
+  designacao  String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  funcionario Funcionario[]
+}
+
+model Funcionario {
+  funcionarioID          Int                      @id @default(autoincrement())
+  nome                   String
+  sobre_nome             String
+  patente                Patente?                 @relation(fields: [fk_patente], references: [PatenteID])
+  fk_patente             Int
+  Area                   Area?                    @relation(fields: [fk_area], references: [areaID])
+  fk_area                Int
+  nip                    String
+  situacao               Situacao_funcionario?    @relation(fields: [fk_situacao], references: [situacaoID])
+  fk_situacao            Int
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  area_chefe_area        Area_Chefe_Area[]
+  user                   User[]
+  efetivo_pelotao        Efetivo_pelotao[]
+  escala_de_permanecas   Escala_de_permanecas[]
+  escala_de_posto_medico Escala_de_posto_medico[]
+  escala_de_deia Escala_de_deia[]
+  escala_de_cctv Escala_de_cctv[]
+
+  escala_de_pelotao_postos Escala_de_pelotao_postos[]
+  contacto                 Contacto[]
+}
+
+model Contacto {
+  contactoID     Int          @id @default(autoincrement())
+  designacao     String       @unique
+  funcionario    Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioID], onDelete: Cascade, onUpdate: Cascade)
+  fk_funcionario Int
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model User {
+  userID            Int          @id @default(autoincrement())
+  username          String       @unique
+  imagen            String
+  email             String       @unique
+  perfil            Perfil?      @relation(fields: [fk_perfil], references: [perfilID])
+  fk_perfil         Int
+  grupo_user        Grupo_user?  @relation(fields: [fk_grupo], references: [grupoID])
+  fk_grupo          Int
+  password          String
+  funcionario       Funcionario? @relation(fields: [cod_funcionarioID], references: [funcionarioID], onDelete: Cascade, onUpdate: Cascade)
+  cod_funcionarioID Int
+  estado            Int @default(0)
+  status_ative            Int @default(0)
+  logs_user         Logs_user[]
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+}
+
+model Logs_user {
+  logID     Int      @id @default(autoincrement())
+  titulo    String
+  descricao String
+  user      User?    @relation(fields: [fk_user], references: [userID], onDelete: Cascade, onUpdate: Cascade)
+  fk_user   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Area_Chefe_Area {
+  ID            Int          @id @default(autoincrement())
+  Area          Area?        @relation(fields: [areaID], references: [areaID])
+  areaID        Int          @unique
+  funcionario   Funcionario? @relation(fields: [funcionarioID], references: [funcionarioID])
+  funcionarioID Int          @unique
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+//Escalas de serviços
+model Posicoes_escalados {
+  posicaoID            Int                    @id @default(autoincrement())
+  designacao           String                 @unique
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  escala_de_permanecas Escala_de_permanecas[]
+}
+
+model Pelotoes {
+  pelotaoID          Int                  @id @default(autoincrement())
+  designacao         String               @unique
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  efetivo_pelotao    Efetivo_pelotao[]
+  escala_de_pelotoes Escala_de_pelotoes[]
+}
+
+model Turnos {
+  turnoID                  Int                        @id @default(autoincrement())
+  designacao               String                     @unique
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+  escala_de_pelotao_postos Escala_de_pelotao_postos[]
+}
+
+model Postos {
+  postoID                  Int                        @id @default(autoincrement())
+  designacao               String                     @unique
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+  escala_de_pelotao_postos Escala_de_pelotao_postos[]
+}
+
+model Tipo_Escala {
+  tipo_escalaID Int       @id @default(autoincrement())
+  designacao    String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  escalas       Escalas[]
+}
+
+model Efetivo_pelotao {
+  efetivopelotaoID Int          @id @default(autoincrement())
+  funcionario      Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioID])
+  fk_funcionario   Int
+  pelotao          Pelotoes?    @relation(fields: [fk_pelotao], references: [pelotaoID])
+  fk_pelotao       Int
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model Escalas {
+  escalaID               Int                      @id @default(autoincrement())
+  mes                    String
+  ano                    String
+  tipo_Escala            Tipo_Escala?             @relation(fields: [fk_tipo_de_escala], references: [tipo_escalaID])
+  fk_tipo_de_escala      Int
+  estado                 Int                      @default(0)
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  escala_de_permanecas   Escala_de_permanecas[]
+  escala_de_posto_medico Escala_de_posto_medico[]
+  escala_de_cctv Escala_de_cctv[]
+  escala_de_deia Escala_de_deia[]
+  escala_de_pelotoes     Escala_de_pelotoes[]
+}
+
+model Escala_de_permanecas {
+  per_escalaID       Int                 @id @default(autoincrement())
+  dia_d_semana       String
+  funcionario        Funcionario?        @relation(fields: [fk_funcionario], references: [funcionarioID])
+  fk_funcionario     Int
+  escalas            Escalas?            @relation(fields: [fk_escala], references: [escalaID])
+  fk_escala          Int
+  posicoes_escalados Posicoes_escalados? @relation(fields: [fk_posicao], references: [posicaoID])
+  fk_posicao         Int
+  estado             Int                 @default(0)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model Escala_de_posto_medico{
+  per_escalaID   Int          @id @default(autoincrement())
+  dia_d_semana   Int
+  funcionario    Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioID])
+  fk_funcionario Int
+  escalas        Escalas?     @relation(fields: [fk_escala], references: [escalaID])
+  fk_escala      Int
+  estado         Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+model Escala_de_deia{
+  deia_escalaID   Int          @id @default(autoincrement())
+  dia_d_semana   Int
+  funcionario    Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioID])
+  fk_funcionario Int
+  escalas        Escalas?     @relation(fields: [fk_escala], references: [escalaID])
+  fk_escala      Int
+  estado         Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+model Escala_de_cctv{
+  cctv_escalaID   Int          @id @default(autoincrement())
+  dia_d_semana   Int
+  funcionario    Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioID])
+  fk_funcionario Int
+  escalas        Escalas?     @relation(fields: [fk_escala], references: [escalaID])
+  fk_escala      Int
+  estado         Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Escala_de_pelotoes {
+  pelotao_escalaID         Int                        @id @default(autoincrement())
+  dia_d_semana             Int
+  Pelotoes                 Pelotoes?                  @relation(fields: [fk_pelotao], references: [pelotaoID])
+  fk_pelotao               Int
+  escalas                  Escalas?                   @relation(fields: [fk_escala], references: [escalaID])
+  fk_escala                Int
+  estado                   Int                        @default(0)
+  escala_de_pelotao_postos Escala_de_pelotao_postos[]
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+}
+
+model Escala_de_pelotao_postos {
+  pelotaoPosto_escalaID Int                 @id @default(autoincrement())
+  funcionario           Funcionario?        @relation(fields: [fk_funcionario], references: [funcionarioID])
+  fk_funcionario        Int
+  escala_de_pelotoes    Escala_de_pelotoes? @relation(fields: [fk_escala_de_pelotoes], references: [pelotao_escalaID])
+  fk_escala_de_pelotoes Int
+  posto                 Postos?             @relation(fields: [fk_posto], references: [postoID])
+  fk_posto              Int
+  turno                 Turnos?             @relation(fields: [fk_turno], references: [turnoID])
+  fk_turno              Int
+  estado                Int                 @default(0)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+}
+
+//Gestão de Visitas 
+model Anexos {
+  anexoID    Int      @id @default(autoincrement())
+  nome_anexo String
+  tipo       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Pertences {
+  pertenceID                Int                         @id @default(autoincrement())
+  designacao                String
+  createdAt                 DateTime                    @default(now())
+  updatedAt                 DateTime                    @updatedAt
+  Visita_visitante_pertence Visita_visitante_pertence[]
+}
+
+model Tipo_visita {
+  tipo_visitaID Int       @id @default(autoincrement())
+  designacao    String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  visitas       Visitas[]
+}
+
+model Visitantes {
+  visitanteID               Int                         @id @default(autoincrement())
+  nome                      String
+  sobrenome                 String
+  estado                    Int                         @default(0)
+  createdAt                 DateTime                    @default(now())
+  updatedAt                 DateTime                    @updatedAt
+  visitante_contacto        Visitante_contacto[]
+  visitante_identificacao   Visitante_identificacao[]
+  visita_visitantes         Visita_visitantes[]
+  visita_visitante_pertence Visita_visitante_pertence[]
+}
+
+model Situacao_visitante {
+  situacaoID        Int                 @id @default(autoincrement())
+  designacao        String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  Visita_visitantes Visita_visitantes[]
+}
+
+model Tipos_doc_identificacao_visitante {
+  tipo_identifiID         Int                       @id @default(autoincrement())
+  designacao              String
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  visitante_identificacao Visitante_identificacao[]
+  Visita_visitantes       Visita_visitantes[]
+}
+
+model Visitante_contacto {
+  contactoID   Int         @id @default(autoincrement())
+  contacto     String
+  visitantes   Visitantes? @relation(fields: [fk_visitante], references: [visitanteID], onDelete: Cascade, onUpdate: Cascade)
+  fk_visitante Int
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Visitante_identificacao {
+  visit_identID                     Int                                @id @default(autoincrement())
+  num_identificacao                 String
+  validade                          String
+  tipos_doc_identificacao_visitante Tipos_doc_identificacao_visitante? @relation(fields: [fk_tipo_identificacao], references: [tipo_identifiID])
+  fk_tipo_identificacao             Int
+  visitantes                        Visitantes?                        @relation(fields: [fk_visitante], references: [visitanteID], onDelete: Cascade, onUpdate: Cascade)
+  fk_visitante                      Int
+  createdAt                         DateTime                           @default(now())
+  updatedAt                         DateTime                           @updatedAt
+}
+
+model Visitas {
+  visitaID                  Int                         @id @default(autoincrement())
+  data_visita               String                     
+  Area                      Area?                       @relation(fields: [fk_area_visitada], references: [areaID], onDelete: Cascade, onUpdate: Cascade)
+  fk_area_visitada          Int
+  tipo_visita               Tipo_visita?                @relation(fields: [fk_tipo_visita], references: [tipo_visitaID], onDelete: Cascade, onUpdate: Cascade)
+  fk_tipo_visita            Int
+  createdAt                 DateTime                    @default(now())
+  updatedAt                 DateTime                    @updatedAt
+  visita_visitantes         Visita_visitantes[]
+  visita_visitante_pertence Visita_visitante_pertence[]
+  cod_acess_area            Cod_acess_area[]
+}
+
+model Cod_acess_area {
+  codID     Int      @id @default(autoincrement())
+  visitas   Visitas? @relation(fields: [fk_visita], references: [visitaID])
+  fk_visita Int
+  cod       String   @default("0001")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Visita_visitantes {
+  visita_visitantesID               Int                                @id @default(autoincrement())
+  visitas                           Visitas?                           @relation(fields: [fk_visita], references: [visitaID], onDelete: Cascade, onUpdate: Cascade)
+  fk_visita                          Int
+  Visitantes                        Visitantes?                        @relation(fields: [fk_visitante], references: [visitanteID])
+  fk_visitante                      Int
+  hora_entrada                       String
+  hora_saida                        String
+  Tipos_doc_identificacao_visitante Tipos_doc_identificacao_visitante? @relation(fields: [fk_tp_identificacao], references: [tipo_identifiID])
+  fk_tp_identificacao               Int
+  num_passe_acesso                  String
+  situacao_visitante                Situacao_visitante?                @relation(fields: [fk_situacao_visitante], references: [situacaoID])
+  fk_situacao_visitante             Int
+  createdAt                         DateTime                           @default(now())
+  updatedAt                         DateTime                           @updatedAt
+}
+
+model Visita_visitante_pertence {
+  visita_visitante_pertenceID Int         @id @default(autoincrement())
+  visitas                     Visitas?    @relation(fields: [fk_visita], references: [visitaID])
+  fk_visita                   Int
+  Visitantes                  Visitantes? @relation(fields: [fk_visitante], references: [visitanteID])
+  fk_visitante                Int
+  pertences                   Pertences?  @relation(fields: [fk_pertence], references: [pertenceID])
+  fk_pertence                 Int
+  createdAt                   DateTime    @default(now())
+  updatedAt                   DateTime    @updatedAt
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulário de Inserção de Dados</title>
+</head>
+<body>
+    <h1>Formulário de Inserção de Dados</h1>
+    <form id="dataForm">
+        <label for="dt_visita">Data de Visita:</label>
+        <input type="text" id="dt_visita" required name="dt_visita" value="09-10-2023"><br><br>
+
+        <label for="hora_entrada">Hora de Entrada:</label>
+        <input type="text" id="hora_entrada" required name="hora_entrada"><br><br>
+
+        <label for="hora_saida">Hora de Saída:</label>
+        <input type="text" id="hora_saida" required name="hora_saida"><br><br>
+
+        <label for="fk_area_visitada">Área Visitada:</label>
+        <select id="fk_area_visitada" required name="fk_area_visitada">
+            <option value="1">Área 1</option>
+            <!-- Adicione mais opções conforme necessário -->
+        </select><br><br>
+
+        <label for="fk_tipo_visita">Tipo de Visita:</label>
+        <select id="fk_tipo_visita" required name="fk_tipo_visita">
+            <option value="1">Tipo 1</option>
+            <!-- Adicione mais opções conforme necessário -->
+        </select><br><br>
+
+        <h2>Visitantes:</h2>
+        <div id="visitantesContainer">
+            <!-- Os campos dos visitantes serão adicionados dinamicamente aqui -->
+        </div>
+
+        <button type="button" onclick="adicionarVisitanteForm()">Adicionar Visitante</button><br><br>
+
+        <input type="submit" value="Enviar">
+    </form>
+
+    <script>
+        
+        // Array de usuários fictícios
+        const usuarios = [
+            { nome: "Isaac", sobrenome: "Bunga", num_identificacao: "12345" },
+            { nome: "João", sobrenome: "Silva", num_identificacao: "67890" },
+            // Adicione mais usuários conforme necessário
+        ]; 
+
+        // Função para associar campos de Número de Identificação a Nome e Sobrenome
+        function associarCamposNomeSobrenome() {
+    const numIdentificacaoInputs = document.querySelectorAll('input[name^="visitantes[num_identificacao]"]');
+
+    numIdentificacaoInputs.forEach(numIdentificacaoInput => {
+        numIdentificacaoInput.addEventListener('input', function () {
+            const valorDigitado = this.value;
+            const visitanteForm = this.closest('div'); // Encontre o formulário do visitante atual
+            const nomeInput = visitanteForm.querySelector('input[name="visitantes[nome][]"]');
+            const sobrenomeInput = visitanteForm.querySelector('input[name="visitantes[sobrenome][]"]');
+            const usuarioEncontrado = usuarios.find(usuario => usuario.num_identificacao === valorDigitado);
+            if (usuarioEncontrado) {
+                console.log(usuarioEncontrado);
+                nomeInput.value = usuarioEncontrado.nome;
+                sobrenomeInput.value = usuarioEncontrado.sobrenome;
+            } else {
+                nomeInput.value = '';
+                sobrenomeInput.value = '';
+            }
+        });
+    });
+}
+
+        function adicionarVisitanteForm() {
+            const visitantesContainer = document.getElementById('visitantesContainer');
+            const visitanteForm = document.createElement('div');
+            visitanteForm.innerHTML = `
+                <h3>Visitante:</h3>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" required name="visitantes[nome][]" data-index="0"><br><br>
+
+                <label for="sobrenome">Sobrenome:</label>
+                <input type="text" required id="sobrenome" name="visitantes[sobrenome][]" data-index="0"><br><br>
+
+                <label for="fk_tipo_identificacao">Tipo de Identificação:</label>
+                <select required name="visitantes[fk_tipo_identificacao][]">
+                    <option value="2">Tipo 2</option>
+                    <!-- Adicione mais opções conforme necessário -->
+                </select><br><br>
+
+                <label for="Data_validade_doc">Data de Validade do Documento:</label>
+                <input type="text" required name="visitantes[Data_validade_doc][]"><br><br>
+
+                <label for="num_identificacao">Número de Identificação:</label>
+                <input type="text" required name="visitantes[num_identificacao]" data-index="${document.querySelectorAll('input[name^="visitantes[num_identificacao]"]').length}"><br><br>
+
+                <h4>Contactos:</h4>
+                <button type="button" onclick="adicionarContacto(this)">Adicionar Contacto</button><br><br>
+                <div class="contactosContainer">
+                    <!-- Os campos de contacto serão adicionados dinamicamente aqui -->
+                </div>
+
+                <h4>Pertences:</h4>
+                <label for="pertences">Selecione os Pertences:</label>
+                <input type="checkbox" required name="visitantes[pertences][]"><label for="fk_pertence">1</label>
+                <input type="checkbox"  name="visitantes[pertences][]"><label for="fk_pertence">2</label>
+                <input type="checkbox"  name="visitantes[pertences][]"><label for="fk_pertence">3</label>
+                <button type="button" class="remove-visitante">Remover</button>
+            `;
+            visitantesContainer.appendChild(visitanteForm);
+            associarCamposNomeSobrenome();
+          
+        }
+
+        function adicionarContacto(button) {
+            const visitanteForm = button.closest('div');
+            const contactosContainer = visitanteForm.querySelector('.contactosContainer');
+            const contactoHtml = `
+                <label for="contacto">Contacto:</label>
+                <input type="text" required name="visitantes[contactos][]"><br><br>
+            `;
+            const contactoElement = document.createElement('div');
+            contactoElement.innerHTML = contactoHtml;
+            contactosContainer.appendChild(contactoElement);
+        }
+       
+        const dataForm = document.getElementById('dataForm');
+        dataForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Coletar os dados do formulário e criar a estrutura desejada
+            const formData = new FormData(dataForm);
+            const formDataObject = {
+                "dt_visita": formData.get("dt_visita"),
+                "hora_entrada": formData.get("hora_entrada"),
+                "hora_saida": formData.get("hora_saida"),
+                "fk_area_visitada": formData.get("fk_area_visitada"),
+                "fk_tipo_visita": formData.get("fk_tipo_visita"),
+                "visitantes": []
+            };
+
+            const visitantesFormData = formData.getAll("visitantes[nome][]");
+            const camposEmBranco = [];
+            for (let i = 0; i < visitantesFormData.length; i++) {
+            const visitante = {
+                    "nome": visitantesFormData[i],
+                    "sobrenome": formData.getAll("visitantes[sobrenome][]")[i],
+                    "fk_tipo_identificacao": parseInt(formData.getAll("visitantes[fk_tipo_identificacao][]")[i], 10),
+                    "Data_validade_doc": formData.getAll("visitantes[Data_validade_doc][]")[i],
+                    "num_identificacao": formData.getAll("visitantes[num_identificacao][]")[i],
+                    "contactos": [],
+                    "pertences": []
+                };
+
+                const contactosFormData = formData.getAll("visitantes[contactos][]");
+                for (let j = i * 3; j < (i + 1) * 3; j++) {
+                    visitante.contactos.push({ "contacto": contactosFormData[j-i] });
+                }
+
+                const pertencesFormData = formData.getAll("visitantes[pertences][]");
+
+                for (let j = i * 3; j < (i + 1) * 3; j++) {
+                    if (pertencesFormData[j]) {
+                        visitante.pertences.push({ "fk_pertence": j - i * 3 + 1 });
+                    }
+                }
+      
+
+                formDataObject.visitantes.push(visitante);
+           
+            }
+           
+
+            // Aqui você pode enviar o objeto JSON formDataObject para o servidor
+            console.log(formDataObject);
+            fetch('http://localhost:8085/add_visita', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formDataObject)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Lida com a resposta do servidor, se necessário
+        console.log(data);
+    })
+    .catch(error => {
+        // Lida com erros de envio
+        console.error('Erro:', error);
+    });
+
+        });
+        // Adicione um evento de escuta para os botões "Remover"
+    document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('remove-visitante')) {
+        const visitante = event.target.parentElement;
+        const visitantesContainer = visitante.parentElement;
+        visitantesContainer.removeChild(visitante);
+    }
+});
+  </script>
+</body>
+</html>

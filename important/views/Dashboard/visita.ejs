@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/geral/head') %>
+
+<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
+
+  <script src="/assets/js/hs.theme-appearance.js"></script>
+  <script src="/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  <!-- ========== HEADER ========== -->
+  <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
+    <div class="navbar-nav-wrap">
+      <!-- Logo -->
+      <%- include('./partials/geral/logo') %>
+      <!-- End Logo -->
+
+      <%- include('./partials/geral/navbar') %>
+    </div>
+  </header>
+
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+
+  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+    <div class="navbar-vertical-container">
+      <div class="navbar-vertical-footer-offset">
+        <!-- Logo -->
+
+        <%- include('./partials/geral/logo') %>
+
+        <!-- End Logo -->
+
+        <!-- Navbar Vertical Toggle -->
+        <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
+          <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+          <i class="bi-arrow-bar-right navbar-toggler-full-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+        </button>
+
+        <!-- End Navbar Vertical Toggle -->
+
+        <!-- Content -->
+        <%- include('./middlewares/middlewares.ejs') %>
+      
+        <!-- End Content -->
+        <!-- Footer -->
+        <div class="navbar-vertical-footer">
+          <ul class="navbar-vertical-footer-list">
+          </ul>
+        </div>
+        <!-- End Footer -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- End Navbar Vertical -->
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content container-fluid">
+   
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card " style="max-width: 200rem;">
+            <div class="card-body">
+              <span class="card-subtitle"><%=visita.tipo_visita.designacao  %></span>
+              <h3 class="card-title"><%=visita.Area.sigla  %></h3>
+              <p class="card-text"><%=visita.Area.nome%>.</p>
+              
+            </div>
+          </div>
+          <!-- Card -->
+          
+          <div class="card mb-3 mb-lg-5">
+           
+
+            <!-- Body -->
+            <div class="card-body">
+              <!-- Input Group -->
+              <div class="input-group input-group-merge">
+                <div class="input-group-prepend input-group-text">
+                  <i class="bi-search"></i>
+                </div>
+
+                <input id="datatableSearch" type="search" class="form-control" placeholder="Search orders" aria-label="Search orders">
+              </div>
+              <!-- End Input Group -->
+            </div>
+            <!-- End Body -->
+
+            <!-- Table -->
+            <div class="table-responsive datatable-custom">
+              <table id="datatable" class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table" data-hs-datatables-options='{
+                       "columnDefs": [{
+                          "targets": [0, 5],
+                          "orderable": false
+                        }],
+                       "order": [],
+                       "info": {
+                         "totalQty": "#datatableWithPaginationInfoTotalQty"
+                       },
+                       "search": "#datatableSearch",
+                       "entries": "#datatableEntries",
+                       "pageLength": 12,
+                       "isResponsive": false,
+                       "isShowPaging": false,
+                       "pagination": "datatablePagination"
+                     }'>
+                <thead class="thead-light">
+                 
+                  <tr>
+                    <th scope="col" class="table-column-pe-0">
+                      <div class="form-check">
+                        <input id="datatableCheckAll" type="checkbox" class="form-check-input">
+                        <label class="form-check-label" for="datatableCheckAll"></label>
+                      </div>
+                    </th>
+                    <th class="table-column-ps-0">Código de Acesso</th>
+                    <th>Nome</th>
+                    <!-- <th>Data</th> -->
+                    <th>Hora de Entrada</th>
+                    <th>Estado da Visita</th>
+                    <th>Acção</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% visita_visitante.forEach(element => { %>
+                    <tr>
+                      <td class="table-column-pe-0">
+                        <div class="form-check">
+                          <input type="checkbox" class="form-check-input" id="ordersCheck1">
+                          <label class="form-check-label" for="ordersCheck1"></label>
+                        </div>
+                      </td>
+                      <td class="table-column-ps-0">
+                        <a href="ecommerce-order-details.html"><%=element.num_passe_acesso  %></a>
+                      </td>
+                      <td><%= element.Visitantes.nome %> <%= element.Visitantes.nome %></td>
+                    
+                      <td>
+                        <%=element.hora_entrada %>
+                      </td>
+                      <td>
+                        <% if(element.situacao_visitante.situacaoID ==2){%>
+                              <span class="badge bg-soft- text-success">
+                              <span class="legend-indicator bg-success"></span>
+                        <%}else if(element.situacao_visitante.situacaoID ==3){%>
+                            <span class="badge bg-soft text-warning">
+                                <span class="legend-indicator bg-warning"></span>
+                            </span>
+                         <%} else if(element.situacao_visitante.situacaoID ==4){%>
+                            <span class="badge bg-soft text-danger">
+                                <span class="legend-indicator bg-danger"></span>
+                            </span>
+                                    <%}%>
+                                <%=element.situacao_visitante.designacao %>
+                      </span></td>
+                      <td>
+                        <div class="btn-group" role="group">  
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-white btn-icon btn-sm dropdown-toggle dropdown-toggle-empty" id="productsEditDropdown19" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                              <div class="dropdown-menu dropdown-end-end mt-1" aria-labelledby="productsEditDropdown19">
+                                <%if(user.designacaoGrupo=="Recepcionista"||user.designacaoGrupo=="Gestão de Visitas"||user.grupoID==2||user.grupoID==5){%>
+                                  <% if(element.situacao_visitante.situacaoID ==2 && user.grupoID==5){%>
+
+                                    <a class="dropdown-item" onclick="confirmar( `<%=element.visita_visitantesID%>`,3,`<%=element.fk_visita%>`)" >
+                                    <i class="bi-eyes dropdown-item-icon"></i> Atendido
+                                    </a>  
+
+                                  <%}else if(element.situacao_visitante.situacaoID ==3 && user.grupoID==5){%>
+                                   <a class="dropdown-item" onclick="confirmar(`<%=element.visita_visitantesID%>`,4,`<%=element.fk_visita%>`)">
+                                   <i class="bi-eyes dropdown-item-icon"></i> Despachado</a>
+                                    <%} else if(user.grupoID==2 && element.situacao_visitante.situacaoID ==4){%>
+                                     <a class="dropdown-item" onclick="confirmar(`<%=element.visita_visitantesID%>`,5,
+                                   `<%=element.fk_visita%>`)">
+                                   <i class="bi-eyes dropdown-item-icon"></i>Terminada </a>
+                                   <% } else {%>
+                                     <i class="bi-eyes dropdown-item-icon"></i>... </a>
+                                    <% }%>
+                                      <%} else{%>
+                                         <i class="bi-eyes dropdown-item-icon"></i>...
+                                     <% }%>
+                                    
+                              </div>
+                            </div>
+                          </div>
+                      </td>
+                    </tr>
+                    <% }) %>
+                
+                    
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card-footer">
+              <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+                <div class="col-sm mb-2 mb-sm-0">
+                  <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+                    <span class="me-2">Showing:</span>
+                    <div class="tom-select-custom">
+                      <select id="datatableEntries" class="js-select form-select form-select-borderless w-auto" autocomplete="off" data-hs-tom-select-options='{
+                                "searchInDropdown": false,
+                                "hideSearch": true
+                              }'>
+                        <option value="12">12</option>
+                        <option value="14" selected>14</option>
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                      </select>
+                    </div>
+                    <span class="text-secondary me-2">of</span>
+                    <span id="datatableWithPaginationInfoTotalQty"></span>
+                  </div>
+                </div>
+                <div class="col-sm-auto">
+                  <div class="d-flex justify-content-center justify-content-sm-end">
+                    <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+                  </div>
+                </div>
+                <!-- End Col -->
+              </div>
+              <!-- End Row -->
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+
+    <!-- Footer -->
+
+ 
+<%- include('./partials/geral/footer') %>
+
+    <!-- End Footer -->
+  </main>
+  <script src="assets/js/demo.js"></script>
+  <script src="/assets/js/vendor.min.js"></script>
+
+  <script src="/assets/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script>
+
+  <!-- JS Front -->
+  <script src="/assets/js/theme.min.js"></script>
+  <script src="/assets/js/hs.theme-appearance-charts.js"></script>
+  <%- include('./alerts/alerts') %>
+  <input type="hidden" id="domainID" value="<%= domain%>" />
+  <script>
+    $(document).on('ready', function () {
+      // INITIALIZATION OF DATERANGEPICKER
+      // =======================================================
+      $('.js-daterangepicker').daterangepicker();
+
+      $('.js-daterangepicker-times').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(32, 'hour'),
+        locale: {
+          format: 'M/DD hh:mm A'
+        }
+      });
+
+      var start = moment();
+      var end = moment();
+
+      function cb(start, end) {
+        $('#js-daterangepicker-predefined .js-daterangepicker-predefined-preview').html(start.format('MMM D') + ' - ' + end.format('MMM D, YYYY'));
+      }
+
+      $('#js-daterangepicker-predefined').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+
+      cb(start, end);
+    });
+
+
+    // INITIALIZATION OF DATATABLES
+    // =======================================================
+    HSCore.components.HSDatatables.init($('#datatable'), {
+      select: {
+        style: 'multi',
+        selector: 'td:first-child input[type="checkbox"]',
+        classMap: {
+          checkAll: '#datatableCheckAll',
+          counter: '#datatableCounter',
+          counterInfo: '#datatableCounterInfo'
+        }
+      },
+      language: {
+        zeroRecords: `<div class="text-center p-4">
+              <img class="mb-3" src="./assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
+              <img class="mb-3" src="./assets/svg/illustrations-light/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
+            <p class="mb-0">No data to show</p>
+            </div>`
+      }
+    });
+
+    const datatable = HSCore.components.HSDatatables.getItem(0)
+
+    document.querySelectorAll('.js-datatable-filter').forEach(function (item) {
+      item.addEventListener('change',function(e) {
+        const elVal = e.target.value,
+    targetColumnIndex = e.target.getAttribute('data-target-column-index'),
+    targetTable = e.target.getAttribute('data-target-table');
+
+    HSCore.components.HSDatatables.getItem(targetTable).column(targetColumnIndex).search(elVal !== 'null' ? elVal : '').draw()
+      })
+    })
+  </script>
+
+ 
+
+  <script>
+      (function () {
+        // STYLE SWITCHER
+        // =======================================================
+        const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+        const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+        // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+        const setActiveStyle = function () {
+          $variants.forEach($item => {
+            if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+              $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+              return $item.classList.add('active')
+            }
+
+            $item.classList.remove('active')
+          })
+        }
+
+        // Add a click event to all items of the dropdown to set the style
+        $variants.forEach(function ($item) {
+          $item.addEventListener('click', function () {
+            HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+          })
+        })
+
+        // Call the setActiveStyle on load page
+        setActiveStyle()
+
+        // Add event listener on change style to call the setActiveStyle function
+        window.addEventListener('on-hs-appearance-change', function () {
+          setActiveStyle()
+        })
+      })()
+    </script>
+  <script>
+    (function() {
+      window.onload = function () {
+        
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF SELECT
+        // =======================================================
+        HSCore.components.HSTomSelect.init('.js-select')
+
+
+        // INITIALIZATION OF ADD FIELD
+        // =======================================================
+        new HSAddField('.js-add-field', {
+          addedField: field => {
+            HSCore.components.HSTomSelect.init(field.querySelector('.js-select-dynamic'))
+            HSCore.components.HSMask.init(field.querySelector('.js-input-mask'))
+          }
+        })
+
+
+        // INITIALIZATION OF INPUT MASK
+        // =======================================================
+        HSCore.components.HSMask.init('.js-input-mask')
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+
+  <script>
+      (function () {
+        // STYLE SWITCHER
+        // =======================================================
+        const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+        const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+        // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+        const setActiveStyle = function () {
+          $variants.forEach($item => {
+            if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+              $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+              return $item.classList.add('active')
+            }
+
+            $item.classList.remove('active')
+          })
+        }
+
+        // Add a click event to all items of the dropdown to set the style
+        $variants.forEach(function ($item) {
+          $item.addEventListener('click', function () {
+            HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+          })
+        })
+
+        // Call the setActiveStyle on load page
+        setActiveStyle()
+
+        // Add event listener on change style to call the setActiveStyle function
+        window.addEventListener('on-hs-appearance-change', function () {
+          setActiveStyle()
+        })
+      })()
+    </script>
+
+<script>
+    const domain =document.getElementById('domainID').value;
+  
+    function confirmar(id,Stats,visita){
+      
+      Swal.fire({
+        title: `Deseja Alterar Este Estado ? ${visita}`,
+      icon:'warning',
+        showCancelButton: true,
+        confirmButtonColor:'#3085d6',
+        cancelButtonColor:'#d33',
+        confirmButtonText: 'Confirmar',
+      
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below   */
+        if (result.isConfirmed) {
+            const data={
+                visitaVisitanteId:id,status:Stats,visita:visita
+            }
+     fetch(`${domain}/Visitante_changestatusAuto`, {
+                method: 'POST',
+      headers: {
+        "Content-Type": "application/json", // Tipo de conteúdo do corpo da requisição
+      },
+      body: JSON.stringify(data),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Erro ao obter os dados');
+    }
+    return response.json(); 
+  })
+  .then(dataResponse => {
+
+ console.log(dataResponse)
+ window.location = `/visita/${dataResponse.data[0].fk_visita}`;
+  })
+  .catch(error => {
+  
+    console.error('Ocorreu um erro:', error);
+  });
+      
+        } else if (result.isDenied) {
+          Swal.fire('Erro ao eliminar', '', 'info')
+        }
+      })
+        }
+      </script>
+</body>
+
+</html>

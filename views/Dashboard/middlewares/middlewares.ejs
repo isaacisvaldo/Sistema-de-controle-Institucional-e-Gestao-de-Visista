@@ -1,0 +1,5 @@
+<%if(user.grupoID==5||user.designacao=="Controle >> Area"){%>
+    <%- include('../partials/painelControlArea/sidebar') %>
+   <%}else if(user.designacaoGrupo=="Administrativo" || user.grupoID==1){%>
+     <%-include('../partials/admin/content') %>
+   <%}%>

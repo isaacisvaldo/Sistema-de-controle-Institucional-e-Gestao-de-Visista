@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "status_ative" INTEGER NOT NULL DEFAULT 0,
+ALTER COLUMN "estado" SET DEFAULT 0;

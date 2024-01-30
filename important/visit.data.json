@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/geral/head') %>
+
+  <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
+
+    <script src="assets/js/hs.theme-appearance.js"></script>
+    <script src="assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+    <!-- ========== HEADER ========== -->
+    <header id="header"
+      class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
+      <div class="navbar-nav-wrap">
+        <!-- Logo -->
+        <%- include('../partials/geral/logo') %>
+          <!-- End Logo -->
+
+          <%- include('../partials/geral/navbar') %>
+      </div>
+    </header>
+
+    <!-- ========== END HEADER ========== -->
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <!-- Navbar Vertical -->
+
+    <aside
+      class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+      <div class="navbar-vertical-container">
+        <div class="navbar-vertical-footer-offset">
+          <!-- Logo -->
+
+          <%- include('../partials/geral/logo') %>
+
+            <!-- End Logo -->
+
+            <!-- Navbar Vertical Toggle -->
+            <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
+              <i class="bi-arrow-bar-left navbar-toggler-short-align"
+                data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+              <i class="bi-arrow-bar-right navbar-toggler-full-align"
+                data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+            </button>
+
+            <!-- End Navbar Vertical Toggle -->
+
+            <!-- Content -->
+            <% if(user.designacaoGrupo=="Escala de serviço" ) {%>
+              <%- include('../partials/escalas/content') %>
+                <% }else if(user.designacaoGrupo=="Gestão de Visitas" ){%>
+                  <%-include('.. /partials/visitas/content') %>
+                    <% }else if(user.designacaoGrupo=="Posto Médico" ){%>
+                      <%-include('.. /partials/clinic/content') %>
+                        <% }else{%>
+                          <%- include('../partials/admin/content') %>
+                            <% } %>
+
+                              <!-- End Content -->
+                              <!-- Footer -->
+                              <div class="navbar-vertical-footer">
+                                <ul class="navbar-vertical-footer-list">
+                                </ul>
+                              </div>
+                              <!-- End Footer -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- End Navbar Vertical -->
+
+    <main id="content" role="main" class="main">
+      <!-- Content -->
+      <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="row align-items-center">
+            <div class="col-sm mb-2 mb-sm-0">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-no-gutter">
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <h3>
+                      <p id="dataAtual"></p>
+                    </h3>
+                  </li>
+                </ol>
+              </nav>
+
+
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+        </div>
+        <!-- End Page Header -->
+
+        <div class="row">
+          <div class="col-lg-12 mb-3 mb-lg-0">
+            <!-- Card -->
+            <div class="card mb-3 mb-lg-5">
+              <!-- Header -->
+              <form>
+                <div class="card-header">
+                  <h4 class="card-header-title">Informação da visita</h4>
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <div class="card-body">
+
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="categoryLabel" class="form-label">Area Visitado</label>
+
+                        <!-- Select -->
+                        <select class="form-control" id="area_visitado" name="area">
+                          <% area.forEach(element=> { %>
+                            <option value="<%= element.areaID %>">
+                              <%= element.nome %>
+                            </option>
+                            <% }) %>
+
+                        </select>
+                        <!-- End Select -->
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="categoryLabel" class="form-label">Tipo de Visita</label>
+
+                        <!-- Select -->
+                        <select class="form-control" id="tipo_visita">
+                          <% type.forEach(element=> { %>
+                            <option value=" <%= element.tipo_visitaID %>">
+                              <%= element.designacao %>
+                            </option>
+                            <% }) %>
+
+                        </select>
+                        <!-- End Select -->
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+                  </div>
+                  <!-- End Row -->
+
+
+                  <!-- End Quill -->
+                </div>
+                <!-- Body -->
+            </div>
+            <!-- End Card -->
+
+
+            <div class="card">
+              <!-- Header -->
+              <div class="card-header">
+                <h4 class="card-header-title">Visitante</h4>
+              </div>
+              <!-- End Header -->
+              <div class="card-body">
+                <div id="container">
+                  <!-- Primeira seção de contato (não removível) -->
+                  <div class="row mb-4">
+                    <div class="card-body teste p-5">
+                      <div class="mb-4">
+                        <label for="categoryLabel" class="form-label">Tipo de Documento</label>
+  
+                        <!-- Select -->
+                        <select class="form-control" autocomplete="off" id="categoryLabel" name="tipo_documento">
+                          <% tipo_v.forEach(p=> { %>
+                            <option value="<%=p.tipo_identifiID  %>">
+                              <%=p.designacao %>
+                            </option>
+                            <% }) %>
+                        </select>
+                        <!-- End Select -->
+                      </div>
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="tagsLabel" class="form-label">Doc. num</label>
+  
+                        <input onchange="verificarDados(this)" type="text" class="form-control" name="Doc_number" id="tagsLabel"
+                          aria-label="Enter tags here">
+  
+                      </div>
+                      <!-- Form -->
+                      <label for="tagsLabel" class="form-label">Validade</label>
+  
+                      <input type="Date" class="form-control" name="Data_validade_doc" id="tagsLabel"
+                        aria-label="Enter tags here">
+                      <div class="mb-4 mt-4">
+                        <label for="vendorLabel" class="form-label">Nome Visitante</label>
+  
+                        <div class="col-sm-12">
+                          <div class="input-group input-group-sm-vertical">
+                            <input type="text" class="form-control" name="nome" id="nomeID" placeholder="primeiro"
+                              aria-label="primeiro">
+                            <input type="text" class="form-control" name="sobrenome" id="sobrenomeID"
+                              placeholder="ultimo nome" aria-label="ultimo nome">
+                          </div>
+                          <!-- End Form -->
+  
+                          <br>
+                          <br>
+                          <div class="mb-4 contact-section" id="contact-section">
+                            <div class="row mb-4">
+                                <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Contacto</label>
+                                <div class="phone-inputs col-sm-9">
+                                    <!-- Conteúdo dos contactos aqui -->
+                                    <div class="input-group input-group-sm-vertical my-2 d-flex flex-column justify-content-end">
+                                      <input style="width: 100%;" type="text" class="js-input-mask form-control number" name="phone" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx" data-hs-mask-options='{"mask": "+(244)000-000-000"}'>
+                                      <div class="mt-2">
+                                        <span class="remove-phone" style="display: none;">Remover número</span>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="add-phone">Adicionar número</a>
+                        </div>
+                          
+                          
+                        </div>
+                        <a class="js-create-field form-link my-2">
+                          </i> Pertences
+                        </a>
+                        <div class="col-sm-12">
+                          <div class="col-sm-12 d-flex  gap-3">
+                            <label>
+                              <input type="checkbox" name="pertences" value="Telefone"> Opção 1
+                            </label>
+                            <br>
+                            <label>
+                              <input type="checkbox" name="pertences" value="Computador"> Opção 2
+                            </label>
+                            <br>
+                            <label>
+                              <input type="checkbox" name="pertences" value="Outros"> Opção 3
+                            </label>
+                            <br>
+                            <label>
+                              <input type="checkbox" name="pertences" value="Mulher"> Opção 4
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="javascript:;" class="js-remove-section text-danger">
+                        <i class="">-</i> Remover visita
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <a href="javascript:;" class="js-create-field form-link" id="add-section">
+                  <i class="bi-plus"></i> Adicionar nova seção
+                </a>
+                <br><br>
+                <button type="button" onclick="postData()" class="btn btn-primary">Submeter dados</button>
+                
+              </div>
+              <!-- Body -->
+              
+            </div>
+            <!-- End Col -->
+
+
+          </div>
+          <!-- End Row -->
+
+
+        </div>
+        <!-- End Content -->
+
+        <!-- Footer -->
+
+
+        <%- include('../partials/geral/footer') %>
+
+          <!-- End Footer -->
+    </main>
+
+    <script src="assets/js/demo.js"></script>
+
+
+    <script src="/assets/js/vendor.min.js"></script>
+    <script src="/assets/js/hs-add-field.js"></script>
+
+    <script src="/assets/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <script src="/assets/js/theme.min.js"></script>
+    <script src="/assets/js/hs.theme-appearance-charts.js"></script>
+    <%- include('../alerts/alerts') %>
+      <input type="hidden" id="domainID" value="<%= domain%>" />
+      <script>
+
+        let dados =[ {codigo: "123456789", nome:"Isaac Bunga"},{codigo: "12345678910", nome:"Gelson Santo"},{codigo: "000000", nome:"Pedro Santo"}]
+
+        function verificarDados(input) {
+          let  meuDados;
+          for (let i = 0; i < dados.length; i++){
+            if(dados[i].codigo==input.value){
+              meuDados = dados[i].nome;
+            }
+          }
+          // Encontrar o campo "Nome Visitante" na mesma div pai
+          const cardBody = input.closest('.card-body');
+          const nomeVisitanteField = cardBody.querySelector('.form-control[name="nome"]');
+          const sobrenomeVisitanteField = cardBody.querySelector('.form-control[name="sobrenome"]');
+          // Verificar se o campo "Nome Visitante" foi encontrado
+          if (nomeVisitanteField && sobrenomeVisitanteField) {
+            if(meuDados){
+              // Atualizar o valor do campo "Nome Visitante" para "Isaac Fodelhão"
+              nomeVisitanteField.value = meuDados;
+              sobrenomeVisitanteField.value = meuDados;
+            }else{
+              // Atualizar o valor do campo "Nome Visitante" para "Isaac Fodelhão"
+              nomeVisitanteField.value = "";
+              sobrenomeVisitanteField.value = "";
+            }
+          }       
+        }
+      </script>
+      <script>
+        const domain = document.getElementById("domainID").value;
+        function postData() {
+          const elementsWithClass = document.getElementsByClassName('teste');  
+          let visitorsData = [];
+
+          //console.log(document.getElementsByClassName('teste'));
+
+          for (const element of elementsWithClass) {
+          const inputsAndSelectsWithinElement = element.querySelectorAll("input, select");
+          let visitorData = {}; 
+          const selectedValues = [];
+          for (const inputOrSelect of inputsAndSelectsWithinElement) {
+            const valor = inputOrSelect.value.trim(); 
+            const fieldName = inputOrSelect.name;
+            console.log(valor, fieldName);
+            if (fieldName) {
+              visitorData[fieldName] = valor;
+            }
+            if (inputOrSelect.type === 'checkbox' && inputOrSelect.name === 'pertences' && inputOrSelect.checked) {
+              selectedValues.push({fk_pertence:valor}); 
+            }
+          }
+          if (selectedValues.length > 0) {
+            visitorData["pertences"] = selectedValues; 
+          }
+          if (Object.keys(visitorData).length > 0) {
+            visitorsData.push(visitorData); 
+          }
+          
+    }
+
+
+
+          function obterHoraAtual() {
+            var dataAtual = new Date();
+            var horas = dataAtual.getHours();
+            var minutos = dataAtual.getMinutes();
+            var segundos = dataAtual.getSeconds();
+            if (horas < 10) {
+              horas = "0" + horas;
+            }
+            if (minutos < 10) {
+              minutos = "0" + minutos;
+            }
+            if (segundos < 10) {
+              segundos = "0" + segundos;
+            }
+            var horaFormatada = horas + ":" + minutos + ":" + segundos;
+
+            return horaFormatada;
+          }
+
+
+          function getDataAtual() {
+            const dataAtual = new Date();
+            const ano = dataAtual.getFullYear();
+            const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+            const dia = String(dataAtual.getDate()).padStart(2, '0');
+            return `${ano}-${mes}-${dia}`;
+          }
+
+
+          const tipo_visita = document.getElementById('tipo_visita').value;
+          const area_visitado = document.getElementById('area_visitado').value;
+          const data = {
+            dt_visita: getDataAtual(),
+            hora_entrada: obterHoraAtual(),
+            hora_saida: '00:00:00',
+            fk_area_visitada: parseInt(area_visitado),
+            fk_tipo_visita: parseInt(tipo_visita),
+            visitantes: visitorsData
+          }
+          console.log(data);
+          const options = {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json", // Tipo de conteúdo do corpo da requisição
+            },
+            body: JSON.stringify(data),
+          };
+          fetch(`${domain}/add_visita`, options)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if (data.error) {
+                document.getElementById('result').innerHTML = data.error;
+                document.getElementById('result').setAttribute('class', 'text-danger')
+              } else {
+                document.getElementById('result').innerHTML = data.sucess;
+                document.getElementById('result').setAttribute('class', 'text-success')
+                window.location = "/Visitantes"
+              }
+            }).catch((error) => {
+              console.log(error)
+            });
+
+        }
+        
+       
+
+
+      // Função para clonar o modelo de seção de contato e criar uma nova seção
+      function createContactSection() {
+        const container = document.getElementById("container");
+        const template = document.querySelector(".row.mb-4");
+
+        if (template) {
+          const newSection = template.cloneNode(true);
+          newSection.style.display = "block"; // Exibir a nova seção
+
+          // Adicione a nova seção após o último elemento
+          container.appendChild(newSection);
+
+          // Adicione um manipulador de eventos de clique para remover a seção
+          const removeButton = newSection.querySelector(".js-remove-section");
+          removeButton.style.display = "block"; // Exibir o botão apenas na nova seção
+          removeButton.addEventListener("click", function () {
+            if (container.children.length > 1) {
+              container.removeChild(newSection);
+            }
+          });
+        }
+      }
+
+      // Evento de clique para adicionar uma nova seção de contato
+      document.getElementById("add-section").addEventListener("click", createContactSection);
+      const removeButtons = document.querySelectorAll('.js-remove-section');
+
+      // Verifica se há mais de uma seção antes de ocultar o botão "Remover visita" do primeiro item
+      if (removeButtons.length > 1) {
+        removeButtons[0].style.display = 'block'; // Exibe o botão no primeiro item
+      } else {
+        removeButtons[0].style.display = 'none'; // Oculta o botão no primeiro item
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+    const addPhoneButton = document.querySelector('.add-phone');
+    const contactSection = document.querySelector('.phone-inputs');
+
+    addPhoneButton.addEventListener('click', function () {
+        const phoneInputGroup = createPhoneInputGroup();
+        contactSection.appendChild(phoneInputGroup);
+    });
+
+    // Função para criar a parte específica de telefone
+    function createPhoneInputGroup() {
+        const phoneInputGroup = document.querySelector('.input-group.input-group-sm-vertical').cloneNode(true);
+        phoneInputGroup.style.display = 'block'; // Certifique-se de que a nova seção seja visível
+        phoneInputGroup.querySelector('.remove-phone').style.display = 'block'; // Exibir o botão de "Remover número"
+        return phoneInputGroup;
+    }
+});
+
+
+
+
+   
+
+      </script>
+      <!-- JS Plugins Init. -->
+      <script>      // Verifica se há mais de uma seção antes de ocultar o botão "Remover visita" do primeiro item      // Verifica se há mais de uma seção antes de ocultar o botão "Remover visita" do primeiro item
+        if (removeButtons.length > 1) {
+          removeButtons[0].style.display = 'block'; // Exibe o botão no primeiro item
+        } else {
+          removeButtons[0].style.display = 'none'; // Oculta o botão no primeiro item
+        }
+        if (removeButtons.length > 1) {
+          removeButtons[0].style.display = 'block'; // Exibe o botão no primeiro item
+        } else {
+          removeButtons[0].style.display = 'none'; // Oculta o botão no primeiro item
+        }
+        (function () {
+          window.onload = function () {
+
+
+            // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+            // =======================================================
+            new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+            // INITIALIZATION OF FORM SEARCH
+            // =======================================================
+            new HSFormSearch('.js-form-search')
+
+
+            // INITIALIZATION OF BOOTSTRAP DROPDOWN
+            // =======================================================
+            HSBsDropdown.init()
+
+
+            // INITIALIZATION OF FILE ATTACH
+            // =======================================================
+            new HSFileAttach('.js-file-attach')
+
+
+            // INITIALIZATION OF STEP FORM
+            // =======================================================
+            new HSStepForm('.js-step-form', {
+              finish: () => {
+                document.getElementById("addUserStepFormProgress").style.display = 'none'
+                document.getElementById("addUserStepProfile").style.display = 'none'
+                document.getElementById("addUserStepBillingAddress").style.display = 'none'
+                document.getElementById("addUserStepConfirmation").style.display = 'none'
+                document.getElementById("successMessageContent").style.display = 'block'
+                scrollToTop('#header');
+                const formContainer = document.getElementById('formContainer')
+              },
+              onNextStep: function () {
+                scrollToTop()
+              },
+              onPrevStep: function () {
+                scrollToTop()
+              }
+            })
+
+            function scrollToTop(el = '.js-step-form') {
+              el = document.querySelector(el)
+              window.scrollTo({
+                top: (el.getBoundingClientRect().top + window.scrollY) - 30,
+                left: 0,
+                behavior: 'smooth'
+              })
+            }
+
+
+            // INITIALIZATION OF ADD FIELD
+            // =======================================================
+            new HSAddField('.js-add-field', {
+              addedField: field => {
+                HSCore.components.HSTomSelect.init(field.querySelector('.js-select-dynamic'))
+                HSCore.components.HSMask.init(field.querySelector('.js-input-mask'))
+              }
+            })
+            
+
+            
+            
+
+            // INITIALIZATION OF SELECT
+            // =======================================================
+            HSCore.components.HSTomSelect.init('.js-select', {
+              render: {
+                'option': function (data, escape) {
+                  return data.optionTemplate || `<div>${data.text}</div>>`
+                },
+                'item': function (data, escape) {
+                  return data.optionTemplate || `<div>${data.text}</div>>`
+                }
+              }
+            })
+
+            // INITIALIZATION OF INPUT MASK
+            // =======================================================
+            HSCore.components.HSMask.init('.js-input-mask')
+          }
+        })()
+      </script>
+
+      <!-- Style Switcher JS -->
+
+      <script>
+          (function () {
+            // STYLE SWITCHER
+            // =======================================================
+            const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+            const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+            // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+            const setActiveStyle = function () {
+              $variants.forEach($item => {
+                if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+                  $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+                  return $item.classList.add('active')
+                }
+
+                $item.classList.remove('active')
+              })
+            }
+
+            // Add a click event to all items of the dropdown to set the style
+            $variants.forEach(function ($item) {
+              $item.addEventListener('click', function () {
+                HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+              })
+            })
+
+            // Call the setActiveStyle on load page
+            setActiveStyle()
+
+            // Add event listener on change style to call the setActiveStyle function
+            window.addEventListener('on-hs-appearance-change', function () {
+              setActiveStyle()
+            })
+          })()
+      </script>
+      <script>
+        function exibirDataAtual() {
+          var diasSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+          var meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+          var dataAtual = new Date();
+          var diaSemana = diasSemana[dataAtual.getDay()];
+          var diaMes = dataAtual.getDate();
+          var mes = meses[dataAtual.getMonth()];
+          var ano = dataAtual.getFullYear();
+          var dataFormatada = diaSemana + ", " + diaMes + " de " + mes + " de " + ano;
+          document.getElementById("dataAtual").textContent = dataFormatada;
+          return dataFormatada;
+        }
+
+        exibirDataAtual();
+      </script>
+  </body>
+
+</html>

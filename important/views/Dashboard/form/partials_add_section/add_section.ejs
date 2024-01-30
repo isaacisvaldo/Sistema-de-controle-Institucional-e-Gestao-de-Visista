@@ -1,0 +1,88 @@
+<div class="row mb-4">
+    <div class="card-body teste p-5">
+      <div class="mb-4">
+        <label for="categoryLabel" class="form-label">Tipo de Documento</label>
+
+        <!-- Select -->
+        <select class="form-control" autocomplete="off" id="categoryLabel" name="tipo_documento">
+          <% tipo_v.forEach(p=> { %>
+            <option value="<%=p.tipo_identifiID  %>">
+              <%=p.designacao %>
+            </option>
+            <% }) %>
+        </select>
+        <!-- End Select -->
+      </div>
+      <!-- Form -->
+      <div class="mb-4">
+        <label for="tagsLabel" class="form-label">Doc. num</label>
+
+        <input onchange="verificarDados(this)" type="text" class="form-control" name="Doc_number" id="tagsLabel"
+          aria-label="Enter tags here">
+
+      </div>
+      <!-- Form -->
+      <label for="tagsLabel" class="form-label">Validade</label>
+
+      <input type="Date" class="form-control" name="Data_validade_doc" id="tagsLabel"
+        aria-label="Enter tags here">
+      <div class="mb-4 mt-4">
+        <label for="vendorLabel" class="form-label">Nome Visitante</label>
+
+        <div class="col-sm-12">
+          <div class="input-group input-group-sm-vertical">
+            <input type="text" class="form-control" name="nome" id="nomeID" placeholder="primeiro"
+              aria-label="primeiro">
+            <input type="text" class="form-control" name="sobrenome" id="sobrenomeID"
+              placeholder="ultimo nome" aria-label="ultimo nome">
+          </div>
+          <!-- End Form -->
+
+          <br>
+          <br>
+          <div class="mb-4 " >
+            <div class="row mb-4">
+                <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Contacto</label>
+                <div class="contact-section col-sm-9">
+                    <!-- Conteúdo dos contactos aqui -->
+                    <div class="input-contact input-group input-group-sm-vertical my-2 d-flex flex-column justify-content-end">
+                      <input style="width: 100%;" type="text" class="js-input-mask form-control number" name="phone" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx" data-hs-mask-options='{"mask": "+(244)000-000-000"}'>
+                      <div class="mt-2">
+                        <span class="remove-phone" style="display: none;">Remover número</span>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <a class="add-phone">Adicionar número</a>
+        </div>
+          
+          
+        </div>
+        <a class="js-create-field form-link my-2">
+          </i> Pertences
+        </a>
+        <div class="col-sm-12">
+          <div class="col-sm-12 d-flex  gap-3">
+            <label>
+              <input type="checkbox" name="pertences" value="Telefone"> Opção 1
+            </label>
+            <br>
+            <label>
+              <input type="checkbox" name="pertences" value="Computador"> Opção 2
+            </label>
+            <br>
+            <label>
+              <input type="checkbox" name="pertences" value="Outros"> Opção 3
+            </label>
+            <br>
+            <label>
+              <input type="checkbox" name="pertences" value="Mulher"> Opção 4
+            </label>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:;" class="js-remove-section text-danger">
+        <i class="">-</i> Remover visita
+      </a>
+    </div>
+  </div>

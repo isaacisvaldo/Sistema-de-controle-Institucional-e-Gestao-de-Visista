@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/geral/head') %>
+<style>
+ #centered-button{
+    display: none;
+    position: fixed;
+    bottom: 10%; /* Define a distância do botão em relação ao fundo da janela */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    font-size: 16px; /* Tamanho da fonte do botão */
+    color: #fff; /* Cor do texto do botão */
+    border: none; /* Remover a borda do botão */
+    cursor: pointer;
+    z-index: 1; /* Defina um índice Z para garantir que o botão esteja na parte superior */
+}
+
+/* Estilos responsivos para o botão */
+@media (max-width: 768px) {
+    #centered-button {
+        font-size: 14px;
+    }
+}
+
+</style>
+
+  <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
+
+    <script src="assets/js/hs.theme-appearance.js"></script>
+    <script src="assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+    <!-- ========== HEADER ========== -->
+    <header id="header"
+      class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
+      <div class="navbar-nav-wrap">
+        <!-- Logo -->
+        <%- include('../partials/geral/logo') %>
+          <!-- End Logo -->
+
+          <%- include('../partials/geral/navbar') %>
+      </div>
+    </header>
+
+    <!-- ========== END HEADER ========== -->
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <!-- Navbar Vertical -->
+
+    <aside
+      class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+      <div class="navbar-vertical-container">
+        <div class="navbar-vertical-footer-offset">
+          <!-- Logo -->
+
+          <%- include('../partials/geral/logo') %>
+
+            <!-- End Logo -->
+
+            <!-- Navbar Vertical Toggle -->
+            <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
+              <i class="bi-arrow-bar-left navbar-toggler-short-align"
+                data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+              <i class="bi-arrow-bar-right navbar-toggler-full-align"
+                data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+            </button>
+
+            <!-- End Navbar Vertical Toggle -->
+
+            <!-- Content -->
+            <% if(user.designacaoGrupo=="Escala de serviço" ) {%>
+              <%- include('../partials/escalas/content') %>
+                <% }else if(user.designacaoGrupo=="Gestão de Visitas" ){%>
+                  <%-include('.. /partials/visitas/content') %>
+                    <% }else if(user.designacaoGrupo=="Posto Médico" ){%>
+                      <%-include('.. /partials/clinic/content') %>
+                        <% }else{%>
+                          <%- include('../partials/admin/content') %>
+                            <% } %>
+
+                              <!-- End Content -->
+                              <!-- Footer -->
+                              <div class="navbar-vertical-footer">
+                                <ul class="navbar-vertical-footer-list">
+                                </ul>
+                              </div>
+                              <!-- End Footer -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- End Navbar Vertical -->
+
+    <main id="content" role="main" class="main">
+      <!-- Content -->
+      <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="row align-items-center">
+            <div class="col-sm mb-2 mb-sm-0">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-no-gutter">
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <h3>
+                      <p id="dataAtual"></p>
+                    </h3>
+                  </li>
+                </ol>
+              </nav>
+
+
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+        </div>
+        <!-- End Page Header -->
+
+        <div class="row">
+          <div class="col-lg-12 mb-3 mb-lg-0">
+            <!-- Card -->
+            <div class="card mb-3 mb-lg-5">
+                <div class="card-header">
+                  <h4 class="card-header-title">Informação da visita</h4>
+                </div>
+             <div class="card-body" id="teste">
+
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="categoryLabel" class="form-label">Area Visitado</label>
+
+                        <!-- Select -->
+                          <select class="form-control" id="area_visitado" name="area">
+                            <% area.forEach(element=> { %>
+                              <option value="<%= element.areaID %>">
+                                <%= element.nome %>
+                              </option>
+                              <% }) %>
+
+                        </select>
+                        <!-- End Select -->
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="categoryLabel" class="form-label">Tipo de Visita:</label>
+                        <br><br>
+                          <% type.forEach((element, index)=> { %>
+                            <% if (index==0) { %>
+                              <%= element.designacao %> <input class="mx-2" type="radio" checked value="<%= element.tipo_visitaID %>" name="tipo_visita" id=""> 
+                            <% }else{%>
+                              <%= element.designacao %> <input   class="mx-2" type="radio" value="<%= element.tipo_visitaID %>" name="tipo_visita" id=""> 
+                            <% } %>
+                          <% }) %>
+                          <button id="initial-button" onclick="showCenteredButton()" class="btn btn-primary">Visitantes</button>
+
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+                  </div>
+                  <!-- End Row -->
+
+
+                  <!-- End Quill -->
+                </div>
+                <!-- Body -->
+            </div>
+            <!-- End Card -->
+
+
+             <div  id="centered-button">
+              <button type="button"   class="btn btn-primary mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">  <i class="bi-plus"></i>Visitante</button>
+              <button type="button"  onclick="finalizar()"  class="btn btn-danger mb-1"  > Finalizar </button>
+            </div>
+
+            
+          </div>
+        </div>
+
+            <!-- Modal -->
+            <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <h5 class="modal-title h4" id="myExtraLargeModalLabel"> O (a) Visitante</h5>
+                        
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="js-validate needs-validation" >
+                      <div class="row"> 
+                           
+                         <div class="card-body">
+                      <div id="container">
+                        <!-- Primeira seção de contato (não removível) -->
+                        <div class="row mb-4">
+                          <div class="card-body teste p-5">
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <!-- Form -->
+                                <div class="mb-4">
+                                  <label for="categoryLabel" class="form-label">Documento</label>
+                                  <br>
+                               
+                                    <% tipo_v.forEach((element, index)=> { %>
+                                      <% if (index==0) { %>
+                                     <input class="mx-2" type="radio" checked value="<%= element.tipo_identifiID %>" name="documentType" id="">    <%= element.designacao %> 
+                                      <% }else{%>
+                                       <input   class="mx-2" type="radio" value="<%= element.tipo_identifiID %>" name="documentType" id="">    <%= element.designacao %> 
+                                      <% } %>
+                                     <br>
+                                    <% }) %>
+                     
+                                </div>
+                                <!-- End Form -->
+                              </div>
+                              <div class="col-sm-4">
+                                <div class="mb-4">
+                                  <label for="tagsLabel" class="form-label">Nº Documento</label>
+                                    <br>
+                                  <input oninput="verificarDados(this)" type="text" class="form-control" name="Doc_number" id="documentNumber"
+                                    aria-label="Enter tags here">
+                                  <span class="text-danger doc-number-result"></span>
+                                </div>
+                              </div>
+                              <div class="col-sm-4">
+                                <div class="mb-4">
+                             
+                            <label for="tagsLabel" class="form-label">Validade Documento</label>
+                            <br>
+                            <input type="Date" class="form-control" name="documentValid" id="documentValid"
+                              aria-label="Enter tags here">
+                                </div>
+                              </div>
+                            </div>
+                           
+                          
+                         
+                           
+                            <div class="mb-4 mt-4">
+                              <label for="vendorLabel" class="form-label">Nome Visitante</label>
+        
+                              <div class="col-sm-12">
+                                <div class="input-group input-group-sm-vertical">
+                                  <input type="text" class="form-control" name="nome" id="firstName" placeholder="primeiro"
+                                    aria-label="primeiro">
+                                  <input type="text" class="form-control" name="sobrenome" id="lastName"
+                                    placeholder="ultimo nome" aria-label="ultimo nome">
+                                </div>
+                                <!-- End Form -->
+        
+                                <br>
+                                <br>
+                                <div class="mb-4 " >
+                                  <div class="row mb-4">
+                                      <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Contacto</label>
+                                      <div class="contact-section col-sm-9">
+                                          <!-- Conteúdo dos contactos aqui -->
+                                          <div class="input-contact input-group input-group-sm-vertical my-2 d-flex flex-column justify-content-end">
+                                            <input style="width: 100%;" type="text" required class="js-input-mask form-control number" name="contactos" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx" data-hs-mask-options='{"mask": "+(244)000-000-000"}'>
+                                            <div class="mt-2">
+                                              <span class="remove-phone" style="display: none;">Remover número</span>
+                                            </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <a class="add-phone">Adicionar número</a>
+                              </div>      
+                              </div>
+                              <a class="js-create-field form-link my-2">
+                                </i> Pertences
+                              </a>
+                              <div class="col-sm-12">
+                                <div class="col-sm-12 d-flex  gap-3">
+
+                                  <% pertences.forEach(element => { %>
+                                    <label>
+                                      <input type="checkbox"  name="pertences" value="<%=element.pertenceID %>"><%=element.designacao %>
+                                    </label>
+                                    <br>
+                                  <% }) %>
+                                 
+                                 
+                                </div>
+                              </div>
+                            </div>
+                            <a href="javascript:;" class="js-remove-section text-danger">
+                              <i class="">-</i> Remover visita
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="javascript:;" class="js-create-field form-link" id="add-section">
+                      
+                      </a>
+                      <br><br>
+                      <button type="button" onclick="postData()" class="btn btn-primary">Submeter dados</button>
+                      
+                    </div>
+                   </div>
+                   
+                    <div
+                              style="align-center: center"
+                              class=""
+                              id="result"
+                            ></div>
+                    
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Modal -->
+     
+        <%- include('../partials/geral/footer') %>
+     </main>
+
+    <script src="assets/js/demo.js"></script>
+
+
+        <script src="/assets/js/vendor.min.js"></script>
+        <script src="/assets/js/hs-add-field.js"></script>
+        <script src="/assets/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script>
+        <script src="/assets/js/theme.min.js"></script>
+        <script src="/assets/js/hs.theme-appearance-charts.js"></script>
+    <%- include('../alerts/alerts') %>
+      <input type="hidden" id="domainID" value="<%= domain%>" />
+      <script>
+
+        let dados =[ {codigo: "123", nome:"Isaac Bunga"},{codigo: "12345678910", nome:"Gelson Santo"},{codigo: "000000", nome:"Pedro Santo"}]
+
+        function verificarDados(input) {
+          let  meuDados;
+          for (let i = 0; i < dados.length; i++){
+            if(dados[i].codigo==input.value){
+              meuDados = dados[i].nome;
+            }
+          }
+          const cardBody = input.closest('.card-body');
+          const nomeVisitanteField = cardBody.querySelector('.form-control[name="nome"]');
+          const resultado = document.querySelector('.doc-number-result')
+          const sobrenomeVisitanteField = cardBody.querySelector('.form-control[name="sobrenome"]');
+          if (nomeVisitanteField && sobrenomeVisitanteField) {
+            if(meuDados){
+              nomeVisitanteField.value = meuDados;
+              sobrenomeVisitanteField.value = meuDados;
+              resultado.innerText = "Dados encontrado!"
+              resultado.classList.add("text-success");
+              resultado.classList.remove("text-danger");
+            }else{
+              nomeVisitanteField.value = "";
+              sobrenomeVisitanteField.value = "";
+              resultado.innerText = "Não encontrou nenhum dado relaciondo"
+            }
+          }       
+        }
+    </script>
+      <script>
+                const domain =document.getElementById('domainID').value;
+           function getDataAtual() {
+            const dataAtual = new Date();
+            const ano = dataAtual.getFullYear();
+            const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+            const dia = String(dataAtual.getDate()).padStart(2, '0');
+            return `${ano}-${mes}-${dia}`;
+          }
+
+          if (localStorage.hasOwnProperty('visitaId') || localStorage.getItem('visitaId') != null) {
+            const meuBotao = document.getElementById('initial-button');
+            const centeredButton = document.getElementById("centered-button");
+            var div = document.getElementById("teste");
+            var inputs = div.getElementsByTagName("select ,checkbox");
+              for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = true;
+              }
+            meuBotao.style.display = 'none';
+            centeredButton.style.display = "block";
+          }
+           function showCenteredButton() {
+            const initialButton = document.getElementById("initial-button");
+            const centeredButton = document.getElementById("centered-button");
+            initialButton.style.display = "none";
+            centeredButton.style.display = "block";
+       
+            const area_visitado = document.getElementById('area_visitado').value;
+          const tipo_visita = document.getElementsByName('tipo_visita')
+          let selected=0;
+          for (const radioButton of tipo_visita) {
+            if (radioButton.checked) {
+              selected = radioButton.value; 
+              break; 
+            }
+          }
+  
+          const data = {
+            dt_visita: getDataAtual(),
+            fk_area_visitada: parseInt(area_visitado),
+            fk_tipo_visita: parseInt(selected),
+          }
+          const options = {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json", 
+            },
+            body: JSON.stringify(data),
+          };
+          fetch(`${domain}/visita`, options)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+           
+              localStorage.setItem('visitaId', data.visita.visita.visitaID);
+             
+            }).catch((error) => {
+              console.log(error)
+            });     
+        }
+    </script>
+      <script>
+        function postData() {
+          const elementsWithClass = document.getElementsByClassName('teste');  
+          const selectedValues = [];
+          const contactos=[];
+          const terminal=[];
+          const pertences=[];
+           for (const element of elementsWithClass) {
+          const inputsAndSelectsWithinElement = element.querySelectorAll("input, select, input[name='contactos']");
+          let visitorData = {}; 
+          
+          for (const inputOrSelect of inputsAndSelectsWithinElement) {
+            const valor = inputOrSelect.value.trim(); 
+            const fieldName = inputOrSelect.name;
+            //console.log(valor, fieldName);
+            if (fieldName) {
+              visitorData[fieldName] = valor;
+            }
+            if (inputOrSelect.type === 'checkbox' && inputOrSelect.name === 'pertences' && inputOrSelect.checked) {
+              pertences.push({fk_pertence:parseInt(valor)}); 
+            }
+            if ( inputOrSelect.name === 'contactos') {
+              terminal.push({contacto:valor}); 
+            }
+          }
+      
+
+    }
+    const domain =document.getElementById('domainID').value;
+    const documentType =document.getElementsByName('documentType');
+    const documentValid = document.getElementById('documentValid').value;
+    const documentNumber = document.getElementById('documentNumber').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+           let selected=0;
+          for (const radioButton of documentType) {
+            if (radioButton.checked) {
+              selected = radioButton.value; 
+              break; 
+            }
+          }
+          if(terminal.length > 2) {
+            terminal.pop();
+          }else
+          if(terminal[0].contacto==='') {
+            terminal.pop();
+          }
+    
+          console.log(terminal[0])
+     if(!terminal|| terminal==0){
+      console.log(terminal.length)
+      document.getElementById('result').innerHTML ="Adicione no mínimo um contacto"; 
+      document.getElementById('result').setAttribute('class', 'text-danger')
+     }else{
+     const data = {
+      visitaId:parseInt(localStorage.getItem('visitaId')),
+      pertences:pertences,
+      contactos:terminal,
+      tipo_documento:parseInt(selected),
+      documentNumber:documentNumber,
+      documentValid:documentValid,
+      firstName:firstName,
+      lastName:lastName
+     }
+
+         console.log(data)
+         const options = {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json", 
+            },
+            body: JSON.stringify(data),
+          };
+          fetch(`${domain}/Add_visitor`, options)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if(data.error){
+              document.getElementById('result').innerHTML =data.error; 
+              document.getElementById('result').setAttribute('class', 'text-danger')
+            }else{
+              document.getElementById('result').innerHTML =data.sucess;
+              document.getElementById('result').setAttribute('class', 'text-success')
+              window.location="/Form_Add_Visita"
+            }
+                      
+            }).catch((error) => {
+              console.log(error)
+            }); 
+
+     }
+    }
+        
+       
+   
+      // Função para clonar o modelo de seção de contato e criar uma nova seção
+      function createContactSection() {
+        const container = document.getElementById("container");
+        if (template) {
+          const newSection = template.cloneNode(true);
+          newSection.style.display = "block";
+          const newValue= newSection.querySelector('input[name="contactos"]').value = "";
+          const allInputContacts = newSection.querySelectorAll(".input-contact")
+          for (let i = 1; i < allInputContacts.length; i++) {
+            allInputContacts[i].remove();
+          }
+          const addContact = newSection.querySelector(".add-phone");
+          addContact.addEventListener("click",function() {
+            const container = newSection.querySelector(".contact-section")
+            const template = newSection.querySelector(".input-contact");
+            if (template) {
+              const newSection = template.cloneNode(true);
+              newSection.style.display = "block"; 
+              newSection.querySelector('input[name="contactos"]').value = "";
+              container.appendChild(newSection);
+              const removeButton = newSection.querySelector(".remove-phone");
+              removeButton.style.display = "block"; 
+              removeButton.addEventListener("click", function () {
+                if (container.children.length > 1) {
+                  container.removeChild(newSection);
+                }
+              });
+            }
+          });
+          container.appendChild(newSection);
+          //console.log(newSection);
+          const removeButton = newSection.querySelector(".js-remove-section");
+          removeButton.style.display = "block"; 
+          removeButton.addEventListener("click", function () {
+            if (container.children.length > 1) {
+              container.removeChild(newSection);
+            }
+          });
+        }
+      }
+
+      // Função para clonar o modelo de seção de contato e criar uma nova seção
+      function createContact() {
+        const container = document.querySelector(".contact-section")
+        const template = document.querySelector(".input-contact");
+        if (template) {
+          const newSection = template.cloneNode(true);
+          newSection.style.display = "block"; // Exibir a nova seção
+          newSection.querySelector('input[name="contactos"]').value = "";
+          // Adicione a nova seção após o último elemento
+          container.appendChild(newSection);
+          // Adicione um manipulador de eventos de clique para remover a seção
+          const removeButton = newSection.querySelector(".remove-phone");
+          removeButton.style.display = "block"; // Exibir o botão apenas na nova seção
+          removeButton.addEventListener("click", function () {
+            if (container.children.length > 1) {
+              container.removeChild(newSection);
+            }
+          });
+        }
+      }
+
+      // Evento de clique para adicionar uma nova seção de contato
+      document.getElementById("add-section").addEventListener("click", createContactSection);
+
+      // Selecione todos os elementos com a classe "add-phone"
+      const addPhoneButtons = document.getElementsByClassName("add-phone");
+
+      // Adicione um ouvinte de evento a cada botão "Adicionar número"
+      for (let i = 0; i < addPhoneButtons.length; i++) {
+          addPhoneButtons[i].addEventListener("click", createContact);
+      }
+
+      
+      const removeButtons = document.querySelectorAll('.js-remove-section');
+
+      if (removeButtons.length > 1) {
+        removeButtons[0].style.display = 'block'; // Exibe o botão no primeiro item
+      } else {
+        removeButtons[0].style.display = 'none'; // Oculta o botão no primeiro item
+      }
+
+
+
+
+   
+
+      </script>
+    <script>
+      function  finalizar(){
+        console.log(localStorage.getItem('visitaId'));
+        let id =localStorage.getItem('visitaId')
+
+ fetch(`${domain}/visitanteschangestatus/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json' 
+     
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Erro ao obter os dados');
+    }
+    return response.json(); 
+  })
+  .then(dataResponse => {
+   localStorage.clear();
+   window.location="/Visitas" 
+ console.log(dataResponse)
+  })
+  .catch(error => {
+  
+    console.error('Ocorreu um erro:', error);
+  });
+      }
+    </script>
+
+      <script>
+          (function () {
+            // STYLE SWITCHER
+            // =======================================================
+            const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+            const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+            // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+            const setActiveStyle = function () {
+              $variants.forEach($item => {
+                if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+                  $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+                  return $item.classList.add('active')
+                }
+
+                $item.classList.remove('active')
+              })
+            }
+
+            // Add a click event to all items of the dropdown to set the style
+            $variants.forEach(function ($item) {
+              $item.addEventListener('click', function () {
+                HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+              })
+            })
+
+            // Call the setActiveStyle on load page
+            setActiveStyle()
+
+            // Add event listener on change style to call the setActiveStyle function
+            window.addEventListener('on-hs-appearance-change', function () {
+              setActiveStyle()
+            })
+          })()
+      </script>
+      <script>
+        function exibirDataAtual() {
+          var diasSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+          var meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+          var dataAtual = new Date();
+          var diaSemana = diasSemana[dataAtual.getDay()];
+          var diaMes = dataAtual.getDate();
+          var mes = meses[dataAtual.getMonth()];
+          var ano = dataAtual.getFullYear();
+          var dataFormatada = diaSemana + ", " + diaMes + " de " + mes + " de " + ano;
+          document.getElementById("dataAtual").textContent = dataFormatada;
+          return dataFormatada;
+        }
+
+        exibirDataAtual();
+      </script>
+  </body>
+
+</html>

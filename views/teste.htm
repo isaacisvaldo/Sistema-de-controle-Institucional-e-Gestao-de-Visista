@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function getDeviceInfo() {
+            const deviceName = navigator.userAgent;
+            const osType = navigator.platform;
+            const osPlatform = navigator.platform; // Esta é uma suposição, já que não temos acesso direto a essa informação no navegador
+            const osArch = "Unknown"; // Infelizmente, não temos acesso a essa informação no navegador
+            const cpuUsage = "Unknown"; // Não é possível obter diretamente essa informação do navegador
+            const memoryInfo = navigator.deviceMemory || "Unknown";
+            const cpuInfo = navigator.hardwareConcurrency || "Unknown";
+            
+            let ipAddress;
+            let latitude;
+            let longitude;
+
+            // Obter o endereço IP do dispositivo
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    ipAddress = data.ip;
+                    // Chamar a função para exibir as informações após obter o endereço IP
+                    displayDeviceInfo({ deviceName, osType, osPlatform, osArch, cpuUsage, ipAddress, latitude, longitude });
+                });
+
+            // Obter a localização do dispositivo (latitude e longitude)
+            navigator.geolocation.getCurrentPosition(position => {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                // Chamar a função para exibir as informações após obter a localização
+                displayDeviceInfo({ deviceName, osType, osPlatform, osArch, cpuUsage, ipAddress, latitude, longitude,memoryInfo,cpuInfo });
+            });
+        }
+
+        function displayDeviceInfo(data) {
+            console.log(data);
+            // Aqui você pode exibir as informações no formato desejado, por exemplo, adicionando-as a um elemento HTML
+            // Exemplo:
+            // const deviceInfoElement = document.getElementById('deviceInfo');
+            // deviceInfoElement.innerText = JSON.stringify(data, null, 2);
+        }
+
+        // Chamar a função para coletar as informações do dispositivo quando a página for carregada
+        getDeviceInfo();
+    </script>
+</body>
+</html>

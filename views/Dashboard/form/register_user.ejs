@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/geral/head') %>
+
+<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
+
+  <script src="/assets/js/hs.theme-appearance.js"></script>
+  <script src="/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+  <!-- ========== HEADER ========== -->
+  <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
+    <div class="navbar-nav-wrap">
+      <!-- Logo -->
+      <%- include('../partials/geral/logo') %>
+      <!-- End Logo -->
+
+      <%- include('../partials/geral/navbar') %>
+    </div>
+  </header>
+
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+
+  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+    <div class="navbar-vertical-container">
+      <div class="navbar-vertical-footer-offset">
+        <!-- Logo -->
+
+        <%- include('../partials/geral/logo') %>
+
+        <!-- End Logo -->
+
+        <!-- Navbar Vertical Toggle -->
+        <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
+          <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+          <i class="bi-arrow-bar-right navbar-toggler-full-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+        </button>
+
+        <!-- End Navbar Vertical Toggle -->
+
+        <!-- Content -->
+        <% if(user.designacaoGrupo=="Escala de serviço") {%> 
+          <%-  include('../partials/escalas/content') %>
+           <% }else if(user.designacaoGrupo=="Gestão de Visitas"){%>
+            <%-include('../partials/visitas/content') %>
+            <% }else if(user.designacaoGrupo=="Posto Médico"){%>
+              <%-include('../partials/clinic/content') %>
+             <% }else{%>
+             <%-  include('../partials/admin/content') %> 
+             <% } %>
+      
+        <!-- End Content -->
+        <!-- Footer -->
+        <div class="navbar-vertical-footer">
+          <ul class="navbar-vertical-footer-list">
+          </ul>
+        </div>
+        <!-- End Footer -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- End Navbar Vertical -->
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content container-fluid">
+      <!-- Page Header -->
+      <form class="js-step-form py-md-5" data-hs-step-form-options='{
+        "progressSelector": "#addUserStepFormProgress",
+        "stepsSelector": "#addUserStepFormContent",
+        "endSelector": "#addUserFinishBtn",
+        "isValidate": false
+      }'>
+  <div class="row justify-content-lg-center">
+    <div class="col-lg-8">
+      <!-- Step -->
+      <ul id="addUserStepFormProgress" class="js-step-progress step step-sm step-icon-sm step step-inline step-item-between mb-3 mb-md-5">
+        <li class="step-item">
+          <a class="step-content-wrapper" href="javascript:;" data-hs-step-form-next-options='{
+              "targetSelector": "#addUserStepProfile"
+            }'>
+            <span class="step-icon step-icon-soft-dark">*</span>
+            <div class="step-content">
+              <span class="step-title">Dados do Usuario</span>
+            </div>
+          </a>
+        </li>
+
+      
+      </ul>
+      <!-- End Step -->
+
+      <!-- Content Step Form -->
+      <div id="addUserStepFormContent">
+        <!-- Card -->
+        <div id="addUserStepProfile" class="card card-lg active">
+          <!-- Body -->
+          <div class="card-body">
+            <!-- Form -->
+            <div class="row mb-4">
+              <label class="col-sm-3 col-form-label form-label">Avatar</label>
+
+              <div class="col-sm-9">
+                <div class="d-flex align-items-center">
+                  <!-- Avatar -->
+                  <label class="avatar avatar-xl avatar-circle avatar-uploader me-5" for="avatarUploader">
+                    <img id="avatarImg" class="avatar-img" src="/assets/img/160x160/img1.jpg" alt="Image Description">
+
+                    <input type="file" class="js-file-attach avatar-uploader-input" id="avatarUploader" data-hs-file-attach-options='{
+                              "textTarget": "#avatarImg",
+                              "mode": "image",
+                              "targetAttr": "src",
+                              "resetTarget": ".js-file-attach-reset-img",
+                              "resetImg": ".//assets/img/160x160/img1.jpg",
+                              "allowTypes": [".png", ".jpeg", ".jpg"]
+                           }' name="file">
+
+                    <span class="avatar-uploader-trigger">
+                      <i class="bi-pencil avatar-uploader-icon shadow-sm"></i>
+                    </span>
+                  </label>
+                  <!-- End Avatar -->
+
+                  <button type="button" class="js-file-attach-reset-img btn btn-white">Delete</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Form -->
+
+            <!-- Form -->
+            <div class="row mb-4">
+              <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">User name <i class="bi-question-circle text-body ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Nome de Usuario e o perfil."></i></label>
+
+              <div class="col-sm-9">
+                <div class="input-group input-group-sm-vertical">
+                  <input type="text" class="form-control" name="username" id="username" placeholder="Clarice" aria-label="Clarice">
+                  <select class="js-select-dynamic form-select" autocomplete="off" data-name="phoneSelect" data-hs-tom-select-options='{
+                    "searchInDropdown": false,
+                    "hideSearch": true,
+                    "dropdownWidth": "8rem"
+                  }' name="pefil" id="perfilId">
+                  <% perfis.forEach(p => { %>
+                    <option value="<%=p.perfilId  %>" ><%=p.designacao %></option>   
+                  <% }) %>
+            
+          
+          
+          </select>
+                </div>
+              </div>
+            </div>
+            <!-- End Form -->
+
+            <!-- Form -->
+            <div class="row mb-4">
+              <label for="emailLabel" class="col-sm-3 col-form-label form-label">Email</label>
+
+              <div class="col-sm-9">
+                <input type="email" class="form-control" name="email" id="emailLabel" placeholder="clarice@site.com" aria-label="clarice@site.com">
+              </div>
+            </div>
+            <!-- End Form -->
+
+            <!-- Form -->
+            <div class="row mb-4">
+           
+
+           
+
+            <!-- Form -->
+            <div class="row mb-4">
+              <label for="departmentLabel" class="col-sm-3 col-form-label form-label">Funcionarios</label>
+
+              <div class="col-sm-9">
+                   
+                <select class="js-select form-select" id="funcionarioId" autocomplete="off" data-hs-tom-select-options='{
+                  "placeholder": "Select Funcionario"
+                }'  class="form-control form-control-lg"
+                name="funcionario"
+                required>
+               
+              <% employee.forEach(function(f) { %>
+                <% let presente = false; %>
+                <% users.forEach(function(e) { %>
+                  <% if (e.fk_funcionario === f.funcionarioId) { %>
+                    <% presente = true; %>
+                  <% } %>
+                <% }); %>
+                <% if (!presente) { %>
+                  <option value="<%= f.funcionarioId %>"><%= f.nome %> <%= f.sobre_nome %></option>
+                <% } %>
+              <% }); %>
+        
+         </select>
+              
+              </div>
+            </div>
+            <!-- End Form -->
+
+          <!-- Form -->
+          <div class="row mb-4">
+            <label for="organizationLabel" class="col-sm-3 col-form-label form-label">Grupo User</label>
+
+            <div class="col-sm-9">
+              <select class="js-select-dynamic form-select" autocomplete="off" data-name="phoneSelect" data-hs-tom-select-options='{
+                "searchInDropdown": false,
+                "hideSearch": true,
+                "dropdownWidth": "8rem"
+              }' name="grupo" id="grupoId">
+              <option value="" selected disabled>---Selecione o Grupo---</option>   
+              <% grupos.forEach(g => { %>
+                <option value="<%=g.grupoId  %>" ><%=g.designacao %></option>   
+                
+              <% }) %>
+        
+      
+      
+      </select></div>
+          </div>
+          <!-- End Form -->
+          </div>
+          <!-- End Body -->
+          <div
+          style="align-center: center"
+          class=""
+          id="result"
+        ></div>
+          <!-- Footer -->
+          <div class="card-footer d-flex justify-content-end align-items-center">
+            <button
+                  type="button"
+                  onclick="postData()"
+                  class="btn btn-primary btn-lg"
+                >
+                  Registar Usuario
+                </button>
+          </div>
+          <!-- End Footer -->
+        </div>
+        <!-- End Card -->
+
+      
+      <!-- End Message Body -->
+    </div>
+  </div>
+  <!-- End Row -->
+</form>
+
+   
+  
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+
+ 
+<%- include('../partials/geral/footer') %>
+
+    <!-- End Footer -->
+  </main>
+
+  <script src="/assets/js/demo.js"></script>
+
+
+  <script src="/assets/js/vendor.min.js"></script>
+
+  <script src="/assets/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script>
+
+  <script src="/assets/js/theme.min.js"></script>
+  <script src="/assets/js/hs.theme-appearance-charts.js"></script>
+  <%- include('../alerts/alerts') %>
+  <input type="hidden" id="domainId" value="<%= domain%>" />
+<script>
+  const domain = document.getElementById("domainId").value;
+  function postData() {
+
+    const file=document.getElementById('avatarUploader').files[0];
+    const fk_perfil = document.getElementById('perfilId').value;
+    const fk_grupo = document.getElementById('grupoId').value;
+    const fk_funcionario = document.getElementById('funcionarioId').value;
+    const email = document.getElementById('emailLabel').value;
+    const username = document.getElementById('username').value;
+    if(fk_funcionario==null||fk_funcionario=='') {
+      document.getElementById('result').innerHTML ='Selecione um funcionario !'; 
+    document.getElementById('result').setAttribute('class', 'text-danger')
+    }else  if(fk_grupo==null || fk_grupo=='') {
+      document.getElementById('result').innerHTML ='Selecione o Grupo  !'; 
+    document.getElementById('result').setAttribute('class', 'text-danger')
+    }else  if(fk_perfil==null|| fk_perfil=='') {
+      document.getElementById('result').innerHTML ='Selecione o Perfil !'; 
+    document.getElementById('result').setAttribute('class', 'text-danger')
+    }
+    
+    else{ 
+    const formData = new FormData();
+      formData.append('file', file);
+      formData.append('fk_perfil', fk_perfil);
+      formData.append('fk_grupo', fk_grupo);
+      formData.append('fk_funcionario', fk_funcionario);
+      formData.append('email', email);
+      formData.append('username', username);
+     
+   
+    const options = {
+      method: "POST",
+      body: formData,
+    };
+    fetch(`${domain}/user/create`, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if(data.error){
+    document.getElementById('result').innerHTML =data.error; 
+    document.getElementById('result').setAttribute('class', 'text-danger')
+  }else{
+    document.getElementById('result').innerHTML =data.sucess;
+    document.getElementById('result').setAttribute('class', 'text-success')
+    window.location="/user/Listar"
+  }
+ }) .catch((error) => {
+        
+       console.log(error)
+      });
+  }
+}
+</script>
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      window.onload = function () {
+        
+
+        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+        // =======================================================
+        new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+        // INITIALIZATION OF FORM SEARCH
+        // =======================================================
+        new HSFormSearch('.js-form-search')
+
+
+        // INITIALIZATION OF BOOTSTRAP DROPDOWN
+        // =======================================================
+        HSBsDropdown.init()
+
+
+        // INITIALIZATION OF FILE ATTACH
+        // =======================================================
+        new HSFileAttach('.js-file-attach')
+
+
+        // INITIALIZATION OF STEP FORM
+        // =======================================================
+        new HSStepForm('.js-step-form', {
+          finish: () => {
+            document.getElementById("addUserStepFormProgress").style.display = 'none'
+            document.getElementById("addUserStepProfile").style.display = 'none'
+            document.getElementById("addUserStepBillingAddress").style.display = 'none'
+            document.getElementById("addUserStepConfirmation").style.display = 'none'
+            document.getElementById("successMessageContent").style.display = 'block'
+            scrollToTop('#header');
+            const formContainer = document.getElementById('formContainer')
+          },
+          onNextStep: function () {
+            scrollToTop()
+          },
+          onPrevStep: function () {
+            scrollToTop()
+          }
+        })
+
+        function scrollToTop(el = '.js-step-form') {
+          el = document.querySelector(el)
+          window.scrollTo({
+            top: (el.getBoundingClientRect().top + window.scrollY) - 30,
+            left: 0,
+            behavior: 'smooth'
+          })
+        }
+
+
+        // INITIALIZATION OF ADD FIELD
+        // =======================================================
+        new HSAddField('.js-add-field', {
+          addedField: field => {
+            HSCore.components.HSTomSelect.init(field.querySelector('.js-select-dynamic'))
+            HSCore.components.HSMask.init(field.querySelector('.js-input-mask'))
+          }
+        })
+
+
+        // INITIALIZATION OF SELECT
+        // =======================================================
+        HSCore.components.HSTomSelect.init('.js-select', {
+          render: {
+            'option': function (data, escape) {
+              return data.optionTemplate || `<div>${data.text}</div>>`
+            },
+            'item': function (data, escape) {
+              return data.optionTemplate || `<div>${data.text}</div>>`
+            }
+          }
+        })
+
+        // INITIALIZATION OF INPUT MASK
+        // =======================================================
+        HSCore.components.HSMask.init('.js-input-mask')
+      }
+    })()
+  </script>
+
+  <!-- Style Switcher JS -->
+
+  <script>
+      (function () {
+        // STYLE SWITCHER
+        // =======================================================
+        const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+        const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+        // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+        const setActiveStyle = function () {
+          $variants.forEach($item => {
+            if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+              $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+              return $item.classList.add('active')
+            }
+
+            $item.classList.remove('active')
+          })
+        }
+
+        // Add a click event to all items of the dropdown to set the style
+        $variants.forEach(function ($item) {
+          $item.addEventListener('click', function () {
+            HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+          })
+        })
+
+        // Call the setActiveStyle on load page
+        setActiveStyle()
+
+        // Add event listener on change style to call the setActiveStyle function
+        window.addEventListener('on-hs-appearance-change', function () {
+          setActiveStyle()
+        })
+      })()
+    </script>
+</body>
+</html>
