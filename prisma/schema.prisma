@@ -231,21 +231,13 @@ model tb_Visitas {
   fk_area        Int 
   tb_Tipo_visita               tb_Tipo_visita?                @relation(fields: [fk_tipo_visita], references: [tipo_visitaId], onDelete: Cascade, onUpdate: Cascade)
   fk_tipo_visita               Int
+  cod_Visita        String?      @default("DDT2")
   createdAt                    DateTime                       @default(now())
   updatedAt                    DateTime                       @updatedAt
   tb_visita_visitantes         tb_Visita_visitantes[]
   tb_visita_visitante_pertence tb_Visita_visitante_pertence[]
-  tb_cod_acesso_area           tb_Cod_acesso_area[]
 }
 
-model tb_Cod_acesso_area {
-  codId      Int         @id @default(autoincrement())
-  tb_visitas tb_Visitas? @relation(fields: [fk_visita], references: [visitaId])
-  fk_visita  Int
-  cod        String      @default("0001")
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-}
 
 model tb_Visita_visitantes {
   visita_visitantesId                  Int                                   @id @default(autoincrement())
@@ -260,6 +252,7 @@ model tb_Visita_visitantes {
   num_passe_acesso                     String
   tb_situacao_visitante                tb_Situacao_visitante?                @relation(fields: [fk_situacao_visitante], references: [situacaoId])
   fk_situacao_visitante                Int
+  cod_acess        String?      @default("DDT1")
   createdAt                            DateTime                              @default(now())
   updatedAt                            DateTime                              @updatedAt
 }

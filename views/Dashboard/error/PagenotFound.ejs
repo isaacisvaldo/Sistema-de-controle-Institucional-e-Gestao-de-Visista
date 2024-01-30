@@ -41,17 +41,7 @@
         <!-- End Navbar Vertical Toggle -->
 
         <!-- Content -->
-        <% if(user.designacaoGrupo=="Escala de serviço") {%> 
-          <%-  include('../partials/escalas/content') %>
-           <% }else if(user.designacaoGrupo=="Gestão de Visitas"){%>
-            <%-include('../partials/visitas/content') %>
-            <% }else if(user.designacaoGrupo=="Posto Médico"){%>
-              <%-include('../partials/clinic/content') %>
-             <% }else{%>
-             <%-  include('../partials/admin/content') %> 
-             <% } %>
-      
-      
+        <%- include('../middlewares/middlewares.ejs') %>
         <!-- End Content -->
         <!-- Footer -->
         <div class="navbar-vertical-footer">

@@ -1,12 +1,13 @@
 
-import prisma from "../../../config/lib/prisma";
+
+import prisma from "../../../../config/lib/prisma";
 import { Visita } from "../dto/visita.dto";
 
 
 export const VisitaRepository = {
   async persistDataVisita(data: Visita) {
     try {
-      const visita = await prisma.visitas.create({data});
+      const visita = await prisma.tb_Visitas.create({data});
       return { sucess: " Cadastrado !", visita };
     } catch (error) {
       console.log(error);
@@ -18,9 +19,9 @@ export const VisitaRepository = {
 
   async deletevisita(id: number) {
     try {
-      await prisma.visitas.delete({
+      await prisma.tb_Visitas.delete({
         where: {
-          visitaID: id,
+          visitaId: id,
         },
       });
       return { sucess: "visitante Deletado !" };
