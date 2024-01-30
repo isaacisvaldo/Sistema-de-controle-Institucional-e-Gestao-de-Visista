@@ -4,5 +4,6 @@ import { userAuth } from "../../../utils/middlewares/session";
 
 const visitasRouter = Router()
 visitasRouter.get('/painelVisitas',userAuth,visitasController.PainelVisitas)
+visitasRouter.get('/Visitas',userAuth,visitasController.Visitas)
 
 export default visitasRouter;

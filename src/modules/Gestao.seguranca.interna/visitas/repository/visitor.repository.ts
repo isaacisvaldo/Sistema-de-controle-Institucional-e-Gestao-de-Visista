@@ -16,7 +16,6 @@ export const VisitorRepository = {
       const visitor = await prisma.tb_Visitas.findMany({
         include: {
           tb_area: true,
-
           tb_Tipo_visita: true,
         },
       });

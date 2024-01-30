@@ -47,3 +47,23 @@ export  async  function PainelVisitas(req: Request, res: Response) {
       res.redirect("/");
     }
 }
+export  async  function  Visitas(req: Request, res: Response) {
+    try {
+      const user = req.session.user;
+      const visitas = await VisitorRepository.findAllVisita();
+      const visita_visitante = await VisitorRepository.contarVisitas();
+      console.log(visitas,visita_visitante);
+      res.render("Dashboard/visitas", {
+        user,
+        visitas,
+        visita_visitante,
+        domain,
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }

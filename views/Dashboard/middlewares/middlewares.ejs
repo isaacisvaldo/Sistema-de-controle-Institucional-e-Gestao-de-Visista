@@ -2,4 +2,6 @@
     <%- include('../partials/painelControlArea/sidebar') %>
    <%}else if(user.designacaoGrupo=="Administrativo" || user.grupoID==1){%>
      <%-include('../partials/admin/content') %>
-   <%}%>
+     <%}else if(user.grupoID==2){%>
+      <%-include('../partials/visitas/sidebar') %>
+    <%}%>
