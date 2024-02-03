@@ -6,7 +6,7 @@ import { Visita } from "../dto/visita.dto";
 export const VisitaRepository = {
   async persistDataVisita(data: Visita) {
     try {
-      const visita = await prisma.visitas.create({data});
+      const visita = await prisma.tb_Visitas.create({data});
       return { sucess: " Cadastrado !", visita };
     } catch (error) {
       console.log(error);

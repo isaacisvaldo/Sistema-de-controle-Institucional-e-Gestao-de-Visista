@@ -70,7 +70,17 @@
             </div>
             <!-- End Col -->
 
-
+            <% if(user.grupoID==2||user.designacao=="Gestão de Visitas"){%>
+              <div class="col-auto">
+                <a
+                  class="btn btn-primary"
+                  href="/visitas/FormCrVisita"
+                
+                >
+                  <i class="bi-person-plus-fill me-1"></i> Registrar Visita
+                </a>
+              </div> 
+            <%  } %>
             <!-- End Col -->
           </div>
           <!-- End Row -->
