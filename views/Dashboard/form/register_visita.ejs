@@ -245,6 +245,7 @@
                         <!-- End Progress -->
     
                         <!-- Body -->
+                        <a href="" onclick="finalizar()" >
                         <div class="card-body">
                           <div class="row align-items-center text-start mb-4">
                             <div class="col">
@@ -256,17 +257,18 @@
                             <h2 class="mb-1"> Finalizar Visita</h2>
                           </div>
                           <div class="d-flex justify-content-center">
-                             <a href="" onclick="finalizar()" >
+                             
                             <div class="d-flex justify-content-center mb-2">
                   
                               <img class="avatar avatar-lg" src="https://media.istockphoto.com/id/1131230925/pt/vetorial/check-marks-red-cross-icon-simple-vector.jpg?s=1024x1024&w=is&k=20&c=0GzCAGeInAAbxHw97a6bPpyYCqYlh7QRqT1O-uVSPuE=" alt="Image Description">
                             </div>
-                          </a>
+                         
                           
                           </div>
     
                          
                         </div>
+                      </a>
                       
                       </div>
                       <!-- End Card -->
@@ -487,10 +489,12 @@
             centeredButton.style.display = "block";
           }
            function showCenteredButton() {
+           
             const initialButton = document.getElementById("initial-button");
             const centeredButton = document.getElementById("centered-button");
             initialButton.style.display = "none";
             centeredButton.style.display = "block";
+          
        
             const area_visitado = document.getElementById('area_visitado').value;
           const tipo_visita = document.getElementsByName('tipo_visita')
