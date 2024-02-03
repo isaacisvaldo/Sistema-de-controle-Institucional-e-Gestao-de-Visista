@@ -1,6 +1,6 @@
 
 import { Response, Request } from "express";
-import { visitorService } from "../visitor.service";
+import { visitorService } from "../../../../../../src/modules/Gestao.seguranca.interna/visitas/visitor.service";
 
 import { areaRepository } from "../../auxilary/areas/repository/areas.repository";
 import { VisitaRepository } from "../repository/visita.repository";

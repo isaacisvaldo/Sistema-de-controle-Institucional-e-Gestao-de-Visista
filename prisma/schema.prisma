@@ -249,7 +249,6 @@ model tb_Visita_visitantes {
   hora_saida                           String
   tb_Tipos_doc_identificacao_visitante tb_Tipos_doc_identificacao_visitante? @relation(fields: [fk_tp_identificacao], references: [tipo_identifiId])
   fk_tp_identificacao                  Int
-  num_passe_acesso                     String
   tb_situacao_visitante                tb_Situacao_visitante?                @relation(fields: [fk_situacao_visitante], references: [situacaoId])
   fk_situacao_visitante                Int
   cod_acess        String?      @default("DDT1")

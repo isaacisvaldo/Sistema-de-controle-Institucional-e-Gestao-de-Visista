@@ -10,6 +10,6 @@
   },
   "include":[
     "src/**/*.ts",
-    "prisma/**/*.ts",
+    "prisma/**/*.ts", "../src/modules/Gestao.seguranca.interna/visitas/visitor.service.ts",
   ]
 }

@@ -63,33 +63,21 @@
       <!-- Content -->
       <div class="content container-fluid">
         <!-- Page Header -->
-        <div class="page-header">
-          <div class="row align-items-center">
-            <div class="col">
-              <h1 class="page-header-title">Visitas</h1>
-            </div>
-            <!-- End Col -->
-
-            <% if(user.grupoID==2||user.designacao=="Gestão de Visitas"){%>
-              <div class="col-auto">
-                <a
-                  class="btn btn-primary"
-                  href="/visitas/FormCrVisita"
-                
-                >
-                  <i class="bi-person-plus-fill me-1"></i> Registrar Visita
-                </a>
-              </div> 
-            <%  } %>
-            <!-- End Col -->
-          </div>
-          <!-- End Row -->
-        </div>
+      
         <!-- End Page Header -->
         <div class="row">
          
-      
+          <div class="col-lg-12">
+            <div class="card " style="max-width: 200rem;">
+              <div class="card-body">
+                <span class="card-subtitle"><%=visita.tb_Tipo_visita.designacao %></span>
+                <h3 class="card-title"><%=visita.tb_area.sigla  %></h3>
+                <p class="card-text"><%=visita.tb_area.nome%>.</p>
+                
+              </div>
+            </div>
         <!-- Stats -->
+        <br>
         <div class="card">
           <!-- Header -->
           <div class="card-header card-header-content-md-between">
@@ -139,7 +127,7 @@
                       <label class="form-check-label" for="datatableCheckAll"></label>
                     </div>
                   </th>
-                  <th class="table-column-ps-0">Código Visita</th>
+                  <th class="table-column-ps-0">Código Acesso</th>
                   <th>Hora de Entrada</th>
                   <th>Hora de Saída </th>
                   <th>Visitante</th>
@@ -152,7 +140,7 @@
               </thead>
   
               <tbody>
-                <% visita_visitante.forEach(element => { %>
+                <% visita_visitante.forEach(e => { %>
                   <tr>
                     <td class="table-column-pe-0">
                       <div class="form-check">
@@ -161,47 +149,64 @@
                       </div>
                     </td>
                     <td class="table-column-ps-0">
-                      <a class="text-danger" href="ecommerce-order-details.html">#35378</a>
+                      <a class="text-danger" href="ecommerce-order-details.html"> <%- visita.cod_Visita  %></a>
                       <i class="bi-exclamation-diamond-fill text-warning"></i>
                     </td>
-                    <td>Aug 17, 2020, 12:56 (ET)</td>
-                    <td class="text-danger">No customer</td>
+                    <td><%- e.hora_entrada  %></td>
+                    <td><%- e.hora_saida %></td>
+                  
+                    <td><%- e.tb_visitantes.nome %> <%- e.tb_visitantes.sobrenome %></td>
                     <td>
                       <span class="badge bg-soft-warning text-warning">
-                        <span class="legend-indicator bg-warning"></span>Pending
-                      </span>
-                    </td>
-                    <td>
-                      <span class="badge bg-soft-warning text-warning">
-                        <span class="legend-indicator bg-warning"></span>Pending
+                        <span class="legend-indicator bg-warning"></span><%- e.tb_situacao_visitante.designacao %>
                       </span>
                     </td>
                     <td>
                       <span class="badge bg-soft-dark text-dark">
-                        <span class="legend-indicator bg-dark"></span>Unfulfilled
+                        <span class="legend-indicator bg-dark"></span></span><%- e.cod_acess %>
                       </span>
                     </td>
                     <td>
                       <div class="d-flex align-items-center">
-                        <img class="avatar avatar-xss avatar-4x3 me-2" src="assets/svg/brands/mastercard.svg" alt="Image Description">
-                        <span class="text-dark">&bull;&bull;&bull;&bull; 9901</span>
+                       
+                        <span class="text-dark">&bull;&bull;&bull;&bull;  <%- visita.tb_Tipo_visita.designacao  %></a></span>
                       </div>
                     </td>
                    
                     <td>
-                      <div class="btn-group" role="group">
-                        <a class="btn btn-white btn-sm" href="/visitas/Visita/<%-element.visitaId %>">
-                          <i class="bi-eye"></i> View
-                        </a>
-    
                      
+                      <div class="btn-group" role="group">  
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-white btn-icon btn-sm dropdown-toggle dropdown-toggle-empty" id="productsEditDropdown19" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                          <div class="dropdown-menu dropdown-end-end mt-1" aria-labelledby="productsEditDropdown19">
+                            <%if(user.grupoID==2){%>
+                              <% if(e.tb_situacao_visitante.situacaoId ==2 && user.grupoID==2){%>
+                                <a class="dropdown-item" onclick="confirmar( `<%=e.visita_visitantesId%>`,3,`<%=e.fk_visita%>`)" >
+                                <i class="bi-eyes dropdown-item-icon"></i> Atendido
+                                </a>  
+                              <%}else if(e.tb_situacao_visitante.situacaoId ==3 && user.grupoID==2){%>
+                               <a class="dropdown-item" onclick="confirmar(`<%=e.visita_visitantesId%>`,4,`<%=e.fk_visita%>`)">
+                               <i class="bi-eyes dropdown-item-icon"></i> Despachado</a>
+                                <%} else if(user.grupoID==2 && e.tb_situacao_visitante.situacaoId ==4){%>
+                                 <a class="dropdown-item" onclick="confirmar(`<%=e.visita_visitantesId%>`,5,
+                               `<%=e.fk_visita%>`)">
+                               <i class="bi-eyes dropdown-item-icon"></i>Terminada </a>
+                               <% } else {%>
+                                 <i class="bi-eyes dropdown-item-icon"></i>... </a>
+                                <% }%>
+                                  <%} else{%>
+                                     <i class="bi-eyes dropdown-item-icon"></i>...
+                                 <% }%>
+                                
+                          </div>
+                        </div>
                       </div>
-                    </td>
+                  </td>
                   </tr>
                   <% })%>
               
   
-              
+               
   
               </tbody>
             </table>
@@ -272,7 +277,7 @@
 
     <!-- Builder -->
 
-    <script src="/assets/js/demo.js"></script>
+    <script src="7assets/js/demo.js"></script>
 
     <!-- END ONLY DEV -->
 
@@ -288,8 +293,10 @@
     <!-- JS Front -->
     <script src="/assets/js/theme.min.js"></script>
     <script src="assets/js/hs.theme-appearance-charts.js"></script>
+    <input type="hidden" id="domainID" value="<%= domain%>" />
+    <%- include('./alerts/alerts') %>
 
-
+    <!-- JS Plugins Init. -->
     <script>
       $(document).on('ready', function () {
         // INITIALIZATION OF DATERANGEPICKER
@@ -548,6 +555,54 @@
 
 
 
+<script>
+  const domain =document.getElementById('domainID').value;
+
+  function confirmar(id,Stats,visita){
+    
+    Swal.fire({
+      title: `Deseja Alterar Este Estado ? ${visita}`,
+    icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor:'#3085d6',
+      cancelButtonColor:'#d33',
+      confirmButtonText: 'Confirmar',
+    
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below   */
+      if (result.isConfirmed) {
+          const data={
+              visitaVisitanteId:id,status:Stats,visita:visita
+          }
+   fetch(`${domain}/visitas/Visitante_changestatusAuto`, {
+              method: 'POST',
+    headers: {
+      "Content-Type": "application/json", // Tipo de conteúdo do corpo da requisição
+    },
+    body: JSON.stringify(data),
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error('Erro ao obter os dados');
+  }
+  return response.json(); 
+})
+.then(dataResponse => {
+
+console.log(dataResponse)
+window.location = `/visitas/Visita/${dataResponse.data[0].fk_visita}`;
+})
+.catch(error => {
+
+  console.error('Ocorreu um erro:', error);
+});
+    
+      } else if (result.isDenied) {
+        Swal.fire('Erro ao eliminar', '', 'info')
+      }
+    })
+      }
+    </script>
   </body>
 
 
