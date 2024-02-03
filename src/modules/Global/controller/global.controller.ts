@@ -1,13 +1,11 @@
 import { Response, Request } from "express";
-import { hash } from "bcryptjs";
-import { domain } from "../../../config/baseUrl/url";
-import { auxRepository } from "../repository/aux.repository";
+import { globalRepository } from "../repository/global.repository";
 
 
 export async function OrgaoList(req: Request, res: Response) {
   try {
     const user = req.session.user;
-const orgao = await auxRepository.findAllOrgao()
+const orgao = await globalRepository.findAllOrgao()
     res.render("Dashboard/orgaos", {user,orgao });
   } catch (error) {
     console.log(error);

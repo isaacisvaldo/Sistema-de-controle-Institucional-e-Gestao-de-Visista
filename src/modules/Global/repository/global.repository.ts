@@ -1,10 +1,8 @@
 import prisma from "../../../config/lib/prisma";
-import { User } from "../dto/aux.dto";
-import { Logs } from "../types/types";
 
 
 
-export const auxRepository = {
+export const globalRepository = {
 
 
     //Auxilares
