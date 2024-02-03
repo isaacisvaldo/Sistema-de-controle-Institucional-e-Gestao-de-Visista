@@ -3,8 +3,8 @@ import userRouter from "../modules/Gestao.users/user.routes";
 import funcionarioRouter from "../modules/Gestao.funcionarios/funcionario.router";
 import { userAuth } from "../utils/middlewares/session";
 import areasRouter from "../modules/Gestao.areas/areas.routes";
-import auxRouter from "../modules/Gestao.auxiliares/aux.routes";
 import visitasRouter from "../modules/Gestao.seguranca.interna/visitas/visitas.routes";
+import auxRouter from "../modules/Global/global.routes";
 const routes = Router()
 routes.use('/user',userRouter)
 routes.use('/funcionario',funcionarioRouter)

@@ -3,19 +3,10 @@
 
 <%- include('../partials/geral/head') %>
 <style>
- #centered-button{
+   #centered-button {
     display: none;
-    position: fixed;
-    bottom: 10%; /* Define a distância do botão em relação ao fundo da janela */
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px; /* Espaçamento interno do botão */
-    font-size: 16px; /* Tamanho da fonte do botão */
-    color: #fff; /* Cor do texto do botão */
-    border: none; /* Remover a borda do botão */
-    cursor: pointer;
-    z-index: 1; /* Defina um índice Z para garantir que o botão esteja na parte superior */
-}
+    }
+
 
 /* Estilos responsivos para o botão */
 @media (max-width: 768px) {
@@ -28,8 +19,8 @@
 
   <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
 
-    <script src="assets/js/hs.theme-appearance.js"></script>
-    <script src="assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+    <script src="/assets/js/hs.theme-appearance.js"></script>
+    <script src="/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
     <!-- ========== HEADER ========== -->
     <header id="header"
       class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
@@ -70,22 +61,7 @@
             <!-- End Navbar Vertical Toggle -->
 
             <!-- Content -->
-            <% if(user.designacaoGrupo=="Escala de serviço" ) {%>
-              <%- include('../partials/escalas/content') %>
-                <% }else if(user.designacaoGrupo=="Gestão de Visitas" ){%>
-                  <%-include('.. /partials/visitas/content') %>
-                    <% }else if(user.designacaoGrupo=="Posto Médico" ){%>
-                      <%-include('.. /partials/clinic/content') %>
-                        <% }else{%>
-                          <%- include('../partials/admin/content') %>
-                            <% } %>
-
-                              <!-- End Content -->
-                              <!-- Footer -->
-                              <div class="navbar-vertical-footer">
-                                <ul class="navbar-vertical-footer-list">
-                                </ul>
-                              </div>
+            <%- include('../middlewares/middlewares.ejs') %>
                               <!-- End Footer -->
         </div>
       </div>
@@ -137,8 +113,8 @@
 
                         <!-- Select -->
                           <select class="form-control" id="area_visitado" name="area">
-                            <% area.forEach(element=> { %>
-                              <option value="<%= element.areaID %>">
+                            <% areas.forEach(element=> { %>
+                              <option value="<%= element.areaId %>">
                                 <%= element.nome %>
                               </option>
                               <% }) %>
@@ -157,9 +133,9 @@
                         <br><br>
                           <% type.forEach((element, index)=> { %>
                             <% if (index==0) { %>
-                              <%= element.designacao %> <input class="mx-2" type="radio" checked value="<%= element.tipo_visitaID %>" name="tipo_visita" id=""> 
+                              <%= element.designacao %> <input class="mx-2" type="radio" checked value="<%= element.tipo_visitaId %>" name="tipo_visita" id=""> 
                             <% }else{%>
-                              <%= element.designacao %> <input   class="mx-2" type="radio" value="<%= element.tipo_visitaID %>" name="tipo_visita" id=""> 
+                              <%= element.designacao %> <input   class="mx-2" type="radio" value="<%= element.tipo_visitaId %>" name="tipo_visita" id=""> 
                             <% } %>
                           <% }) %>
                           <button id="initial-button" onclick="showCenteredButton()" class="btn btn-primary">Visitantes</button>
@@ -180,8 +156,136 @@
 
 
              <div  id="centered-button">
-              <button type="button"   class="btn btn-primary mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">  <i class="bi-plus"></i>Visitante</button>
-              <button type="button"  onclick="finalizar()"  class="btn btn-danger mb-1"  > Finalizar </button>
+              <div class="tab-content" id="">
+                <div >
+                  <div class="row row-cols-1 row-cols-md-3">
+                  
+    
+                    <div class="col mb-3 mb-lg-5">
+                      <!-- Card -->
+                      <div class="card card-hover-shadow text-center h-100">
+                        <!-- Progress -->
+                        <div class="card-progress-wrap">
+                          <div class="progress card-progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                        <!-- End Progress -->
+    
+                        <!-- Body -->
+                        <a href="#"  data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
+                        <div class="card-body">
+                          <div class="row align-items-center text-start mb-4">
+                            <div class="col">
+                              <span class="badge bg-soft-success text-success p-2">Completed</span>
+                            </div>
+                          </div>
+                          <div class="mb-4">
+                            <h2 class="mb-1">Cadatro de Visitantes</h2>
+    
+                            <span class="fs-5">Updated 1 day ago</span>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center mb-2">           
+                              <img class="avatar avatar-lg" src="/assets/svg/brands/capsule-icon.svg" alt="Image Description">
+                            </div>
+                          </div>
+    
+                          
+                        </div>
+                      </a>
+                    
+                      </div>
+                      <!-- End Card -->
+                    </div>
+    
+                    <div class="col mb-3 mb-lg-5">
+                      <!-- Card -->
+                      <div class="card card-hover-shadow text-center h-100">
+                        <!-- Progress -->
+                        <div class="card-progress-wrap">
+                          <div class="progress card-progress">
+                            <div class="progress-bar" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row align-items-center text-start mb-4">
+                            <div class="col">
+                              <span class="badge bg-soft-primary text-primary p-2">In progress</span>
+                              
+                            </div>
+                          </div>
+    
+                        
+    
+                          <div class="mb-4">
+                            <h2 class="mb-1">Pré-cadastra Visitantes</h2>
+    
+                            <span class="fs-5">Updated 1 day ago</span>
+                          </div>
+    
+                         
+    
+                          <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center mb-2">
+                              <!-- Avatar -->
+                              <img class="avatar avatar-lg" src="/assets/svg/brands/prosperops-icon.svg" alt="Image Description">
+                            </div>
+                          </div>
+    
+                        </div>
+                       
+                      </div>
+                      <!-- End Card -->
+                    </div>
+    
+                    <div class="col mb-3 mb-lg-5">
+                      <!-- Card -->
+                      <div class="card card-hover-shadow text-center h-100">
+                        <!-- Progress -->
+                        <div class="card-progress-wrap">
+                          <div class="progress card-progress">
+                            <div class="progress-bar" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                        <!-- End Progress -->
+    
+                        <!-- Body -->
+                        <div class="card-body">
+                          <div class="row align-items-center text-start mb-4">
+                            <div class="col">
+                              <span class="badge bg-soft-primary text-primary p-2">Finished</span>
+                            </div>
+                           
+                          </div>
+                          <div class="mb-4">
+                            <h2 class="mb-1"> Finalizar Visita</h2>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                             <a href="" onclick="finalizar()" >
+                            <div class="d-flex justify-content-center mb-2">
+                              <i class="bi bi-terminal-x"></i>
+                              <img class="avatar avatar-lg" src="/assets/svg/brands/prosperops-icon.svg" alt="Image Description">
+                            </div>
+                          </a>
+                          
+                          </div>
+    
+                         
+                        </div>
+                      
+                      </div>
+                      <!-- End Card -->
+                    </div>
+                  
+                  </div>
+               
+                </div>
+    
+              
+              </div>
+              
+          
             </div>
 
             
@@ -214,7 +318,7 @@
                                   <label for="categoryLabel" class="form-label">Documento</label>
                                   <br>
                                
-                                    <% tipo_v.forEach((element, index)=> { %>
+                                    <% type_doc.forEach((element, index)=> { %>
                                       <% if (index==0) { %>
                                      <input class="mx-2" type="radio" checked value="<%= element.tipo_identifiID %>" name="documentType" id="">    <%= element.designacao %> 
                                       <% }else{%>
@@ -416,12 +520,12 @@
             },
             body: JSON.stringify(data),
           };
-          fetch(`${domain}/visita`, options)
+          fetch(`${domain}/visitas/CrVisita`, options)
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
            
-              localStorage.setItem('visitaId', data.visita.visita.visitaID);
+              localStorage.setItem('visitaId', data.visita.visita.visitaId);
              
             }).catch((error) => {
               console.log(error)
@@ -616,7 +720,7 @@
         console.log(localStorage.getItem('visitaId'));
         let id =localStorage.getItem('visitaId')
 
- fetch(`${domain}/visitanteschangestatus/${id}`, {
+ fetch(`${domain}/visitas/visitanteschangestatus/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json' 
@@ -631,7 +735,7 @@
   })
   .then(dataResponse => {
    localStorage.clear();
-   window.location="/Visitas" 
+   window.location="/visitas/Visitas" 
  console.log(dataResponse)
   })
   .catch(error => {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as auxController from './controller/aux.controller';
+import * as auxController from './controller/global.controller';
 import multer from 'multer';
 import { sessionVerify, userAuth } from "../../utils/middlewares/session";
 import configureMulter from "../../utils/middlewares/fileUpload";

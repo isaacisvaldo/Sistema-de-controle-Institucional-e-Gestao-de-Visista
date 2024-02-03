@@ -227,7 +227,7 @@ model tb_Visitante_identificacao {
 model tb_Visitas {
   visitaId                     Int                            @id @default(autoincrement())
   data_visita                  String
- tb_area          tb_Area?        @relation(fields: [fk_area], references: [areaId])
+  tb_area          tb_Area?        @relation(fields: [fk_area], references: [areaId])
   fk_area        Int 
   tb_Tipo_visita               tb_Tipo_visita?                @relation(fields: [fk_tipo_visita], references: [tipo_visitaId], onDelete: Cascade, onUpdate: Cascade)
   fk_tipo_visita               Int
