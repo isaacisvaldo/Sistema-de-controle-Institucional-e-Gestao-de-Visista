@@ -314,9 +314,9 @@
                                
                                     <% type_doc.forEach((element, index)=> { %>
                                       <% if (index==0) { %>
-                                     <input class="mx-2" type="radio" checked value="<%= element.tipo_identifiID %>" name="documentType" id="">    <%= element.designacao %> 
+                                     <input class="mx-2" type="radio" checked value="<%= element.tipo_identifiId %>" name="documentType" id="">    <%= element.designacao %> 
                                       <% }else{%>
-                                       <input   class="mx-2" type="radio" value="<%= element.tipo_identifiID %>" name="documentType" id="">    <%= element.designacao %> 
+                                       <input   class="mx-2" type="radio" value="<%= element.tipo_identifiId %>" name="documentType" id="">    <%= element.designacao %> 
                                       <% } %>
                                      <br>
                                     <% }) %>
@@ -385,7 +385,7 @@
 
                                   <% pertences.forEach(element => { %>
                                     <label>
-                                      <input type="checkbox"  name="pertences" value="<%=element.pertenceID %>"><%=element.designacao %>
+                                      <input type="checkbox"  name="pertences" value="<%=element.pertenceId %>"><%=element.designacao %>
                                     </label>
                                     <br>
                                   <% }) %>
@@ -599,7 +599,7 @@
             },
             body: JSON.stringify(data),
           };
-          fetch(`${domain}/Add_visitor`, options)
+          fetch(`${domain}/visitas/addVisitantes`, options)
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
@@ -609,7 +609,7 @@
             }else{
               document.getElementById('result').innerHTML =data.sucess;
               document.getElementById('result').setAttribute('class', 'text-success')
-              window.location="/Form_Add_Visita"
+              window.location="/visitas/FormCrVisita"
             }
                       
             }).catch((error) => {
@@ -711,7 +711,7 @@
       </script>
     <script>
       function  finalizar(){
-        console.log(localStorage.getItem('visitaId'));
+      console.log(localStorage.getItem('visitaId'));
         let id =localStorage.getItem('visitaId')
 
  fetch(`${domain}/visitas/visitanteschangestatus/${id}`, {
