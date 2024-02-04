@@ -8,9 +8,9 @@ export interface UserSessionData {
     status_ative: boolean;
     perfilID: number;
     grupoID: number;
-    areaId:number
+    areaId:number | undefined;
     situacao_funcionario: string | undefined;
-    departamento: string | undefined;
+    area_name: string | undefined;
     nip: string | undefined;
     sigla_area: string | undefined;
     orgao: string | undefined;

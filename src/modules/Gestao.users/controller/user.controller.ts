@@ -59,7 +59,7 @@ export async function sigin(req: Request, res: Response) {
           perfilID: user.fk_perfil,
           grupoID: user.fk_grupo,
           situacao_funcionario: user.tb_funcionario?.tb_situacao_funcionario?.designacao,
-          area: user.tb_funcionario?.tb_area?.nome,
+          area_name: user.tb_funcionario?.tb_area?.nome,
           nip: user.tb_funcionario?.nip,
           areaId:user.tb_funcionario?.fk_area,
           sigla_area: user.tb_funcionario?.tb_area?.sigla,
