@@ -87,12 +87,12 @@
                   <div class="row col-divider">
                     <div class="col text-end">
                     
-                      <span class="d-block">change</span>
+                      <span class="d-block">Total</span>
                     </div>
     
                     <div class="col text-start">
                      
-                      <span class="d-block">last week</span>
+                      <span class="d-block">Serviço</span>
                     </div>
                   </div>
                   <!-- End Row -->
@@ -111,12 +111,12 @@
                   <div class="row col-divider">
                     <div class="col text-end">
                     
-                      <span class="d-block">change</span>
+                      <span class="d-block">Total</span>
                     </div>
     
                     <div class="col text-start">
                      
-                      <span class="d-block">last week</span>
+                      <span class="d-block"> Pessoal </span>
                     </div>
                   </div>
                   <!-- End Row -->
@@ -136,12 +136,12 @@
                   <div class="row col-divider">
                     <div class="col text-end">
                     
-                      <span class="d-block">change</span>
+                      <span class="d-block">Pessoal</span>
                     </div>
     
                     <div class="col text-start">
                      
-                      <span class="d-block">last week</span>
+                      <span class="d-block"> Serviço</span>
                     </div>
                   </div>
                   <!-- End Row -->
@@ -177,96 +177,87 @@
           <!-- Table -->
           <div class="table-responsive datatable-custom">
             <table id="datatable" class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table" style="width: 100%" data-hs-datatables-options='{
-                     "columnDefs": [{
-                        "targets": [0],
-                        "orderable": false
-                      }],
-                     "order": [],
-                     "info": {
-                       "totalQty": "#datatableWithPaginationInfoTotalQty"
-                     },
-                     "search": "#datatableSearch",
-                     "entries": "#datatableEntries",
-                     "pageLength": 12,
-                     "isResponsive": false,
-                     "isShowPaging": false,
-                     "pagination": "datatablePagination"
-                   }'>
-              <thead class="thead-light">
-               
-                <tr>
-                  <th class="table-column-pe-0">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="datatableCheckAll">
-                      <label class="form-check-label" for="datatableCheckAll"></label>
-                    </div>
-                  </th>
-                  <th class="table-column-ps-0">Código Visita</th>
-                  <th>Hora de Entrada</th>
-                  <th>Hora de Saída </th>
-                  <th>Visitante</th>
-                  <th>Estado da Visita</th>
-                  <th>Codigo de Acesso Visitante</th>
-                  <th>Tipo de Visita</th>
+              "columnDefs": [{
+                 "targets": [0],
+                 "orderable": false
+               }],
+              "order": [],
+              "info": {
+                "totalQty": "#datatableWithPaginationInfoTotalQty"
+              },
+              "search": "#datatableSearch",
+              "entries": "#datatableEntries",
+              "pageLength": 12,
+              "isResponsive": false,
+              "isShowPaging": false,
+              "pagination": "datatablePagination"
+            }'>
+       <thead class="thead-light">
+        
+         <tr>
+           <th class="table-column-pe-0">
+             <div class="form-check">
+               <input class="form-check-input" type="checkbox" value="" id="datatableCheckAll">
+               <label class="form-check-label" for="datatableCheckAll"></label>
+             </div>
+           </th>
+           <th class="table-column-ps-0">Código Visita</th>
+           <th>Data</th>
+           <th>Hora de Entrada</th>
+           <th>Hora de Saída </th>
+           <th>Visitante</th>
+           <th>Estado da Visita</th>
+           <th>Codigo de Acesso Visitante</th>
+           <th>Tipo de Visita</th>
+         
+      
+         </tr>
+       </thead>
+
+       <tbody>
+         <% visita_visitante.forEach(e => { %>
+           <tr>
+             <td class="table-column-pe-0">
+               <div class="form-check">
+                 <input type="checkbox" class="form-check-input" id="ordersCheck7">
+                 <label class="form-check-label" for="ordersCheck7"></label>
+               </div>
+             </td>
+             <td class="table-column-ps-0">
+               <a class="text-danger" href="ecommerce-order-details.html"> <%-e.tb_visitas.cod_Visita   %></a>
+               <i class="bi-exclamation-diamond-fill text-warning"></i>
+             </td>
+             <td><%- e.tb_visitas.data_visita  %></td>
+             <td><%- e.hora_entrada  %></td>
+             <td><%- e.hora_saida %></td>
+           
+             <td><%- e.tb_visitantes.nome %> <%- e.tb_visitantes.sobrenome %></td>
+             <td>
+               <span class="badge bg-soft-warning text-warning">
+                 <span class="legend-indicator bg-warning"></span><%- e.tb_situacao_visitante.designacao %>
+               </span>
+             </td>
+             <td>
+               <span class="badge bg-soft-dark text-dark">
+                 <span class="legend-indicator bg-dark"></span></span><%- e.cod_acess %>
+               </span>
+             </td>
+             <td>
+               <div class="d-flex align-items-center">
                 
-                  <th>Acção</th>
-                </tr>
-              </thead>
-  
-              <tbody>
-                <% visita_visitante.forEach(element => { %>
-                 
-                  <% })%>
-              
-  
-                  <tr>
-                    <td class="table-column-pe-0">
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="ordersCheck7">
-                        <label class="form-check-label" for="ordersCheck7"></label>
-                      </div>
-                    </td>
-                    <td class="table-column-ps-0">
-                      <a class="text-danger" href="ecommerce-order-details.html">#35378</a>
-                      <i class="bi-exclamation-diamond-fill text-warning"></i>
-                    </td>
-                    <td>Aug 17, 2020, 12:56 (ET)</td>
-                    <td class="text-danger">No customer</td>
-                    <td>
-                      <span class="badge bg-soft-warning text-warning">
-                        <span class="legend-indicator bg-warning"></span>Pending
-                      </span>
-                    </td>
-                    <td>
-                      <span class="badge bg-soft-warning text-warning">
-                        <span class="legend-indicator bg-warning"></span>Pending
-                      </span>
-                    </td>
-                    <td>
-                      <span class="badge bg-soft-dark text-dark">
-                        <span class="legend-indicator bg-dark"></span>Unfulfilled
-                      </span>
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <img class="avatar avatar-xss avatar-4x3 me-2" src="assets/svg/brands/mastercard.svg" alt="Image Description">
-                        <span class="text-dark">&bull;&bull;&bull;&bull; 9901</span>
-                      </div>
-                    </td>
-                   
-                    <td>
-                      <div class="btn-group" role="group">
-                        <a class="btn btn-white btn-sm" href="ecommerce-order-details.html">
-                          <i class="bi-eye"></i> View
-                        </a>
-    
-                     
-                      </div>
-                    </td>
-                  </tr>
-  
-              </tbody>
-            </table>
+                 <span class="text-dark"> <%-e.tb_visitas.tb_Tipo_visita.designacao   %></a></span>
+               </div>
+             </td>
+            
+          
+           </tr>
+           <% })%>
+       
+
+        
+
+       </tbody>
+     </table>
           </div>
           <!-- End Table -->
   

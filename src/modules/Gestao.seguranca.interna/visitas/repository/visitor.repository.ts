@@ -164,12 +164,19 @@ export const VisitorRepository = {
         where: {
           tb_visitas: {
             data_visita: today
+           
           }
         },
+        
         include: {
-          tb_visitas: true,
+          tb_visitas: {
+          include:{
+          tb_Tipo_visita:true
+          }
+          },
           tb_visitantes: true,
           tb_situacao_visitante: true,
+          
         },
       });
 

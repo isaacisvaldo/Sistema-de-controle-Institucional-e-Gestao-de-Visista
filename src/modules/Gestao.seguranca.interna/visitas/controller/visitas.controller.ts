@@ -35,7 +35,7 @@ export  async  function PainelVisitas(req: Request, res: Response) {
        
 
       })
-
+ console.log(visita_visitante)
       res.render("Dashboard/painelVisitas", {
         user,
         total,
@@ -56,12 +56,12 @@ export  async  function  Visitas(req: Request, res: Response) {
     try {
       const user = req.session.user;
       const visitas = await VisitorRepository.findAllVisita();
-      const visita_visitante = await VisitorRepository.contarVisitas();
-      console.log(visitas,visita_visitante);
+      const count = await VisitorRepository.contarVisitas();
+      console.log(visitas,count);
       res.render("Dashboard/visitas", {
         user,
         visitas,
-        visita_visitante,
+        count,
         domain,
         error: req.flash("error"),
         warning: req.flash("warning"),
