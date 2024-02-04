@@ -83,7 +83,8 @@ export async function sigin(req: Request, res: Response) {
         if(user.fk_grupo==1){
             res.redirect("/user/home");
         }else if(user.fk_grupo==5){
-         res.redirect("/areas/PainelControlArea");
+        //  res.redirect("/areas/PainelControlArea");
+         res.redirect("/user/meuPerfil"); 
         } else if(user.fk_grupo==2){
           res.redirect("/visitas/painelVisitas"); 
         }else{
