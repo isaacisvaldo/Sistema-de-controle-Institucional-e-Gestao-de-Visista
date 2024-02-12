@@ -269,7 +269,7 @@ export const VisitorRepository = {
           hora_entrada: data.hora_entrada,
           fk_tp_identificacao: data.fk_tipo_identificacao,
           fk_situacao_visitante: 1,
-          cod_acess:'###',
+          cod_acess:await generateUniqueCodeVisitanteAcess(123456789,"MININT"),
           fk_visitante: visitante.visitanteId,
           fk_visita: data.visitaId,
         },
@@ -339,3 +339,7 @@ export const VisitorRepository = {
     }
   },
 };
+
+function generateUniqueCodeVisitanteAcess(arg0: number, arg1: string): any {
+  throw new Error("Function not implemented.");
+}

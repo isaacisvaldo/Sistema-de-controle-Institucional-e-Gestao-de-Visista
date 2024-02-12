@@ -152,7 +152,7 @@
   
               <tbody>
                 <% if(user.grupoID!=2){%>
-                  <% visitas.forEach(e => { %>
+                  <% visitas.reverse().forEach(e => { %>
                     <%if (user.area== e.tb_area.sigla||e.tb_area.areaId==user.areaId) {%>
                          <tr>
                       <td class="table-column-pe-0">
@@ -201,7 +201,7 @@
                    
                     <% })%>
                   <%   }else{%>
-                    <% visitas.forEach(e => { %>
+                    <% visitas.reverse().forEach(e => { %>
                       <tr>
                         <td class="table-column-pe-0">
                           <div class="form-check">
