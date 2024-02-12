@@ -142,7 +142,7 @@ export  async  function  Visitas(req: Request, res: Response) {
     try {
       const {visitaId,documentNumber,documentValid,firstName,lastName,tipo_documento,pertences, contactos} = req.body;
       console.log("Dados do corpo da requisição:", req.body);
-   const code =await generateUniqueCodeVisita()
+     const code =await generateUniqueCodeVisita()
      const data:Visitante ={
      nome: firstName,
      sobrenome: lastName,
