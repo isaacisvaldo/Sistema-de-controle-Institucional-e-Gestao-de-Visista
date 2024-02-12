@@ -59,7 +59,7 @@ export async function sigin(req: Request, res: Response) {
           perfilID: user.fk_perfil,
           grupoID: user.fk_grupo,
           situacao_funcionario: user.tb_funcionario?.tb_situacao_funcionario?.designacao,
-          area: user.tb_funcionario?.tb_area?.nome,
+          area_name: user.tb_funcionario?.tb_area?.nome,
           nip: user.tb_funcionario?.nip,
           areaId:user.tb_funcionario?.fk_area,
           sigla_area: user.tb_funcionario?.tb_area?.sigla,
@@ -83,7 +83,8 @@ export async function sigin(req: Request, res: Response) {
         if(user.fk_grupo==1){
             res.redirect("/user/home");
         }else if(user.fk_grupo==5){
-         res.redirect("/areas/PainelControlArea");
+        //  res.redirect("/areas/PainelControlArea");
+         res.redirect("/user/meuPerfil"); 
         } else if(user.fk_grupo==2){
           res.redirect("/visitas/painelVisitas"); 
         }else{
