@@ -269,7 +269,7 @@ export const VisitorRepository = {
           hora_entrada: data.hora_entrada,
           fk_tp_identificacao: data.fk_tipo_identificacao,
           fk_situacao_visitante: 1,
-          cod_acess:await generateUniqueCodeVisitanteAcess(123456789,"MININT"),
+          cod_acess:data.code,
           fk_visitante: visitante.visitanteId,
           fk_visita: data.visitaId,
         },

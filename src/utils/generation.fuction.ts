@@ -31,7 +31,7 @@ export async function generateUniqueCodeVisita(): Promise<string> {
   }
   return code;
 }
-function generateUniqueCodeVisitanteAcess(length: number, characters: string): string {
+export async function generateUniqueCodeVisitanteAcess(length: number, characters: string): Promise<string> {
   let code = '';
   for (let i = 0; i < length; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);

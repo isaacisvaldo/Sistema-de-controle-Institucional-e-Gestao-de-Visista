@@ -16,4 +16,5 @@ export interface Visitante {
   contactos: Contato[];
   pertences: Pertence[];
   visitaId: number;
+  code?: string;
 }

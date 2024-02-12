@@ -7,7 +7,7 @@ import { Visita } from "../dto/visita.dto";
 import { VisitaRepository } from "../repository/visita.repository";
 import { Visitante } from "../dto/visitor.dto";
 import { visitorService } from "../visitor.service";
-import { generateUniqueCodeVisita } from "../../../../utils/generation.fuction";
+import { generateUniqueCodeVisita, generateUniqueCodeVisitanteAcess } from "../../../../utils/generation.fuction";
 
 
 export  async  function PainelVisitas(req: Request, res: Response) {
@@ -142,6 +142,7 @@ export  async  function  Visitas(req: Request, res: Response) {
     try {
       const {visitaId,documentNumber,documentValid,firstName,lastName,tipo_documento,pertences, contactos} = req.body;
       console.log("Dados do corpo da requisição:", req.body);
+   const code =await generateUniqueCodeVisita()
      const data:Visitante ={
      nome: firstName,
      sobrenome: lastName,
@@ -151,7 +152,8 @@ export  async  function  Visitas(req: Request, res: Response) {
      Data_validade_doc:documentValid,
      contactos: contactos,
      pertences:pertences,
-     visitaId: visitaId
+     visitaId: visitaId,
+      code:code
    }
    const validate = await visitorService.ValidarDataVisitor(data)
    if(!validate.error){
