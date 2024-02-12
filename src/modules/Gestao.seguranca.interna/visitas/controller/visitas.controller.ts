@@ -27,18 +27,10 @@ export  async  function PainelVisitas(req: Request, res: Response) {
     
    
 
-      let total =0
-      visita_visitante.map(e=>{
-        if(e.tb_visitas?.data_visita==today){
-            total=total+ 1
-        }
-       
-
-      })
  console.log(visita_visitante)
       res.render("Dashboard/painelVisitas", {
         user,
-        total,
+        total:visita_visitante.length,
         v_pessoal,
         visita_visitante,
         v_servico,

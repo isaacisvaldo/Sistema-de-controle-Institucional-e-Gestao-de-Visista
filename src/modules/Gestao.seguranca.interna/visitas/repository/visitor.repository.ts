@@ -158,6 +158,7 @@ export const VisitorRepository = {
   async findAllVisitaVisitantetoday() {
 
     const today = await generateCurrentDate()
+    console.log(today);
     try {
 
       const visita_visitante = await prisma.tb_Visita_visitantes.findMany({
