@@ -7,12 +7,12 @@ import { Visita } from "../dto/visita.dto";
 import { VisitaRepository } from "../repository/visita.repository";
 import { Visitante } from "../dto/visitor.dto";
 import { visitorService } from "../visitor.service";
+import { generateUniqueCodeVisita } from "../../../../utils/generation.fuction";
 
 
 export  async  function PainelVisitas(req: Request, res: Response) {
     try {
       const user = req.session.user;
-      const today = await generateCurrentDate()
       const visita_visitante = await VisitorRepository.findAllVisitaVisitantetoday();
       const visitas = await VisitorRepository.findAllVisita();  
       let v_servico=0
@@ -121,9 +121,11 @@ export  async  function  Visitas(req: Request, res: Response) {
        const data :Visita={
         data_visita:dt_visita,
         fk_area: parseInt(fk_area_visitada),
-        fk_tipo_visita:parseInt(fk_tipo_visita)
+        fk_tipo_visita:parseInt(fk_tipo_visita),
+        cod_Visita: await generateUniqueCodeVisita()
         
         }
+        console.log(data);
         const visita = await VisitaRepository.persistDataVisita(data)
         res.json({ visita });
     
