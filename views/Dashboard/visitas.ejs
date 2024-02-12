@@ -140,11 +140,10 @@
                     </div>
                   </th>
                   <th class="table-column-ps-0">Código Visita</th>
-                  <th>Hora de Entrada</th>
-                  <th>Hora de Saída </th>
-                  <th>Visitante</th>
-                  <th>Estado da Visita</th>
-                  <th>Codigo de Acesso Visitante</th>
+                  <th>Data</th>
+                  <th>Area Visitado</th>
+                  <th>Sigla Area </th>
+                  <th>Quantidade Visitante</th>
                   <th>Tipo de Visita</th>
                 
                   <th>Acção</th>
@@ -152,53 +151,103 @@
               </thead>
   
               <tbody>
-                <% visita_visitante.forEach(element => { %>
-                  <tr>
-                    <td class="table-column-pe-0">
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="ordersCheck7">
-                        <label class="form-check-label" for="ordersCheck7"></label>
-                      </div>
-                    </td>
-                    <td class="table-column-ps-0">
-                      <a class="text-danger" href="ecommerce-order-details.html">#35378</a>
-                      <i class="bi-exclamation-diamond-fill text-warning"></i>
-                    </td>
-                    <td>Aug 17, 2020, 12:56 (ET)</td>
-                    <td class="text-danger">No customer</td>
-                    <td>
-                      <span class="badge bg-soft-warning text-warning">
-                        <span class="legend-indicator bg-warning"></span>Pending
-                      </span>
-                    </td>
-                    <td>
-                      <span class="badge bg-soft-warning text-warning">
-                        <span class="legend-indicator bg-warning"></span>Pending
-                      </span>
-                    </td>
-                    <td>
-                      <span class="badge bg-soft-dark text-dark">
-                        <span class="legend-indicator bg-dark"></span>Unfulfilled
-                      </span>
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <img class="avatar avatar-xss avatar-4x3 me-2" src="assets/svg/brands/mastercard.svg" alt="Image Description">
-                        <span class="text-dark">&bull;&bull;&bull;&bull; 9901</span>
-                      </div>
-                    </td>
-                   
-                    <td>
-                      <div class="btn-group" role="group">
-                        <a class="btn btn-white btn-sm" href="/visitas/Visita/<%-element.visitaId %>">
-                          <i class="bi-eye"></i> View
-                        </a>
-    
+                <% if(user.grupoID!=2){%>
+                  <% visitas.forEach(e => { %>
+                    <%if (user.area== e.tb_area.sigla||e.tb_area.areaId==user.areaId) {%>
+                         <tr>
+                      <td class="table-column-pe-0">
+                        <div class="form-check">
+                          <input type="checkbox" class="form-check-input" id="ordersCheck7">
+                          <label class="form-check-label" for="ordersCheck7"></label>
+                        </div>
+                      </td>
+                      <td class="table-column-ps-0">
+                        <a class="text-danger" href="ecommerce-order-details.html"> <%=e.cod_Visita %></a>
+                        <i class="bi-exclamation-diamond-fill text-warning"></i>
+                      </td>
+                      <td><%=e.data_visita%></td>
+                      <td class="text-danger"><%=e.tb_area.nome.toString().substring(0, 24)%>...</td>
+                      <td><%=e.tb_area.sigla%></td>
                      
-                      </div>
-                    </td>
-                  </tr>
-                  <% })%>
+                      <td>
+                        <% count.forEach(element => { %>
+                          <% if (e.visitaId== element.visitaId) { %>
+                    
+                              <%=element.quantidade  %>
+                         
+                          
+                        <% }%>
+                        <% })%>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <img class="avatar avatar-xss avatar-4x3 me-2" src="/assets/svg/brands/mastercard.svg" alt="Image Description">
+                          <span class="text-dark">&bull;&bull;&bull;&bull; 
+                            <%=e.tb_Tipo_visita.designacao  %></span>
+                        </div>
+                      </td>
+                     
+                      <td>
+                        <div class="btn-group" role="group">
+                          <a class="btn btn-white btn-sm" href="/visitas/Visita/<%-e.visitaId %>">
+                            <i class="bi-eye"></i> Ver
+                          </a>
+      
+                       
+                        </div>
+                      </td>
+                    </tr>
+                    <%} %>
+                   
+                    <% })%>
+                  <%   }else{%>
+                    <% visitas.forEach(e => { %>
+                      <tr>
+                        <td class="table-column-pe-0">
+                          <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="ordersCheck7">
+                            <label class="form-check-label" for="ordersCheck7"></label>
+                          </div>
+                        </td>
+                        <td class="table-column-ps-0">
+                          <a class="text-danger" href="ecommerce-order-details.html"> <%=e.cod_Visita %></a>
+                          <i class="bi-exclamation-diamond-fill text-warning"></i>
+                        </td>
+                        <td><%=e.data_visita%></td>
+                        <td class="text-danger"><%=e.tb_area.nome.toString().substring(0, 24)%>...</td>
+                        <td><%=e.tb_area.sigla%></td>
+                       
+                        <td>
+                          <% count.forEach(element => { %>
+                            <% if (e.visitaId== element.visitaId) { %>
+                      
+                                <%=element.quantidade  %>
+                           
+                            
+                          <% }%>
+                          <% })%>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img class="avatar avatar-xss avatar-4x3 me-2" src="/assets/svg/brands/mastercard.svg" alt="Image Description">
+                            <span class="text-dark">&bull;&bull;&bull;&bull; 
+                              <%=e.tb_Tipo_visita.designacao  %></span>
+                          </div>
+                        </td>
+                       
+                        <td>
+                          <div class="btn-group" role="group">
+                            <a class="btn btn-white btn-sm" href="/visitas/Visita/<%-e.visitaId %>">
+                              <i class="bi-eye"></i> Ver
+                            </a>
+        
+                         
+                          </div>
+                        </td>
+                      </tr>
+                      <% })%>
+                  <%   } %>
+              
               
   
               

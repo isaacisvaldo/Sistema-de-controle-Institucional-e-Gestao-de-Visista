@@ -79,354 +79,167 @@
 
         <!-- Stats -->
         <div class="row">
-          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+          <div class="col-md-6 col-lg-4 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="#">
-              <div class="card-body">
-                <h6 class="card-subtitle">Utilizadores ativos</h6>
-
-                <div class="row align-items-center gx-2 mb-1">
-                  <div class="col-6">
-                    <h2 class="card-title text-inherit">
-                      <%=on %>
-                    </h2>
+            <div class="card">
+              <div class="card-body text-center">
+                <small class="text-cap">Funcionarios</small>
+                <span class="js-counter d-block display-3 text-dark mb-2">     6</span>
+  
+                <div class="row col-divider">
+                  <div class="col text-end">
+                  
+                    <span class="d-block">Total</span>
                   </div>
-                  <!-- End Col -->
-
-                  <div class="col-6">
-                    <!-- Chart -->
-                    <div class="chartjs-custom" style="height: 3rem;">
-
-                    </div>
-                    <!-- End Chart -->
+  
+                  <div class="col text-start">
+                   
+                    <span class="d-block">Funcionario</span>
                   </div>
-                  <!-- End Col -->
-                </div>
-                <!-- End Row -->
-
-
-              </div>
-            </a>
-            <!-- End Card -->
-          </div>
-
-          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
-            <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="#">
-              <div class="card-body">
-                <h6 class="card-subtitle">Utilizadores inativos</h6>
-
-                <div class="row align-items-center gx-2 mb-1">
-                  <div class="col-6">
-                    <h2 class="card-title text-inherit">
-                      <%=off %>
-                    </h2>
-                  </div>
-                  <!-- End Col -->
-
-                  <div class="col-6">
-                    <!-- Chart -->
-                    <div class="chartjs-custom" style="height: 3rem;">
-
-                    </div>
-                    <!-- End Chart -->
-                  </div>
-                  <!-- End Col -->
-                </div>
-                <!-- End Row -->
-
-
-              </div>
-            </a>
-            <!-- End Card -->
-          </div>
-
-          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
-            <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="#">
-              <div class="card-body">
-                <h6 class="card-subtitle">Funcionarios</h6>
-
-                <div class="row align-items-center gx-2 mb-1">
-                  <div class="col-6">
-                    <h2 class="card-title text-inherit">
-                 <%-funcionarios.length%>
-                    </h2>
-                  </div>
-                  <!-- End Col -->
-                  <div class="col-6">
-                    <!-- Chart -->
-                    <div class="chartjs-custom" style="height: 3rem;">
-                    </div>
-                    <!-- End Chart -->
-                  </div>
-                  <!-- End Col -->
                 </div>
                 <!-- End Row -->
               </div>
-            </a>
+            </div>
             <!-- End Card -->
           </div>
-
-          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+          <!-- End Col -->
+  
+          <div class="col-md-6 col-lg-4 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="#">
-              <div class="card-body">
-                <h6 class="card-subtitle">Areas</h6>
-
-                <div class="row align-items-center gx-2 mb-1">
-                  <div class="col-6">
-                    <h2 class="card-title text-inherit">
-                    3
-                    </h2>
+            <div class="card">
+              <div class="card-body text-center">
+                <small class="text-cap"><span class="legend-indicator bg-success"></span>Utilizadores ativos</small>
+                <span class="js-counter d-block display-3 text-dark mb-2">67</span>
+                <div class="row col-divider">
+                  <div class="col text-end">
+                  
+                    <span class="d-block">Usuarios</span>
                   </div>
-
-                  <div class="col-6">
-                    <!-- Chart -->
-                    <div class="chartjs-custom" style="height: 3rem;">
-
-                    </div>
-                    <!-- End Chart -->
+  
+                  <div class="col text-start">
+                   
+                    <span class="d-block">Ativos</span>
                   </div>
-                  <!-- End Col -->
                 </div>
                 <!-- End Row -->
-
-
               </div>
-            </a>
+            </div>
             <!-- End Card -->
           </div>
+          <!-- End Col -->
+  
+          <div class="col-md-6 col-lg-4 mb-3 mb-lg-5">
+            <!-- Card -->
+            <div class="card">
+              <div class="card-body text-center">
+                <small class="text-cap"><span class="legend-indicator bg-danger"></span>Utilizadores inativos</small>
+                <span class="js-counter d-block display-3 text-dark mb-2">9</span>
+  
+                <div class="row col-divider">
+                  <div class="col text-end">
+                  
+                    <span class="d-block">Usuarios</span>
+                  </div>
+  
+                  <div class="col text-start">
+                   
+                    <span class="d-block">Inativos</span>
+                  </div>
+                </div>
+                <!-- End Row -->
+              </div>
+            </div>
+            <!-- End Card -->
+          </div>
+          <!-- End Col -->
         </div>
         <!-- End Stats -->
        
-          <div class="card mb-3 mb-lg-5">
-            <!-- Header -->
-            <div class="card-header">
-              <div class="row justify-content-between align-items-center flex-grow-1">
-                <div class="col-md">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4 class="card-header-title">Logs</h4>
-
-                    <!-- Datatable Info -->
-                    <div id="datatableCounterInfo" style="display: none;">
-                      <div class="d-flex align-items-center">
-                        <span class="fs-6 me-3">
-                          <span id="datatableCounter">0</span>
-                          Selected
-                        </span>
-                        <a class="btn btn-outline-danger btn-sm" href="javascript:;">
-                          <i class="tio-delete-outlined"></i> Delete
-                        </a>
-                      </div>
-                    </div>
-                    <!-- End Datatable Info -->
-                  </div>
-                </div>
-                <!-- End Col -->
-
-                <div class="col-auto">
-                  <!-- Filter -->
-                  <div class="row align-items-sm-center">
-                    <div class="col-sm-auto">
-                      <div class="row align-items-center gx-0">
-                        <div class="col">
-                          <span class="text-secondary me-2">Status:</span>
-                        </div>
-                        <!-- End Col -->
-
-                        <div class="col-auto">
-                          <!-- Select -->
-                          <div class="tom-select-custom tom-select-custom-end">
-                            <select
-                              class="js-select js-datatable-filter form-select form-select-sm form-select-borderless"
-                              data-target-column-index="2" data-target-table="datatable" autocomplete="off"
-                              data-hs-tom-select-options='{
-                                  "searchInDropdown": false,
-                                  "hideSearch": true,
-                                  "dropdownWidth": "10rem"
-                                }'>
-                              <option value="null" selected>All</option>
-                              <option value="successful">Successful</option>
-                              <option value="overdue">Overdue</option>
-                              <option value="pending">Pending</option>
-                            </select>
-                          </div>
-                          <!-- End Select -->
-                        </div>
-                        <!-- End Col -->
-                      </div>
-                      <!-- End Row -->
-                    </div>
-                    <!-- End Col -->
-
-                    <div class="col-sm-auto">
-                      <div class="row align-items-center gx-0">
-                        <div class="col">
-                          <span class="text-secondary me-2">Signed up:</span>
-                        </div>
-                        <!-- End Col -->
-
-                        <div class="col-auto">
-                          <!-- Select -->
-                          <div class="tom-select-custom tom-select-custom-end">
-                            <select
-                              class="js-select js-datatable-filter form-select form-select-sm form-select-borderless"
-                              data-target-column-index="5" data-target-table="datatable" autocomplete="off"
-                              data-hs-tom-select-options='{
-                                  "searchInDropdown": false,
-                                  "hideSearch": true,
-                                  "dropdownWidth": "10rem"
-                                }'>
-                              <option value="null" selected>All</option>
-                              <option value="1 year ago">1 year ago</option>
-                              <option value="6 months ago">6 months ago</option>
-                            </select>
-                          </div>
-                          <!-- End Select -->
-                        </div>
-                        <!-- End Col -->
-                      </div>
-                      <!-- End Row -->
-                    </div>
-                    <!-- End Col -->
-
-                    <div class="col-md">
-                      <form>
-                        <!-- Search -->
-                        <div class="input-group input-group-merge input-group-flush">
-                          <div class="input-group-prepend input-group-text">
-                            <i class="bi-search"></i>
-                          </div>
-                          <input id="datatableSearch" type="search" class="form-control" placeholder="Search users"
-                            aria-label="Search users">
-                        </div>
-                        <!-- End Search -->
-                      </form>
-                    </div>
-                    <!-- End Col -->
-                  </div>
-                  <!-- End Filter -->
-                </div>
-                <!-- End Col -->
+        <div class="col mb-3 mb-lg-5">
+          <!-- Card -->
+          <div class="card card-hover-shadow text-center h-100">
+            <div class="card-progress-wrap">
+              <!-- Progress -->
+              <div class="progress card-progress">
+                <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
-              <!-- End Row -->
+              <!-- End Progress -->
             </div>
-            <!-- End Header -->
 
-            <!-- Table -->
-            <div class="table-responsive datatable-custom">
-              <table id="datatable"
-                class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
-                data-hs-datatables-options='{
-                   "columnDefs": [{
-                      "targets": [0, 1, 4],
-                      "orderable": false
-                    }],
-                   "order": [],
-                   "info": {
-                     "totalQty": "#datatableWithPaginationInfoTotalQty"
-                   },
-                   "search": "#datatableSearch",
-                   "entries": "#datatableEntries",
-                   "pageLength": 8,
-                   "isResponsive": false,
-                   "isShowPaging": false,
-                   "pagination": "datatablePagination"
-                 }'>
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col" class="table-column-pe-0">
-                      <div class="form-check">
-                        
-                      </div>
-                    </th>
-                    <th class="table-column-ps-0">Full name</th>
-                    <th>Titulo</th>
-                    <th>Dispositivo</th>
-                    <th>Ip</th>
-                    <th>Descrição</th>
-                    <th>Data/Hora</th>
-                  </tr>
-                </thead>
+            <!-- Body -->
+            <div class="card-body">
+              <div class="row align-items-center text-start mb-4">
+                <div class="col">
+                  <span class="badge bg-soft-secondary text-secondary p-2">To do</span>
+                </div>
+                <!-- End Col -->
 
-                <tbody>
-                 <% logs.reverse().map(e=> {%>         
-                    <tr>
-                    <td class="table-column-pe-0">
-                   
-                    </td>
-                    <td class="table-column-ps-0">
-                      <a class="d-flex align-items-center" href="/user/log/<%-e.logId  %>">
-                        <div class="flex-shrink-0">
-                          <div class="avatar avatar-sm avatar-circle">
-                            <img class="avatar-img" src="/uploads/<%-e.tb_user.image%>" alt="Image Description">
-                          </div>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h5 class="text-inherit mb-0"><%-e.tb_user.username%><i class="bi-patch-check-fill text-primary"
-                              data-bs-toggle="tooltip" data-bs-placement="top" title="Top endorsed"></i></h5>
-                        </div>
-                      </a>
-                    </td>
-                    <td>
-                      <span class="legend-indicator bg-success"></span><%-e.titulo%>
-                    </td>
-                    <td><%-e.dispositivo%></td>
-                    <td><%-e.ip%></td>
-                    <td><%-e.descricao.toString().substring(0, 24)%>...</td>
-                    <td><%-e.createdAt.toLocaleString('pt').toString().substring(0, 24)%></td>
-                  </tr>
-               <%})%> 
-                 
-                </tbody>
-              </table>
+               
+              </div>
+
+              <div class="d-flex justify-content-center mb-2">
+                <!-- Avatar -->
+                <img class="avatar avatar-lg" src="/assets/svg/brands/google-webdev-icon.svg" alt="Image Description">
+              </div>
+
+              <div class="mb-4">
+                <h2 class="mb-1">Analise <%- user.sigla_area  %></h2>
+
+              </div>
+
+              <small class="card-subtitle">Membros</small>
+
+              <div class="d-flex justify-content-center">
+                <!-- Avatar Group -->
+                <div class="avatar-group avatar-group-sm avatar-circle card-avatar-group">
+                  <a class="avatar" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Finch Hoot">
+                    <img class="avatar-img" src="/assets/img/160x160/img5.jpg" alt="Image Description">
+                  </a>
+                  <a class="avatar avatar-soft-dark" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Bob Bardly">
+                    <span class="avatar-initials">B</span>
+                  </a>
+                  <a class="avatar" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Clarice Boone">
+                    <img class="avatar-img" src="/assets/img/160x160/img7.jpg" alt="Image Description">
+                  </a>
+                  <a class="avatar avatar-soft-dark" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Adam Keep">
+                    <span class="avatar-initials">A</span>
+                  </a>
+                </div>
+                <!-- End Avatar Group -->
+              </div>
+
+              <a class="stretched-link" href="#"></a>
             </div>
-            <!-- End Table -->
+            <!-- End Body -->
 
             <!-- Footer -->
             <div class="card-footer">
-              <!-- Pagination -->
-              <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
-                <div class="col-sm mb-2 mb-sm-0">
-                  <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-                    <span class="me-2">Showing:</span>
-
-                    <!-- Select -->
-                    <div class="tom-select-custom">
-                      <select id="datatableEntries" class="js-select form-select form-select-borderless w-auto"
-                        autocomplete="off" data-hs-tom-select-options='{
-                            "searchInDropdown": false,
-                            "hideSearch": true
-                          }'>
-                        <option value="4">4</option>
-                        <option value="6">6</option>
-                        <option value="8" selected>8</option>
-                        <option value="12">12</option>
-                      </select>
-                    </div>
-                    <!-- End Select -->
-
-                    <span class="text-secondary me-2">of</span>
-
-                    <!-- Pagination Quantity -->
-                    <span id="datatableWithPaginationInfoTotalQty"></span>
-                  </div>
+              <!-- Stats -->
+              <div class="row col-divider">
+                <div class="col">
+                  <span class="h4">0</span>
+                  <span class="d-block fs-5">Tasks</span>
                 </div>
                 <!-- End Col -->
 
-                <div class="col-sm-auto">
-                  <div class="d-flex justify-content-center justify-content-sm-end">
-                    <!-- Pagination -->
-                    <nav id="datatablePagination" aria-label="Activity pagination"></nav>
-                  </div>
+                <div class="col">
+                  <span class="h4">0</span>
+                  <span class="d-block fs-5">Completed</span>
+                </div>
+                <!-- End Col -->
+
+                <div class="col">
+                  <span class="h4">0</span>
+                  <span class="d-block fs-5">Days left</span>
                 </div>
                 <!-- End Col -->
               </div>
-              <!-- End Pagination -->
+              <!-- End Stats -->
             </div>
             <!-- End Footer -->
           </div>
+          <!-- End Card -->
+        </div>
           <!-- End Card -->
 
 

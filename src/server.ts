@@ -10,19 +10,19 @@ import session, { SessionOptions } from 'express-session';
 import {createClient} from "redis"
 import bodyParser from "body-parser";
 import cors from "cors";
-const redisClient = createClient()
-redisClient.connect().catch(console.error)
-const redisStore = new RedisStore({
-  client: redisClient,
-  prefix: "myapp:",
-})
+// const redisClient = createClient()
+// redisClient.connect().catch(console.error)
+// const redisStore = new RedisStore({
+//   client: redisClient,
+//   prefix: "myapp:",
+// })
 config();
 const main = async () => {
   const app = express();
   app.use(flash());
   app.use(
     session({
-     store: redisStore,
+    //  store: redisStore,
       secret: process.env.SESSION_PASSWORD || "Testando@##123",
       resave: false,
       saveUninitialized: false,

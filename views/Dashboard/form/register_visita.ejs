@@ -211,7 +211,9 @@
                           </div>
     
                         
-    
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAKIKeyModal">
+                            <i class="bi-plus me-1"></i> Create key
+                          </button>
                           <div class="mb-4">
                             <h2 class="mb-1">Pré-cadastra Visitantes</h2>
     
@@ -245,6 +247,7 @@
                         <!-- End Progress -->
     
                         <!-- Body -->
+                        <a href="" onclick="finalizar()" >
                         <div class="card-body">
                           <div class="row align-items-center text-start mb-4">
                             <div class="col">
@@ -256,17 +259,18 @@
                             <h2 class="mb-1"> Finalizar Visita</h2>
                           </div>
                           <div class="d-flex justify-content-center">
-                             <a href="" onclick="finalizar()" >
+                             
                             <div class="d-flex justify-content-center mb-2">
                   
                               <img class="avatar avatar-lg" src="https://media.istockphoto.com/id/1131230925/pt/vetorial/check-marks-red-cross-icon-simple-vector.jpg?s=1024x1024&w=is&k=20&c=0GzCAGeInAAbxHw97a6bPpyYCqYlh7QRqT1O-uVSPuE=" alt="Image Description">
                             </div>
-                          </a>
+                         
                           
                           </div>
     
                          
                         </div>
+                      </a>
                       
                       </div>
                       <!-- End Card -->
@@ -283,6 +287,66 @@
             </div>
 
             
+          </div>
+        </div>
+        <div class="modal fade" id="createAKIKeyModal" tabindex="-1" aria-labelledby="createAKIKeyModalLabel" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <!-- Header -->
+              <div class="modal-header">
+                <h4 class="modal-title" id="createAKIKeyModalLabel">Pre-cadastro</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <!-- End Header -->
+      
+              <!-- Body -->
+              <div class="modal-body">
+              
+                  <div class="card" id="chaveId" hidden>
+                    <div class="card-body text-center">
+                      <small class="text-cap">Chave cadastro</small>
+                      <span class="js-counter d-block display-3 text-dark mb-2"> 9  <div class="row col-divider">
+                       
+        
+                      
+                      </div>
+                      <!-- End Row -->
+                    </div>
+                  </div>
+                
+                <form id="formId">
+                  <input type="text" class="form-control" placeholder="Contacto">
+                  <br>
+                  <% pertences.forEach(element => { %>
+                    <label>
+                      <input type="checkbox"  name="pertencesPrev" value="<%=element.pertenceId %>"><%=element.designacao %>
+                    </label>
+                   
+                  <% }) %>
+                </form>
+                <!-- End Form -->
+              </div>
+              <!-- End Body -->
+      
+              <!-- Footer -->
+              <div class="modal-footer">
+                <div class="row align-items-sm-center flex-grow-1 mx-n2">
+                  <div class="col-sm mb-2 mb-sm-0">
+                  </div>
+                  <!-- End Col -->
+      
+                  <div class="col-sm-auto">
+                    <div class="d-flex gap-3">
+                      <button type="button" class="btn btn-white" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                      <button type="button" class="btn btn-primary">Obter Chave</button>
+                    </div>
+                  </div>
+                  <!-- End Col -->
+                </div>
+                <!-- End Row -->
+              </div>
+              <!-- End Footer -->
+            </div>
           </div>
         </div>
 
@@ -487,10 +551,12 @@
             centeredButton.style.display = "block";
           }
            function showCenteredButton() {
+           
             const initialButton = document.getElementById("initial-button");
             const centeredButton = document.getElementById("centered-button");
             initialButton.style.display = "none";
             centeredButton.style.display = "block";
+          
        
             const area_visitado = document.getElementById('area_visitado').value;
           const tipo_visita = document.getElementsByName('tipo_visita')
