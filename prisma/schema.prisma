@@ -46,39 +46,41 @@ model tb_Patente {
 }
 
 model tb_Categoria_area {
-  categoriaId Int      @id @default(autoincrement())
-  designacao  String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  tb_area        tb_Area[]
+  categoriaId Int       @id @default(autoincrement())
+  designacao  String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  tb_area     tb_Area[]
 }
 
 model tb_Area {
-  areaId            Int               @id @default(autoincrement())
-  nome              String            @unique
-  sigla             String            @unique
-  tb_categoria_area    tb_Categoria_area?   @relation(fields: [fk_categoria], references: [categoriaId])
-  fk_categoria      Int
+  areaId             Int                  @id @default(autoincrement())
+  nome               String               @unique
+  sigla              String               @unique
+  tb_categoria_area  tb_Categoria_area?   @relation(fields: [fk_categoria], references: [categoriaId])
+  fk_categoria       Int
   // Relacionamento unário para áreas superiores
-  areaSuperior      tb_Area?             @relation("Subordinada", fields: [areaSuperiorId], references: [areaId])
-  areaSuperiorId    Int?
+  areaSuperior       tb_Area?             @relation("Subordinada", fields: [areaSuperiorId], references: [areaId])
+  areaSuperiorId     Int?
   // Relacionamento unário para áreas subordinadas
-  areasSubordinadas tb_Area[]            @relation("Subordinada")
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  funcionario       tb_Funcionario[]
-  tb_area_chefe_area   tb_Area_Chefe_Area[]
-  tb_visitas           tb_Visitas[]
+  areasSubordinadas  tb_Area[]            @relation("Subordinada")
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  funcionario        tb_Funcionario[]
+  tb_area_chefe_area tb_Area_Chefe_Area[]
+  tb_visitas         tb_Visitas[]
 }
+
 model tb_Area_Chefe_Area {
-  Id          Int          @id @default(autoincrement())
-  tb_area          tb_Area?        @relation(fields: [fk_area], references: [areaId])
-  fk_area        Int          @unique
-  funcionario   tb_Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioId])
-  fk_funcionario Int          @unique
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  Id             Int             @id @default(autoincrement())
+  tb_area        tb_Area?        @relation(fields: [fk_area], references: [areaId])
+  fk_area        Int             @unique
+  funcionario    tb_Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioId])
+  fk_funcionario Int             @unique
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
+
 model tb_Situacao_funcionario {
   situacaoId     Int              @id @default(autoincrement())
   designacao     String           @unique
@@ -96,14 +98,13 @@ model tb_Funcionario {
   nip                     String
   tb_situacao_funcionario tb_Situacao_funcionario? @relation(fields: [fk_situacao], references: [situacaoId])
   fk_situacao             Int
-  tb_area      tb_Area? @relation(fields: [fk_area], references: [areaId])
-  fk_area Int 
+  tb_area                 tb_Area?                 @relation(fields: [fk_area], references: [areaId])
+  fk_area                 Int
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
   tb_user                 tb_User[]
   tb_contacto             tb_Contacto[]
-  tb_area_chefe_area   tb_Area_Chefe_Area[]
-  
+  tb_area_chefe_area      tb_Area_Chefe_Area[]
 }
 
 model tb_Contacto {
@@ -125,7 +126,7 @@ model tb_User {
   tb_grupo       tb_Grupo?       @relation(fields: [fk_grupo], references: [grupoId], onDelete: Cascade, onUpdate: Cascade)
   fk_grupo       Int
   password       String
-  tb_funcionario    tb_Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioId], onDelete: Cascade, onUpdate: Cascade)
+  tb_funcionario tb_Funcionario? @relation(fields: [fk_funcionario], references: [funcionarioId], onDelete: Cascade, onUpdate: Cascade)
   fk_funcionario Int
   status_ative   Boolean         @default(false)
   tb_Log         tb_Log[]
@@ -150,11 +151,12 @@ model tb_Log {
 //Gestão de visitas 
 
 model tb_Anexos {
-  anexoId    Int      @id @default(autoincrement())
-  designacao String
-  tipo       String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  anexoId            Int                  @id @default(autoincrement())
+  name               String
+  tipo               String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  tb_visitanteAnexos tb_visitanteAnexos[]
 }
 
 model tb_Pertences {
@@ -184,6 +186,7 @@ model tb_Visitantes {
   tb_visitante_identificacao   tb_Visitante_identificacao[]
   tb_visita_visitantes         tb_Visita_visitantes[]
   tb_visita_visitante_pertence tb_Visita_visitante_pertence[]
+  tb_visitanteAnexos           tb_visitanteAnexos[]
 }
 
 model tb_Situacao_visitante {
@@ -212,12 +215,22 @@ model tb_Visitante_contacto {
   updatedAt     DateTime       @updatedAt
 }
 
+model tb_visitanteAnexos {
+  visitanteAnexosId Int            @id @default(autoincrement())
+  tb_visitantes     tb_Visitantes? @relation(fields: [fk_visitante], references: [visitanteId], onDelete: Cascade, onUpdate: Cascade)
+  fk_visitante      Int
+  tb_anexos         tb_Anexos?     @relation(fields: [fk_anexo], references: [anexoId], onDelete: Cascade, onUpdate: Cascade)
+  fk_anexo          Int
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+}
+
 model tb_Visitante_identificacao {
   visit_identId                        Int                                   @id @default(autoincrement())
   num_identificacao                    String
   validade                             String
   tb_tipos_doc_identificacao_visitante tb_Tipos_doc_identificacao_visitante? @relation(fields: [fk_tipo_identificacao], references: [tipo_identifiId])
-  fk_tipo_identificacao                Int
+  fk_tipo_identificacao                Int?
   tb_visitantes                        tb_Visitantes?                        @relation(fields: [fk_visitante], references: [visitanteId], onDelete: Cascade, onUpdate: Cascade)
   fk_visitante                         Int
   createdAt                            DateTime                              @default(now())
@@ -227,17 +240,16 @@ model tb_Visitante_identificacao {
 model tb_Visitas {
   visitaId                     Int                            @id @default(autoincrement())
   data_visita                  String
-  tb_area          tb_Area?        @relation(fields: [fk_area], references: [areaId])
-  fk_area        Int 
+  tb_area                      tb_Area?                       @relation(fields: [fk_area], references: [areaId])
+  fk_area                      Int
   tb_Tipo_visita               tb_Tipo_visita?                @relation(fields: [fk_tipo_visita], references: [tipo_visitaId], onDelete: Cascade, onUpdate: Cascade)
   fk_tipo_visita               Int
-  cod_Visita        String?      @default("DDT2")
+  cod_Visita                   String?                        @default("DDT2")
   createdAt                    DateTime                       @default(now())
   updatedAt                    DateTime                       @updatedAt
   tb_visita_visitantes         tb_Visita_visitantes[]
   tb_visita_visitante_pertence tb_Visita_visitante_pertence[]
 }
-
 
 model tb_Visita_visitantes {
   visita_visitantesId                  Int                                   @id @default(autoincrement())
@@ -248,10 +260,10 @@ model tb_Visita_visitantes {
   hora_entrada                         String
   hora_saida                           String
   tb_Tipos_doc_identificacao_visitante tb_Tipos_doc_identificacao_visitante? @relation(fields: [fk_tp_identificacao], references: [tipo_identifiId])
-  fk_tp_identificacao                  Int
+  fk_tp_identificacao                  Int?
   tb_situacao_visitante                tb_Situacao_visitante?                @relation(fields: [fk_situacao_visitante], references: [situacaoId])
   fk_situacao_visitante                Int
-  cod_acess        String?      @default("DDT1")
+  cod_acess                            String?                               @default("DDT1")
   createdAt                            DateTime                              @default(now())
   updatedAt                            DateTime                              @updatedAt
 }
