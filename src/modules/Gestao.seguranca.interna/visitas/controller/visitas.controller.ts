@@ -89,12 +89,14 @@ export  async  function  Visitas(req: Request, res: Response) {
       const user = req.session.user;
       const {Id}= req.params;
       const visitantesIncompletos = await VisitorRepository.findOneVisitorIncompleted(parseInt(Id))
-    
+      const type_doc = await globalRepository.findAllTipoDocumento()
      
       res.render("Dashboard/visitanteIncompleto", {
         user, 
         visitantesIncompletos,
         domain,
+        Id,
+        type_doc,
         error: req.flash("error"),
         warning: req.flash("warning"),
         sucess: req.flash("sucess"),

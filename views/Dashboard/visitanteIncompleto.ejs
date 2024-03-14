@@ -142,9 +142,6 @@
                     <i class="bi-list-ul me-1"></i>
                   </a>
 
-                  <!-- Dropdown -->
-                
-                  <!-- End Dropdown -->
                 </div>
               </li>
             </ul>
@@ -190,8 +187,17 @@
                     <div class="col-sm-6">
                       <!-- Form -->
                       <div class="mb-4">
-                        <label for="firstNameLabel" class="form-label">First name</label>
-                        <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
+                        <label for="categoryLabel" class="form-label">Documento</label>
+                        <br>
+                     
+                          <% type_doc.forEach((element, index)=> { %>
+                            <% if (index==0) { %>
+                           <input class="mx-2" type="radio" checked value="<%= element.tipo_identifiId %>" name="documentType" id="">    <%= element.designacao %> 
+                            <% }else{%>
+                             <input   class="mx-2" type="radio" value="<%= element.tipo_identifiId %>" name="documentType" id="">    <%= element.designacao %> 
+                            <% } %>
+                           <br>
+                          <% }) %>
                       </div>
                       <!-- End Form -->
                     </div>
@@ -200,8 +206,10 @@
                     <div class="col-sm-6">
                       <!-- Form -->
                       <div class="mb-4">
-                        <label for="lastNameLabel" class="form-label">Last name</label>
-                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
+                        <label for="tagsLabel" class="form-label">Nº Documento</label>
+                                    <br>
+                                  <input type="text" class="form-control" name="Doc_number" id="documentNumber"
+                                    aria-label="Enter tags here">
                       </div>
                       <!-- End Form -->
                     </div>
@@ -209,24 +217,27 @@
                   </div>
                   <!-- End Row -->
                   <div class="row">
+
                     <div class="col-sm-6">
                       <!-- Form -->
                       <div class="mb-4">
-                        <label for="firstNameLabel" class="form-label">First name</label>
-                        <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
+                        <!-- <label for="lastNameLabel" class="form-label">Last name</label>
+                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone"> -->
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="tagsLabel" class="form-label">Validade Documento</label>
+                        <br>
+                        <input type="Date" class="form-control" name="documentValid" id="documentValid"
+                          aria-label="Enter tags here">
                       </div>
                       <!-- End Form -->
                     </div>
                     <!-- End Col -->
     
-                    <div class="col-sm-6">
-                      <!-- Form -->
-                      <div class="mb-4">
-                        <label for="lastNameLabel" class="form-label">Last name</label>
-                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
-                      </div>
-                      <!-- End Form -->
-                    </div>
                     <!-- End Col -->
                   </div>
     
@@ -234,7 +245,7 @@
                     <div class="col-sm-6">
                       <!-- Form -->
                       <div class="mb-4">
-                        <label for="firstNameLabel" class="form-label">First name</label>
+                        <label for="firstNameLabel" class="form-label">Nome</label>
                         <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
                       </div>
                       <!-- End Form -->
@@ -244,7 +255,7 @@
                     <div class="col-sm-6">
                       <!-- Form -->
                       <div class="mb-4">
-                        <label for="lastNameLabel" class="form-label">Last name</label>
+                        <label for="lastNameLabel" class="form-label">Sobrenome</label>
                         <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
                       </div>
                       <!-- End Form -->
@@ -252,29 +263,9 @@
                     <!-- End Col -->
                   </div>
     
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <!-- Form -->
-                      <div class="mb-4">
-                        <label for="firstNameLabel" class="form-label">First name</label>
-                        <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
-                      </div>
-                      <!-- End Form -->
-                    </div>
-                    <!-- End Col -->
-    
-                    <div class="col-sm-6">
-                      <!-- Form -->
-                      <div class="mb-4">
-                        <label for="lastNameLabel" class="form-label">Last name</label>
-                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
-                      </div>
-                      <!-- End Form -->
-                    </div>
-                    <!-- End Col -->
-                  </div>
+                
                   <div class="mb-4">
-                    <label for="lastNameLabel" class="form-label">Last name</label>
+                    <label for="lastNameLabel" class="form-label">Contacto</label>
                     <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
                   </div>
     
@@ -282,14 +273,14 @@
     
                   <!-- Form Check -->
                   <div class="form-check mb-4">
-                    <input class="form-check-input" type="checkbox" value="" id="marketingEmailsCheckbox">
-                    <label class="form-check-label" for="marketingEmailsCheckbox">I want to receive promotions, announcements, and marketing emails.</label>
+                    <input class="form-check-input" type="checkbox" value="" checked id="marketingEmailsCheckbox">
+                    <label class="form-check-label" for="marketingEmailsCheckbox">Atualizando os dados do visitante .</label>
                   </div>
                   <!-- End Form Check -->
     
                   <div class="d-flex justify-content-end gap-3">
-                    <button type="button" class="btn btn-white">Discard</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                  
+                    <button type="button" class="btn btn-primary">Salvar os dados </button>
                   </div>
                 </div>
                 <!-- Body -->
