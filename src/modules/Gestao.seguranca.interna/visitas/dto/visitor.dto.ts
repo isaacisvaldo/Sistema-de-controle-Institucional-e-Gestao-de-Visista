@@ -13,6 +13,7 @@ export interface Visitante {
   fk_tipo_identificacao?: any;
   num_identificacao: string;
   Data_validade_doc: string;
+  isIncompleteted?: boolean;
   contactos: Contato[];
   pertences: Pertence[];
   visitaId: number;

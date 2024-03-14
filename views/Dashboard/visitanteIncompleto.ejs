@@ -57,202 +57,264 @@
       </div>
     </aside>
 
-    <!-- End Navbar Vertical -->
+ <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content container-fluid">
+      <div class="row justify-content-lg-center">
+        <div class="col-lg-10">
+          <!-- Profile Cover -->
+          <div class="profile-cover">
+            <div class="profile-cover-img-wrapper">
+              <img id="profileCoverImg" class="profile-cover-img" src="/assets/img/logo/MININT.png" alt="Image Description">
 
-    <main id="content" role="main" class="main">
-      <!-- Content -->
-      <div class="content container-fluid">
-        <!-- Page Header -->
-      
-        <!-- End Page Header -->
-        <div class="row">
-         
-          <div class="col-lg-12">
-            <div class="card " style="max-width: 200rem;">
-              <div class="card-body">
-                <span class="card-subtitle">Visitantes com dados Incompletos </span>
-                <h3 class="card-title">#333</h3>
-                <p class="card-text">##MININT</p>
+              <!-- Custom File Cover -->
+              <div class="profile-cover-content profile-cover-uploader p-3">
+              
                 
               </div>
+              <!-- End Custom File Cover -->
             </div>
-        <!-- Stats -->
-        <br>
-        <div class="card">
-          <!-- Header -->
-          <div class="card-header card-header-content-md-between">
-            <div class="mb-2 mb-md-0">
-              <form>
-                <!-- Search -->
-                <div class="input-group input-group-merge input-group-flush">
-                  <div class="input-group-prepend input-group-text">
-                    <i class="bi-search"></i>
-                  </div>
-                  <input id="datatableSearch" type="search" class="form-control" placeholder="Search users" aria-label="Search users">
+          </div>
+          <!-- End Profile Cover -->
+
+          <!-- Profile Header -->
+          <div class="text-center mb-5">
+            <!-- Avatar -->
+            <label class="avatar avatar-xxl avatar-circle avatar-uploader profile-cover-avatar" for="editAvatarUploaderModal">
+              <img id="editAvatarImgModal" class="avatar-img" src="/uploads/" alt="Image Description">
+
+             
+            </label>
+            <!-- End Avatar -->
+
+            <h1 class="page-header-title">---<i class="bi-patch-check-fill fs-2 text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Top endorsed"></i></h1>
+
+            <!-- List -->
+            <ul class="list-inline list-px-2">
+              <li class="list-inline-item">
+                <i class="bi-building me-1"></i>
+                <span>----</span>
+                <a href="#">MININT</a>
+              </li>
+
+              <li class="list-inline-item">
+                <i class="bi-geo-alt me-1"></i>
+                <a href="#">----</a>
+               
+              </li>
+
+              <li class="list-inline-item">
+                <i class="bi-calendar-week me-1"></i>
+                <span> 2023</span>
+              </li>
+            </ul>
+            <!-- End List -->
+          </div>
+          <!-- End Profile Header -->
+
+          <!-- Nav -->
+          <div class="js-nav-scroller hs-nav-scroller-horizontal mb-5">
+            <span class="hs-nav-scroller-arrow-prev" style="display: none;">
+              <a class="hs-nav-scroller-arrow-link" href="javascript:;">
+                <i class="bi-chevron-left"></i>
+              </a>
+            </span>
+
+            <span class="hs-nav-scroller-arrow-next" style="display: none;">
+              <a class="hs-nav-scroller-arrow-link" href="javascript:;">
+                <i class="bi-chevron-right"></i>
+              </a>
+            </span>
+
+            <ul class="nav nav-tabs align-items-center">
+              <li class="nav-item">
+                <a class="nav-link active disabled" href="#">Visitante</a>
+              </li>
+             
+
+              <li class="nav-item ms-auto">
+                <div class="d-flex gap-2">
+                  <a class="btn btn-white btn-sm" href="#">
+                    <i class="bi-person-plus-fill me-1"></i> Editar visitante
+                  </a>
+
+                  <a class="btn btn-white btn-icon btn-sm" href="#">
+                    <i class="bi-list-ul me-1"></i>
+                  </a>
+
+                  <!-- Dropdown -->
+                
+                  <!-- End Dropdown -->
                 </div>
-                <!-- End Search -->
-              </form>
-            </div>
-  
-            <div class="d-grid d-sm-flex gap-2">
+              </li>
+            </ul>
+          </div>
+          <!-- End Nav -->
+
+          <div class="row">
+            <div class="col-lg-4">
+              <!-- Card -->
+              
+
+              <!-- Card -->
+              <div class="card mb-3 mb-lg-5">
+                <!-- Header -->
+                <div class="card-header card-header-content-between">
+                  <h4 class="card-header-title">Visitante </h4>
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <div class="card-body">
+                  <ul class="list-unstyled list-py-2 text-dark mb-0">
+                    <div data-height="300">
+                      <embed src="/uploads/user.png" type="application/pdf" width="100%" height="100%">
+                    </div>
+                  </ul>
+                  <ul class="list-unstyled list-py-2 text-dark mb-0">
+                    <div data-height="300">
+                      <embed src="/uploads/user.png" type="application/pdf" width="100%" height="100%">
+                    </div>
+                  </ul>
+                </div>
+                <!-- End Body -->
+              </div>
             
             </div>
-          </div>
-          <!-- End Header -->
-  
-          <!-- Table -->
-          <div class="table-responsive datatable-custom">
-            <table id="datatable" class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table" style="width: 100%" data-hs-datatables-options='{
-                     "columnDefs": [{
-                        "targets": [0],
-                        "orderable": false
-                      }],
-                     "order": [],
-                     "info": {
-                       "totalQty": "#datatableWithPaginationInfoTotalQty"
-                     },
-                     "search": "#datatableSearch",
-                     "entries": "#datatableEntries",
-                     "pageLength": 12,
-                     "isResponsive": false,
-                     "isShowPaging": false,
-                     "pagination": "datatablePagination"
-                   }'>
-              <thead class="thead-light">
-               
-                <tr>
-                  <th class="table-column-pe-0">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="datatableCheckAll">
-                      <label class="form-check-label" for="datatableCheckAll"></label>
+            <div class="col-lg-8">
+              <!-- Card -->
+              <div class="card">
+                <!-- Body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="firstNameLabel" class="form-label">First name</label>
+                        <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
+                      </div>
+                      <!-- End Form -->
                     </div>
-                  </th>
-                  <th class="table-column-ps-0">Código Visitante</th>
-                  <th>Hora de Entrada</th>
-                  <th>Hora de Saída </th>
-                  <th>Visitante</th>
-                  <th>Estado da Visita</th>
-                  <th>Codigo de Acesso Visitante</th>
-                  <th>Tipo de Visita</th>
-                  <th>Acção</th>
-                </tr>
-              </thead>
-  
-              <tbody>
-                <% visitantesIncompletos.reverse().map(e => { %>
-                  <tr>
-                    <td class="table-column-pe-0">
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="ordersCheck7">
-                        <label class="form-check-label" for="ordersCheck7"></label>
+                    <!-- End Col -->
+    
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="lastNameLabel" class="form-label">Last name</label>
+                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
                       </div>
-                    </td>
-                    <td class="table-column-ps-0">
-                      <a class="text-danger" href="ecommerce-order-details.html"> <%=e.visitanteId  %> </a>
-                      <i class="bi-exclamation-diamond-fill text-warning"></i>
-                    </td>
-                    <td>-------</td>
-                    <td>-------</td>
-                  
-                    <td>-------</td>
-                    <td>
-                      <span class="badge bg-soft-warning text-warning">
-                        <span class="legend-indicator bg-warning">-----
-                      </span>
-                    </td>
-                    <td>
-                      <span class="badge bg-soft-dark text-dark">
-                        <span class="legend-indicator bg-dark"></span></span>-----
-                      </span>
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                       
-                        <span class="text-dark">&bull;&bull;&bull;&bull;  -----</a></span>
-                      </div>
-                    </td>
-                   
-                    <td>
-                      <a class="btn btn-white btn-sm" href="/visitas/VisitanteIncompleto/ <%=e.visitanteId%>">
-                        <i class="bi-eye"></i> Ver
-                      </a>
-                  </td>
-                  </tr>
-                  <% })%>
-              
-  
-               
-  
-              </tbody>
-            </table>
-          </div>
-          <!-- End Table -->
-  
-          <!-- Footer -->
-          <div class="card-footer">
-            <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
-              <div class="col-sm mb-2 mb-sm-0">
-                <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-                  <span class="me-2">Showing:</span>
-  
-                  <!-- Select -->
-                  <div class="tom-select-custom">
-                    <select id="datatableEntries" class="js-select form-select form-select-borderless w-auto" autocomplete="off" data-hs-tom-select-options='{
-                              "searchInDropdown": false,
-                              "hideSearch": true
-                            }'>
-                      <option value="12" selected>12</option>
-                      <option value="14">14</option>
-                      <option value="16">16</option>
-                      <option value="18">18</option>
-                    </select>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
                   </div>
-                  <!-- End Select -->
-  
-                  <span class="text-secondary me-2">of</span>
-  
-                  <!-- Pagination Quantity -->
-                  <span id="datatableWithPaginationInfoTotalQty"></span>
+                  <!-- End Row -->
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="firstNameLabel" class="form-label">First name</label>
+                        <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+    
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="lastNameLabel" class="form-label">Last name</label>
+                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+                  </div>
+    
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="firstNameLabel" class="form-label">First name</label>
+                        <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+    
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="lastNameLabel" class="form-label">Last name</label>
+                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+                  </div>
+    
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="firstNameLabel" class="form-label">First name</label>
+                        <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+    
+                    <div class="col-sm-6">
+                      <!-- Form -->
+                      <div class="mb-4">
+                        <label for="lastNameLabel" class="form-label">Last name</label>
+                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
+                      </div>
+                      <!-- End Form -->
+                    </div>
+                    <!-- End Col -->
+                  </div>
+                  <div class="mb-4">
+                    <label for="lastNameLabel" class="form-label">Last name</label>
+                    <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
+                  </div>
+    
+                
+    
+                  <!-- Form Check -->
+                  <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" value="" id="marketingEmailsCheckbox">
+                    <label class="form-check-label" for="marketingEmailsCheckbox">I want to receive promotions, announcements, and marketing emails.</label>
+                  </div>
+                  <!-- End Form Check -->
+    
+                  <div class="d-flex justify-content-end gap-3">
+                    <button type="button" class="btn btn-white">Discard</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                  </div>
                 </div>
+                <!-- Body -->
               </div>
-              <!-- End Col -->
-  
-              <div class="col-sm-auto">
-                <div class="d-flex justify-content-center justify-content-sm-end">
-                  <!-- Pagination -->
-                  <nav id="datatablePagination" aria-label="Activity pagination"></nav>
-                </div>
-              </div>
-              <!-- End Col -->
+              <!-- End Card -->
             </div>
-            <!-- End Row -->
+          
           </div>
-          <!-- End Footer -->
+          <!-- End Row -->
         </div>
-      
-
-
-
-
-
-
+        <!-- End Col -->
       </div>
-      <!-- End Content -->
+      <!-- End Row -->
+    </div>
+    <!-- End Content -->
 
-      <!-- Footer -->
+    <!-- Footer -->
 
+ 
+<%- include('./partials/geral/footer') %>
 
-      <%- include('./partials/geral/footer') %>
+    <!-- End Footer -->
+  </main>
 
-        <!-- End Footer -->
-    </main>
-    <!-- ========== END MAIN CONTENT ========== -->
-
-    <!-- ONLY DEV -->
-
-    <!-- Builder -->
-
-    <script src="7assets/js/demo.js"></script>
+    <script src="/assets/js/demo.js"></script>
 
     <!-- END ONLY DEV -->
 
@@ -267,9 +329,7 @@
 
     <!-- JS Front -->
     <script src="/assets/js/theme.min.js"></script>
-    <script src="assets/js/hs.theme-appearance-charts.js"></script>
-    <input type="hidden" id="domainID" value="<%= domain%>" />
-    <%- include('./alerts/alerts') %>
+    <script src="/assets/js/hs.theme-appearance-charts.js"></script>
 
     <!-- JS Plugins Init. -->
     <script>
@@ -530,54 +590,6 @@
 
 
 
-<script>
-  const domain =document.getElementById('domainID').value;
-
-  function confirmar(id,Stats,visita){
-    
-    Swal.fire({
-      title: `Deseja Alterar Este Estado ? ${visita}`,
-    icon:'warning',
-      showCancelButton: true,
-      confirmButtonColor:'#3085d6',
-      cancelButtonColor:'#d33',
-      confirmButtonText: 'Confirmar',
-    
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below   */
-      if (result.isConfirmed) {
-          const data={
-              visitaVisitanteId:id,status:Stats,visita:visita
-          }
-   fetch(`${domain}/visitas/Visitante_changestatusAuto`, {
-              method: 'POST',
-    headers: {
-      "Content-Type": "application/json", // Tipo de conteúdo do corpo da requisição
-    },
-    body: JSON.stringify(data),
-})
-.then(response => {
-  if (!response.ok) {
-    throw new Error('Erro ao obter os dados');
-  }
-  return response.json(); 
-})
-.then(dataResponse => {
-
-console.log(dataResponse)
-window.location = `/visitas/Visita/${dataResponse.data[0].fk_visita}`;
-})
-.catch(error => {
-
-  console.error('Ocorreu um erro:', error);
-});
-    
-      } else if (result.isDenied) {
-        Swal.fire('Erro ao eliminar', '', 'info')
-      }
-    })
-      }
-    </script>
   </body>
 
 

@@ -180,6 +180,7 @@ model tb_Visitantes {
   nome                         String
   sobrenome                    String
   status                       Boolean                        @default(false)
+  isIncompleteted              Boolean?                       @default(false)
   createdAt                    DateTime                       @default(now())
   updatedAt                    DateTime                       @updatedAt
   tb_visitante_contacto        tb_Visitante_contacto[]

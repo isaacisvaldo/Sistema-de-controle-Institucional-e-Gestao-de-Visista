@@ -67,11 +67,33 @@ export  async  function  Visitas(req: Request, res: Response) {
   export  async  function  VisitantesIncompletos(req: Request, res: Response) {
     try {
       const user = req.session.user;
+      const visitantesIncompletos = await VisitorRepository.findAllVisitorIncompleted()
+      console.log(visitantesIncompletos)
      
       res.render("Dashboard/visitantesIncompletos", {
         user,
         visita_visitante:[],    
-  
+        visitantesIncompletos,
+        domain,
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
+  export  async  function  VisitanteIncompleto(req: Request, res: Response) {
+    try {
+      const user = req.session.user;
+      const {Id}= req.params;
+      const visitantesIncompletos = await VisitorRepository.findOneVisitorIncompleted(parseInt(Id))
+    
+     
+      res.render("Dashboard/visitanteIncompleto", {
+        user, 
+        visitantesIncompletos,
         domain,
         error: req.flash("error"),
         warning: req.flash("warning"),
@@ -165,11 +187,12 @@ export  async  function  Visitas(req: Request, res: Response) {
      nome: "---",
      sobrenome: "---",
      hora_entrada:horaAtualFormatada,
-    fk_tipo_identificacao:null ,
+     fk_tipo_identificacao:null ,
      num_identificacao: "---",
      Data_validade_doc:"---",
      contactos: contacto,
      pertences:[],
+     isIncompleteted:true,
      visitaId: visitaId,
       code:code
    }

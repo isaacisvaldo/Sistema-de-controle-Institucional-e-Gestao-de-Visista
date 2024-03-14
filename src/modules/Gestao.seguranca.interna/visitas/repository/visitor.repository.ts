@@ -221,13 +221,54 @@ export const VisitorRepository = {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
+  async findAllVisitorIncompleted() {
+    try {
+      const visitor = await prisma.tb_Visitantes.findMany({
+        where:{
+        isIncompleteted: true,
+        },
+        include: {
+          tb_visitante_contacto: true,
+          tb_visita_visitantes:{
+            include:{
+              tb_visitas:true,
+            }
+          },
+        },
+      });
+      return visitor;
+    } catch (error) {
+      throw new Error(`Erro ao buscar Visitantes: ${error}`);
+    }
+  },
+  async findOneVisitorIncompleted(id:number) {
+    try {
+      const visitor = await prisma.tb_Visitantes.findMany({
+        where:{
+        visitanteId: id,
+        },
+        include: {
+          tb_visitante_contacto: true,
+          tb_visita_visitantes:{
+            include:{
+              tb_visitas:true,
+            }
+          },
+        },
+      });
+      return visitor;
+    } catch (error) {
+      throw new Error(`Erro ao buscar Visitantes: ${error}`);
+    }
+  },
   async persistDataVisitor(data: Visitante) {
     try {
 
       const visitante = await prisma.tb_Visitantes.create({
         data: {
           nome: data.nome,
-          sobrenome: data.sobrenome
+          sobrenome: data.sobrenome,
+          isIncompleteted:data.isIncompleteted
         },
       });
       // Crie contatos
