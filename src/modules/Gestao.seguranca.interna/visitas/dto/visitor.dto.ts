@@ -10,7 +10,7 @@ export interface Visitante {
   nome: string;
   sobrenome: string;
   hora_entrada:string;
-  fk_tipo_identificacao: number;
+  fk_tipo_identificacao?: any;
   num_identificacao: string;
   Data_validade_doc: string;
   contactos: Contato[];

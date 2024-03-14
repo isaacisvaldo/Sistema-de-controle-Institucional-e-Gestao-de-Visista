@@ -275,7 +275,7 @@ export const VisitorRepository = {
         },
       });
 
-      return { sucess: " Visitante Cadastrado !", };
+      return { sucess: " Visitante Cadastrado !",visitaId:visitante.visitanteId};
     } catch (error) {
       console.log(error);
       return { error: "Erro ao cadastrar " };

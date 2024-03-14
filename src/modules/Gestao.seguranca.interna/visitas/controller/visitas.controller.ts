@@ -151,6 +151,49 @@ export  async  function  Visitas(req: Request, res: Response) {
      console.log(error) 
     }
   }
+  export  async  function  addVisitantesIncompleto(req: Request, res: Response) {
+    const dataAtual = new Date();
+    const horaAtual = dataAtual.getHours();
+    const minutoAtual = dataAtual.getMinutes();
+    const segundoAtual = dataAtual.getSeconds();
+    const horaAtualFormatada = `${horaAtual}:${minutoAtual}:${segundoAtual}`;
+    try {
+      const {visitaId,contacto} = req.body;
+      console.log("Dados do corpo da requisição:", req.body);
+     const code =await generateUniqueCodeVisita()
+     const data:Visitante ={
+     nome: "---",
+     sobrenome: "---",
+     hora_entrada:horaAtualFormatada,
+    fk_tipo_identificacao:null ,
+     num_identificacao: "---",
+     Data_validade_doc:"---",
+     contactos: contacto,
+     pertences:[],
+     visitaId: visitaId,
+      code:code
+   }
+   const validate = await visitorService.ValidarDataVisitor(data)
+   if(!validate.error){
+      const created = await VisitorRepository.persistDataVisitor(data)
+
+      if (!created.error) {
+        req.flash("sucess", `${created.sucess}`);
+        res.json({ sucess: created.visitaId });
+      } else {
+        res.json({ error: created.error });
+        console.log(created.error);
+      }
+    }else {
+      res.json({ error: validate.error });
+      console.log(validate.error);
+    }
+       
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Falha ao criar Usuario." });
+    }
+  }
   export  async  function  addVisitantes(req: Request, res: Response) {
     const dataAtual = new Date();
     const horaAtual = dataAtual.getHours();

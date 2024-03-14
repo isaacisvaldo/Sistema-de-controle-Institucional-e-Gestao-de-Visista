@@ -275,7 +275,7 @@
                   </div>
                 
                 <form id="formId">
-                  <input type="text" class="form-control" placeholder="Contacto">
+                  <input type="text" class="form-control" placeholder="Contacto" id="terminalId">
                   <br>
                   <% pertences.forEach(element => { %>
                     <label>
@@ -298,7 +298,7 @@
                   <div class="col-sm-auto">
                     <div class="d-flex gap-3">
                       <button type="button" class="btn btn-white" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                      <button type="button" class="btn btn-primary">Obter Chave</button>
+                      <button type="button" class="btn btn-primary" onclick="postDataInc()">Obter Chave</button>
                     </div>
                   </div>
                   <!-- End Col -->
@@ -429,7 +429,7 @@
                       </a>
                       <br><br>
                       <button type="button" onclick="postData()" class="btn btn-primary">Submeter dados</button>
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAKIKeyModal">
+                      <button type="button"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAKIKeyModal">
                         <i class="bi-plus me-1"></i> Cadastro incompletos
                       </button>
                       
@@ -647,7 +647,43 @@
 
      }
     }
-        
+       
+    function postDataInc(){
+      const pertences=[];
+      const terminal = document.getElementById('terminalId').value;
+      const terminal1=[];
+       terminal1.push({contacto:terminal}); 
+      const data = {
+      visitaId:parseInt(localStorage.getItem('visitaId')),
+      pertences:pertences,
+      contacto:terminal1,
+  
+     }
+         console.log(data)
+         const options = {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json", 
+            },
+            body: JSON.stringify(data),
+          };
+          fetch(`${domain}/visitas/addVisitantesIncompleto`, options)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if(data.error){
+              document.getElementById('result').innerHTML =data.error; 
+              document.getElementById('result').setAttribute('class', 'text-danger')
+            }else{
+              document.getElementById('result').innerHTML =data.sucess;
+              document.getElementById('result').setAttribute('class', 'text-success')
+              //Tenho que retornar o ID deste Visitante
+            }
+                      
+            }).catch((error) => {
+              console.log(error)
+            }); 
+    }
        
    
       // Função para clonar o modelo de seção de contato e criar uma nova seção

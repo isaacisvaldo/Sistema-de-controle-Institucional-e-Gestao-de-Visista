@@ -10,6 +10,7 @@ visitasRouter.get('/FormCrVisita',userAuth,visitasController.FormCrVisita)
 visitasRouter.post('/CrVisita',userAuth,visitasController.CrVisita)
 visitasRouter.get('/visitanteschangestatus/:id',userAuth,visitasController.Visitante_changestatus)
 visitasRouter.post('/addVisitantes',userAuth,visitasController.addVisitantes)
+visitasRouter.post('/addVisitantesIncompleto',userAuth,visitasController.addVisitantesIncompleto)
 visitasRouter.post('/Visitante_changestatusAuto',userAuth,visitasController.Visitante_changestatusAuto)
 visitasRouter.get('/VisitantesIncompletos',userAuth,visitasController.VisitantesIncompletos)
 
