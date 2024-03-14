@@ -17,6 +17,7 @@ export const Visitor_contacto_Repository = {
   async findAll(){
     try {
       const number = await prisma.tb_Visitante_contacto.findMany({
+        
        include:{
         tb_visitantes:true,
        }

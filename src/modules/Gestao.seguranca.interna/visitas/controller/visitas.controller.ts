@@ -64,6 +64,24 @@ export  async  function  Visitas(req: Request, res: Response) {
       return res.status(500).json({ error: "Failed to ..." });
     }
   }
+  export  async  function  VisitantesIncompletos(req: Request, res: Response) {
+    try {
+      const user = req.session.user;
+     
+      res.render("Dashboard/visitantesIncompletos", {
+        user,
+        visita_visitante:[],    
+  
+        domain,
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
   export  async  function  Visita(req: Request, res: Response) {
     try {
       const { visitaId }= req.params
