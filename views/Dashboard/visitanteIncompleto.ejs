@@ -277,7 +277,10 @@
                     <label class="form-check-label" for="marketingEmailsCheckbox">Atualizando os dados do visitante .</label>
                   </div>
                   <!-- End Form Check -->
-    
+                  <div class="mb-4">
+                    <h4 id="result" class="fw-semi-bold text-dark"></h4>
+                   
+                  </div>
                   <div class="d-flex justify-content-end gap-3">
                   
                     <button type="button" class="btn btn-primary">Salvar os dados </button>
@@ -578,8 +581,75 @@
           })
         })()
     </script>
+    <script>
+    function postData(){
+      const  number= document.getElementsByClassName('number');
+        let c=[];
+        let i=[];
+        for (const element of number) {
+         c.push({ contacto: element.value });
+       }
+      
+       const  nome= document.getElementById('nomeID').value;
+       const  num_identificacao= document.getElementById('identifyID').value;
+       const  sobrenome= document.getElementById('sobrenomeID').value;
+       const  tipo_identify= document.getElementById('tipo_identifiID').value;
+       const  validade= document.getElementById('validadeID').value;
+     
+      function getDataAtual() {
+        const dataAtual = new Date();
+        const ano = dataAtual.getFullYear();
+        const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+        const dia = String(dataAtual.getDate()).padStart(2, '0');
+        return `${ano}-${mes}-${dia}`;
+    }
+    const today =getDataAtual()
+      const data = {
+        nome:nome,
+        identify:i,
+        sobrenome:sobrenome,
+        num_identificacao,
+         fk_tipo_identificacao:parseInt(tipo_identify),
+         validade,
+        contactos:c
+        };
+        if(validade < today){
+        document.getElementById('result').innerHTML ="Este Documento Ja esta fora do prazo de Valiade !"; 
+        document.getElementById('result').setAttribute('class', 'text-danger')
+        }else if(validade=="") {
+         document.getElementById('result').innerHTML ="Informe a data de validade da documentação !"; 
+        document.getElementById('result').setAttribute('class', 'text-danger')
+        }else{
+            const options = {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json", // Tipo de conteúdo do corpo da requisição
+          },
+          body: JSON.stringify(data),
+         
+        };
+        fetch(`${domain}/Add_visitor`,options)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if(data.error){
+        document.getElementById('result').innerHTML =data.error; 
+        document.getElementById('result').setAttribute('class', 'text-danger')
+      }else{
+        document.getElementById('result').innerHTML =data.sucess;
+        document.getElementById('result').setAttribute('class', 'text-success')
+        window.location="/Visitantes"
+      }
+     }).catch((error) => {   
+           console.log(error)
+          });
+     
+       
+      }
+        }
+       
 
-
+      </script>
 
   </body>
 

@@ -165,7 +165,6 @@ export  async  function  Visitas(req: Request, res: Response) {
         fk_area: parseInt(fk_area_visitada),
         fk_tipo_visita:parseInt(fk_tipo_visita),
         cod_Visita: await generateUniqueCodeVisita()
-        
         }
         console.log(data);
         const visita = await VisitaRepository.persistDataVisita(data)
