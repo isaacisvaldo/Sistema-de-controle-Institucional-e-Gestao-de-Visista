@@ -157,6 +157,24 @@ export  async  function  Visitas(req: Request, res: Response) {
       return res.status(500).json({ error: "Failed to ..." });
     }
   }
+  export  async  function  sendPhoto(req: Request, res: Response) {
+    try {
+      const user = req.session.user;
+      const {Id}=req.params
+  
+      res.render("Dashboard/sendphote", {
+        user,   
+        domain,
+        Id,
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
   export  async  function  CrVisita(req: Request, res: Response){
     try {
        const {dt_visita,fk_area_visitada,fk_tipo_visita}= req.body

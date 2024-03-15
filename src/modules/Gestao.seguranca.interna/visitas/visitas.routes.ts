@@ -14,5 +14,6 @@ visitasRouter.post('/addVisitantesIncompleto',userAuth,visitasController.addVisi
 visitasRouter.post('/Visitante_changestatusAuto',userAuth,visitasController.Visitante_changestatusAuto)
 visitasRouter.get('/VisitantesIncompletos',userAuth,visitasController.VisitantesIncompletos)
 visitasRouter.get('/VisitanteIncompleto/:Id',userAuth,visitasController.VisitanteIncompleto)
+visitasRouter.get('/sendPhoto/:Id',userAuth,visitasController.sendPhoto)
 
 export default visitasRouter;

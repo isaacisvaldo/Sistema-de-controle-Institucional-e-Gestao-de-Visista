@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Captura e Envio de Fotos</title>
+</head>
+<body>
+    <h1>Captura e Envio de Fotos</h1>
+    <div>
+        <h2>Webcam</h2>
+        <video id="video" width="320" height="240" autoplay></video>
+        <br>
+        <button onclick="capture('front')">Capturar Frente do BI</button>
+        <button onclick="capture('back')">Capturar Verso do BI</button>
+    </div>
+    <div>
+        <h2>Foto Capturada</h2>
+        <img id="frontPhoto" width="320" height="240">
+        <img id="backPhoto" width="320" height="240">
+        <br>
+        <button onclick="sendPhotos()">Enviar Fotos</button>
+    </div>
+
+    <script>
+        let video = document.getElementById('video');
+        let frontPhoto = document.getElementById('frontPhoto');
+        let backPhoto = document.getElementById('backPhoto');
+        let localStream = null;
+        let frontCaptured = false;
+        let backCaptured = false;
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                video.srcObject = stream;
+                localStream = stream;
+            })
+            .catch(function (err) {
+                console.error('Erro ao acessar a webcam: ', err);
+            });
+
+        function capture(side) {
+            let canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            if (side === 'front') {
+                frontPhoto.src = canvas.toDataURL('image/jpeg');
+                frontCaptured = true;
+            } else if (side === 'back') {
+                backPhoto.src = canvas.toDataURL('image/jpeg');
+                backCaptured = true;
+            }
+        }
+
+        function sendPhotos() {
+            if (!frontCaptured || !backCaptured) {
+                console.error('Ambas as fotos precisam ser capturadas.');
+                alert("Ambas as fotos precisam ser capturadas")
+            }
+
+            let frontImage = frontPhoto.src.replace(/^data:image\/(png|jpeg);base64,/, '');
+            let backImage = backPhoto.src.replace(/^data:image\/(png|jpeg);base64,/, '');
+
+
+            console.log(frontImage,backImage)
+            // fetch('URL_DO_SEU_SERVIDOR', {
+            //     method: 'POST',
+            //     body: JSON.stringify({ frontImage, backImage }),
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     }
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log('Resposta do servidor:', data);
+            // })
+            // .catch(error => {
+            //     console.error('Erro ao enviar as fotos para o servidor:', error);
+            // });
+        }
+
+        window.onbeforeunload = function () {
+            if (localStream) {
+                localStream.getTracks().forEach(function (track) {
+                    track.stop();
+                });
+            }
+        };
+    </script>
+</body>
+</html>
