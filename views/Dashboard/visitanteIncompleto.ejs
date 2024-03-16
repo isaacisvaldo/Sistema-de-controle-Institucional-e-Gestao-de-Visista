@@ -246,7 +246,7 @@
                       <!-- Form -->
                       <div class="mb-4">
                         <label for="firstNameLabel" class="form-label">Nome</label>
-                        <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
+                        <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Clarice" aria-label="Clarice">
                       </div>
                       <!-- End Form -->
                     </div>
@@ -256,7 +256,7 @@
                       <!-- Form -->
                       <div class="mb-4">
                         <label for="lastNameLabel" class="form-label">Sobrenome</label>
-                        <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
+                        <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Boone" aria-label="Boone">
                       </div>
                       <!-- End Form -->
                     </div>
@@ -283,7 +283,7 @@
                   </div>
                   <div class="d-flex justify-content-end gap-3">
                   
-                    <button type="button" class="btn btn-primary">Salvar os dados </button>
+                    <button type="button" class="btn btn-primary" onclick="postData()">Salvar os dados </button>
                   </div>
                 </div>
                 <!-- Body -->
@@ -583,18 +583,20 @@
     </script>
     <script>
     function postData(){
-      const  number= document.getElementsByClassName('number');
-        let c=[];
-        let i=[];
-        for (const element of number) {
-         c.push({ contacto: element.value });
-       }
-      
-       const  nome= document.getElementById('nomeID').value;
-       const  num_identificacao= document.getElementById('identifyID').value;
-       const  sobrenome= document.getElementById('sobrenomeID').value;
-       const  tipo_identify= document.getElementById('tipo_identifiID').value;
-       const  validade= document.getElementById('validadeID').value;
+   
+         
+       const documentType =document.getElementsByName('documentType');
+    const validade = document.getElementById('documentValid').value;
+    const documentNumber = document.getElementById('documentNumber').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    let selected=0;
+          for (const radioButton of documentType) {
+            if (radioButton.checked) {
+              selected = radioButton.value; 
+              break; 
+            }
+          }
      
       function getDataAtual() {
         const dataAtual = new Date();
@@ -604,15 +606,13 @@
         return `${ano}-${mes}-${dia}`;
     }
     const today =getDataAtual()
-      const data = {
-        nome:nome,
-        identify:i,
-        sobrenome:sobrenome,
-        num_identificacao,
-         fk_tipo_identificacao:parseInt(tipo_identify),
-         validade,
-        contactos:c
-        };
+    const data = {
+      tipo_documento:parseInt(selected),
+      documentNumber:documentNumber,
+      documentValid:validade,
+      firstName:firstName,
+      lastName:lastName
+     }
         if(validade < today){
         document.getElementById('result').innerHTML ="Este Documento Ja esta fora do prazo de Valiade !"; 
         document.getElementById('result').setAttribute('class', 'text-danger')
@@ -628,21 +628,22 @@
           body: JSON.stringify(data),
          
         };
-        fetch(`${domain}/Add_visitor`,options)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            if(data.error){
-        document.getElementById('result').innerHTML =data.error; 
-        document.getElementById('result').setAttribute('class', 'text-danger')
-      }else{
-        document.getElementById('result').innerHTML =data.sucess;
-        document.getElementById('result').setAttribute('class', 'text-success')
-        window.location="/Visitantes"
-      }
-     }).catch((error) => {   
-           console.log(error)
-          });
+           console.log(data)
+    //     fetch(`${domain}/Add_visitor`,options)
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         console.log(data);
+    //         if(data.error){
+    //     document.getElementById('result').innerHTML =data.error; 
+    //     document.getElementById('result').setAttribute('class', 'text-danger')
+    //   }else{
+    //     document.getElementById('result').innerHTML =data.sucess;
+    //     document.getElementById('result').setAttribute('class', 'text-success')
+    //     window.location="/Visitantes"
+    //   }
+    //  }).catch((error) => {   
+    //        console.log(error)
+    //       });
      
        
       }
