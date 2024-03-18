@@ -266,7 +266,7 @@
                 
                   <div class="mb-4">
                     <label for="lastNameLabel" class="form-label">Contacto</label>
-                    <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone">
+                    <input type="text" class="form-control" value="<%= Id %>" name="lastName" id="idUser" placeholder="Boone" aria-label="Boone">
                   </div>
     
                 
@@ -586,6 +586,7 @@
    
          
        const documentType =document.getElementsByName('documentType');
+       const idUser = document.getElementById('idUser').value;
     const validade = document.getElementById('documentValid').value;
     const documentNumber = document.getElementById('documentNumber').value;
     const firstName = document.getElementById('firstName').value;
@@ -607,6 +608,7 @@
     }
     const today =getDataAtual()
     const data = {
+      idUser:idUser,
       tipo_documento:parseInt(selected),
       documentNumber:documentNumber,
       documentValid:validade,
@@ -629,21 +631,21 @@
          
         };
            console.log(data)
-    //     fetch(`${domain}/Add_visitor`,options)
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         console.log(data);
-    //         if(data.error){
-    //     document.getElementById('result').innerHTML =data.error; 
-    //     document.getElementById('result').setAttribute('class', 'text-danger')
-    //   }else{
-    //     document.getElementById('result').innerHTML =data.sucess;
-    //     document.getElementById('result').setAttribute('class', 'text-success')
-    //     window.location="/Visitantes"
-    //   }
-    //  }).catch((error) => {   
-    //        console.log(error)
-    //       });
+        fetch(`${domain}/completedCadatroVisitante`,options)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if(data.error){
+        document.getElementById('result').innerHTML =data.error; 
+        document.getElementById('result').setAttribute('class', 'text-danger')
+      }else{
+        document.getElementById('result').innerHTML =data.sucess;
+        document.getElementById('result').setAttribute('class', 'text-success')
+        window.location=`/VisitanteIncompleto/${idUser}`
+      }
+     }).catch((error) => {   
+           console.log(error)
+          });
      
        
       }

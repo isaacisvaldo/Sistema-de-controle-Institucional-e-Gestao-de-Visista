@@ -236,6 +236,20 @@ export  async  function  Visitas(req: Request, res: Response) {
       res.status(500).json({ error: "Falha ao criar Usuario." });
     }
   }
+  export  async  function  completedCadatroVisitante(req: Request, res: Response) {
+
+ 
+    try {
+      const {tipo_documento,documentNumber,documentValid,firstName,lastName,idUser}= req.body
+      console.log("Dados do corpo da requisição:", req.body);
+ 
+   
+       
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Falha ao criar Usuario." });
+    }
+  }
   export  async  function  addVisitantes(req: Request, res: Response) {
     const dataAtual = new Date();
     const horaAtual = dataAtual.getHours();
