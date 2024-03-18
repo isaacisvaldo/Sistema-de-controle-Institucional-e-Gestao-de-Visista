@@ -324,7 +324,7 @@
     <!-- JS Front -->
     <script src="/assets/js/theme.min.js"></script>
     <script src="/assets/js/hs.theme-appearance-charts.js"></script>
-
+    <input type="hidden" id="domainId" value="<%= domain%>" />
     <!-- JS Plugins Init. -->
     <script>
       $(document).on('ready', function () {
@@ -584,7 +584,7 @@
     <script>
     function postData(){
    
-         
+      const domain = document.getElementById("domainId").value;  
        const documentType =document.getElementsByName('documentType');
        const idUser = document.getElementById('idUser').value;
     const validade = document.getElementById('documentValid').value;
