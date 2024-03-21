@@ -265,13 +265,11 @@
     
                 
                   <div class="mb-4">
-                    <label for="lastNameLabel" class="form-label">Contacto</label>
-                    <input type="text" class="form-control" value="<%= Id %>" name="lastName" id="idUser" placeholder="Boone" aria-label="Boone">
+                    <label for="lastNameLabel" class="form-label">Ordem Visitante</label>
+                    <input type="text" class="form-control" value="<%= Id %>" name="lastName" id="idUser" disabled placeholder="Boone" aria-label="Boone">
                   </div>
     
-                
-    
-                  <!-- Form Check -->
+
                   <div class="form-check mb-4">
                     <input class="form-check-input" type="checkbox" value="" checked id="marketingEmailsCheckbox">
                     <label class="form-check-label" for="marketingEmailsCheckbox">Atualizando os dados do visitante .</label>
@@ -630,18 +628,19 @@
           body: JSON.stringify(data),
          
         };
-           console.log(data)
-        fetch(`${domain}/completedCadatroVisitante`,options)
+           console.log(data+domain)
+
+        fetch(`${domain}/visitas/completedCadatroVisitante`,options)
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
             if(data.error){
         document.getElementById('result').innerHTML =data.error; 
         document.getElementById('result').setAttribute('class', 'text-danger')
-      }else{
+         }else{
         document.getElementById('result').innerHTML =data.sucess;
         document.getElementById('result').setAttribute('class', 'text-success')
-        window.location=`/VisitanteIncompleto/${idUser}`
+        window.location=`/visitas/VisitanteIncompleto/${idUser}`
       }
      }).catch((error) => {   
            console.log(error)
@@ -649,7 +648,7 @@
      
        
       }
-        }
+   }
        
 
       </script>

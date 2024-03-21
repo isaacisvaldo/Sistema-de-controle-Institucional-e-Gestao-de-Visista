@@ -3,6 +3,7 @@
 import prisma from "../../../../config/lib/prisma";
 import { generateCurrentDate } from "../../../../utils/fuction";
 import { Visitante } from "../dto/visitor.dto";
+import { VisitanteIncompleto } from "../types/visitas";
 export interface VisitorIdentification {
   // You can replace 'string' with the appropriate type
   num_identificacao: string; // Replace with the appropriate type
@@ -379,8 +380,54 @@ export const VisitorRepository = {
       console.log(error);
     }
   },
+  async completedCadastroVisitante(data: VisitanteIncompleto) {
+    try {
+
+      const visitante = await prisma.tb_Visitantes.update({
+        data: {
+          nome: data.firstName,
+          sobrenome: data.lastName,
+          isIncompleteted:data.isIncompleteted
+        },
+        where:{
+          visitanteId:data.idUser
+        }
+      });
+     
+
+   
+      // Associe o visitante à visita
+      await prisma.tb_Visitante_identificacao.updateMany({
+        data: {
+          validade: data.documentValid,
+          num_identificacao: data.documentNumber,
+          fk_tipo_identificacao: data.tipo_documento,
+          
+        },
+        where:{
+          fk_visitante:data.idUser,
+          fk_tipo_identificacao:null
+        }
+      });
+      await prisma.tb_Visita_visitantes.updateMany({
+        data: {
+       
+          fk_tp_identificacao: data.tipo_documento,
+        
+        },
+        where:{
+          fk_visitante:data.idUser,
+          fk_tp_identificacao:null
+        }
+      });
+
+      return { sucess: " Visitante atualizado !",visitaId:visitante.visitanteId};
+    } catch (error) {
+      console.log(error);
+      return { error: "Erro ao cadastrar " };
+    }
+  },
 };
 
-function generateUniqueCodeVisitanteAcess(arg0: number, arg1: string): any {
-  throw new Error("Function not implemented.");
-}
+
+

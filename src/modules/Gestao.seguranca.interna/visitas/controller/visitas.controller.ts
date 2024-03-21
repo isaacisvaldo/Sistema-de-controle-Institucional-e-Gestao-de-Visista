@@ -8,6 +8,7 @@ import { VisitaRepository } from "../repository/visita.repository";
 import { Visitante } from "../dto/visitor.dto";
 import { visitorService } from "../visitor.service";
 import { generateUniqueCodeVisita, generateUniqueCodeVisitanteAcess } from "../../../../utils/generation.fuction";
+import {VisitanteIncompleto} from "../types/visitas"
 
 
 export  async  function PainelVisitas(req: Request, res: Response) {
@@ -242,9 +243,18 @@ export  async  function  Visitas(req: Request, res: Response) {
     try {
       const {tipo_documento,documentNumber,documentValid,firstName,lastName,idUser}= req.body
       console.log("Dados do corpo da requisição:", req.body);
- 
-   
-       
+   const data :VisitanteIncompleto ={
+     documentNumber: documentNumber,
+     tipo_documento: parseInt(tipo_documento),
+     fk_tipo_visita: 0,
+     documentValid:documentValid,
+     idUser: parseInt(idUser),
+     lastName:lastName,
+     firstName:firstName,
+     isIncompleteted: false
+   }
+     const update = await VisitorRepository.completedCadastroVisitante(data)
+       return  res.status(201).json({ update});
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Falha ao criar Usuario." });
