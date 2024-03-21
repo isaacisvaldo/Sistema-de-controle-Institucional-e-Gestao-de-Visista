@@ -20,8 +20,10 @@
         <button onclick="sendPhotos()">Enviar Fotos</button>
     </div>
     <input type="hidden" id="domainId" value="<%= domain%>" />
+    <input type="hidden" id="Id" value="<%= Id%>" />
     <script>
          const domain = document.getElementById("domainId").value; 
+         const Id = document.getElementById("Id").value; 
         let video = document.getElementById('video');
         let frontPhoto = document.getElementById('frontPhoto');
         let backPhoto = document.getElementById('backPhoto');
@@ -66,7 +68,7 @@
             console.log(frontImage,backImage)
             fetch(`${domain}/visitas/recivePhoto`, {
                 method: 'POST',
-                body: JSON.stringify({ frontImage, backImage }),
+                body: JSON.stringify({ frontImage, backImage,Id }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -74,10 +76,11 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Resposta do servidor:', data);
+               window.location="/visitas/displaycomfirmSend"
             })
             .catch(error => {
                 console.error('Erro ao enviar as fotos para o servidor:', error);
-                window.location.reload();
+               
             });
         }
 

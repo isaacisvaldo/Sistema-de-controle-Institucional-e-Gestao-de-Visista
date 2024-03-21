@@ -3,7 +3,7 @@
 import prisma from "../../../../config/lib/prisma";
 import { generateCurrentDate } from "../../../../utils/fuction";
 import { Visitante } from "../dto/visitor.dto";
-import { VisitanteIncompleto } from "../types/visitas";
+import { AnexoVisitante, VisitanteIncompleto } from "../types/visitas";
 export interface VisitorIdentification {
   // You can replace 'string' with the appropriate type
   num_identificacao: string; // Replace with the appropriate type
@@ -422,6 +422,26 @@ export const VisitorRepository = {
       });
 
       return { sucess: " Visitante atualizado !",visitaId:visitante.visitanteId};
+    } catch (error) {
+      console.log(error);
+      return { error: "Erro ao cadastrar " };
+    }
+  },
+  async saveImageDoc(data: AnexoVisitante) {
+    try {
+
+      const visitante = await prisma.tb_visitanteAnexos.createMany({
+        data: {
+        file1: data.file1,
+        file2: data.file2,
+        fk_visitante: data.fk_visitante
+        }
+      });
+     
+
+   
+
+      return { sucess: " Visitante atualizado !"};
     } catch (error) {
       console.log(error);
       return { error: "Erro ao cadastrar " };

@@ -9,3 +9,10 @@ export interface VisitanteIncompleto {
     isIncompleteted: boolean;
     
   }
+
+  export interface AnexoVisitante {
+    fk_visitante: number;
+    file1: string;
+    file2: string;
+    
+  }

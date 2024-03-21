@@ -7,7 +7,7 @@ import { VisitaRepository } from "../repository/visita.repository";
 import { Visitante } from "../dto/visitor.dto";
 import { visitorService } from "../visitor.service";
 import { generateUniqueCodeVisita, generateUniqueCodeVisitanteAcess } from "../../../../utils/generation.fuction";
-import {VisitanteIncompleto} from "../types/visitas"
+import {AnexoVisitante, VisitanteIncompleto} from "../types/visitas"
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 import path from 'path';
@@ -178,7 +178,7 @@ export  async  function  Visitas(req: Request, res: Response) {
   }
   export  async  function  recivePhoto(req: Request, res: Response) {
     try {
-      const { frontImage, backImage } = req.body;
+      const { frontImage, backImage,Id } = req.body;
 
       // Decodificando as imagens em base64
       const frontBuffer = Buffer.from(frontImage, 'base64');
@@ -200,8 +200,30 @@ export  async  function  Visitas(req: Request, res: Response) {
       fs.writeFileSync(path.join(uploadsDir, frontFileName), frontBuffer);
       fs.writeFileSync(path.join(uploadsDir, backFileName), backBuffer);
   
-      res.send('Imagens recebidas e salvas com sucesso!');
+    
+      const data :AnexoVisitante = {
+        fk_visitante: parseInt(Id),
+        file1: frontFileName,
+        file2: backFileName
+      }
+      const saveImageDoc = VisitorRepository.saveImageDoc(data)
+      return  res.status(200).json({ saveImageDoc});
    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
+  export  async  function  displaycomfirmSend(req: Request, res: Response) {
+    try {
+      
+  
+      res.render("Dashboard/confirmsend", {
+     
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Failed to ..." });
     }

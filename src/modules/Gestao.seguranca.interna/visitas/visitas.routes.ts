@@ -19,6 +19,7 @@ visitasRouter.get('/VisitantesIncompletos',userAuth,visitasController.Visitantes
 visitasRouter.get('/VisitanteIncompleto/:Id',userAuth,visitasController.VisitanteIncompleto)
 visitasRouter.get('/sendPhoto/:Id',userAuth,visitasController.sendPhoto)
 visitasRouter.post('/completedCadatroVisitante',userAuth,visitasController.completedCadatroVisitante)
-visitasRouter.post('/recivePhoto',upload.array("files"),userAuth,visitasController.recivePhoto)
+visitasRouter.post('/recivePhoto',userAuth,visitasController.recivePhoto)
+visitasRouter.get('/displaycomfirmSend',userAuth,visitasController.displaycomfirmSend)
 
 export default visitasRouter;
