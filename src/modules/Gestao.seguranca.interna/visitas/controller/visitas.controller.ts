@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import { domain } from "../../../../config/baseUrl/url";
-import { generateCurrentDate } from "../../../../utils/fuction";
 import { VisitorRepository } from "../repository/visitor.repository";
 import { globalRepository } from "../../../Global/repository/global.repository";
 import { Visita } from "../dto/visita.dto";
@@ -9,8 +8,9 @@ import { Visitante } from "../dto/visitor.dto";
 import { visitorService } from "../visitor.service";
 import { generateUniqueCodeVisita, generateUniqueCodeVisitanteAcess } from "../../../../utils/generation.fuction";
 import {VisitanteIncompleto} from "../types/visitas"
-
-
+import { v4 as uuidv4 } from 'uuid';
+import fs from 'fs';
+import path from 'path';
 export  async  function PainelVisitas(req: Request, res: Response) {
     try {
       const user = req.session.user;
@@ -172,6 +172,36 @@ export  async  function  Visitas(req: Request, res: Response) {
         sucess: req.flash("sucess"),
       });
     } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
+  export  async  function  recivePhoto(req: Request, res: Response) {
+    try {
+      const { frontImage, backImage } = req.body;
+
+      // Decodificando as imagens em base64
+      const frontBuffer = Buffer.from(frontImage, 'base64');
+      const backBuffer = Buffer.from(backImage, 'base64');
+  
+      // Definindo o caminho absoluto para a pasta uploads
+      //const uploadsDir = path.join(__dirname, 'uploads');
+      // Gerando um nome único para cada imagem
+    const frontFileName = `front-${uuidv4()}.jpeg`;
+    const backFileName = `back-${uuidv4()}.jpeg`;
+      const uploadsDir = path.join(__dirname, '..','..', '..','..','..', 'public/uploads')
+  
+      // Verificando se a pasta uploads existe, se não, criando-a
+      if (!fs.existsSync(uploadsDir)) {
+          fs.mkdirSync(uploadsDir);
+      }
+  
+      // Salvando as imagens no disco
+      fs.writeFileSync(path.join(uploadsDir, frontFileName), frontBuffer);
+      fs.writeFileSync(path.join(uploadsDir, backFileName), backBuffer);
+  
+      res.send('Imagens recebidas e salvas com sucesso!');
+   } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Failed to ..." });
     }

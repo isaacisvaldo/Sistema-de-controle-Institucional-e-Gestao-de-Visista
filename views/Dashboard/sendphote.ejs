@@ -19,8 +19,9 @@
         <br>
         <button onclick="sendPhotos()">Enviar Fotos</button>
     </div>
-
+    <input type="hidden" id="domainId" value="<%= domain%>" />
     <script>
+         const domain = document.getElementById("domainId").value; 
         let video = document.getElementById('video');
         let frontPhoto = document.getElementById('frontPhoto');
         let backPhoto = document.getElementById('backPhoto');
@@ -63,20 +64,21 @@
 
 
             console.log(frontImage,backImage)
-            // fetch('URL_DO_SEU_SERVIDOR', {
-            //     method: 'POST',
-            //     body: JSON.stringify({ frontImage, backImage }),
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     }
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     console.log('Resposta do servidor:', data);
-            // })
-            // .catch(error => {
-            //     console.error('Erro ao enviar as fotos para o servidor:', error);
-            // });
+            fetch(`${domain}/visitas/recivePhoto`, {
+                method: 'POST',
+                body: JSON.stringify({ frontImage, backImage }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+            })
+            .catch(error => {
+                console.error('Erro ao enviar as fotos para o servidor:', error);
+                window.location.reload();
+            });
         }
 
         window.onbeforeunload = function () {

@@ -1,6 +1,9 @@
 import { Router } from "express";
 import  * as visitasController from  "./controller/visitas.controller";
 import { userAuth } from "../../../utils/middlewares/session";
+import multer from 'multer';
+import configureMulter from "../../../utils/middlewares/fileUpload";
+const upload = multer(configureMulter());
 
 const visitasRouter = Router()
 visitasRouter.get('/painelVisitas',userAuth,visitasController.PainelVisitas)
@@ -16,5 +19,6 @@ visitasRouter.get('/VisitantesIncompletos',userAuth,visitasController.Visitantes
 visitasRouter.get('/VisitanteIncompleto/:Id',userAuth,visitasController.VisitanteIncompleto)
 visitasRouter.get('/sendPhoto/:Id',userAuth,visitasController.sendPhoto)
 visitasRouter.post('/completedCadatroVisitante',userAuth,visitasController.completedCadatroVisitante)
+visitasRouter.post('/recivePhoto',upload.array("files"),userAuth,visitasController.recivePhoto)
 
 export default visitasRouter;
