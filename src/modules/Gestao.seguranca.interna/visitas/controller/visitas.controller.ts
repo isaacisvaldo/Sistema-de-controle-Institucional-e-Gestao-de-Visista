@@ -90,13 +90,16 @@ export  async  function  Visitas(req: Request, res: Response) {
       const user = req.session.user;
       const {Id}= req.params;
       const visitantesIncompletos = await VisitorRepository.findOneVisitorIncompleted(parseInt(Id))
+      const anexo = await VisitorRepository.findOneVisitorIncompletedAnexo(parseInt(Id))
       const type_doc = await globalRepository.findAllTipoDocumento()
+    
      
       res.render("Dashboard/visitanteIncompleto", {
         user, 
         visitantesIncompletos,
         domain,
         Id,
+        anexo,
         type_doc,
         error: req.flash("error"),
         warning: req.flash("warning"),
@@ -216,7 +219,6 @@ export  async  function  Visitas(req: Request, res: Response) {
   export  async  function  displaycomfirmSend(req: Request, res: Response) {
     try {
       
-  
       res.render("Dashboard/confirmsend", {
      
         error: req.flash("error"),

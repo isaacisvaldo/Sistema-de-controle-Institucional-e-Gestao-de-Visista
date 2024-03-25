@@ -262,6 +262,19 @@ export const VisitorRepository = {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
+  async findOneVisitorIncompletedAnexo(id:number) {
+    try {
+      const visitor = await prisma.tb_visitanteAnexos.findUnique({
+        where:{
+        visitanteAnexosId: id,
+        }
+      
+      });
+      return visitor;
+    } catch (error) {
+      throw new Error(`Erro ao buscar Visitantes: ${error}`);
+    }
+  },
   async persistDataVisitor(data: Visitante) {
     try {
 
