@@ -189,7 +189,7 @@ import { generateCurrentDate } from "../../../util/fuction";
        const {dt_visita,fk_area_visitada,fk_tipo_visita}= req.body
        const data :Visita={
         data_visita:dt_visita,
-        fk_area_visitada: parseInt(fk_area_visitada),
+        fk_area: parseInt(fk_area_visitada),
         fk_tipo_visita:parseInt(fk_tipo_visita)
         
         }

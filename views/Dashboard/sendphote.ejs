@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Captura e Envio de Fotos</title>
+    <style>
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    margin-top: 20px;
+    color: #555;
+}
+
+div {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+video {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+img {
+    display: block;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="hidden"] {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <h1>Captura e Envio de Fotos</h1>
+    <div>
+        <h2>Webcam</h2>
+        <video id="video" width="320" height="240" autoplay></video>
+        <br>
+        <button onclick="capture('front')">Capturar Frente do BI</button>
+        <button onclick="capture('back')">Capturar Verso do BI</button>
+    </div>
+    <div>
+        <h2>Foto Capturada</h2>
+        <img id="frontPhoto" width="320" height="240">
+        <img id="backPhoto" width="320" height="240">
+        <br>
+        <button onclick="sendPhotos()">Enviar Fotos</button>
+    </div>
+    <input type="hidden" id="domainId" value="<%= domain%>" />
+    <input type="hidden" id="Id" value="<%= Id%>" />
+    <script>
+         const domain = document.getElementById("domainId").value; 
+         const Id = document.getElementById("Id").value; 
+        let video = document.getElementById('video');
+        let frontPhoto = document.getElementById('frontPhoto');
+        let backPhoto = document.getElementById('backPhoto');
+        let localStream = null;
+        let frontCaptured = false;
+        let backCaptured = false;
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                video.srcObject = stream;
+                localStream = stream;
+            })
+            .catch(function (err) {
+                console.error('Erro ao acessar a webcam: ', err);
+            });
+
+        function capture(side) {
+            let canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            if (side === 'front') {
+                frontPhoto.src = canvas.toDataURL('image/jpeg');
+                frontCaptured = true;
+            } else if (side === 'back') {
+                backPhoto.src = canvas.toDataURL('image/jpeg');
+                backCaptured = true;
+            }
+        }
+
+        function sendPhotos() {
+            if (!frontCaptured || !backCaptured) {
+                console.error('Ambas as fotos precisam ser capturadas.');
+                alert("Ambas as fotos precisam ser capturadas")
+            }
+
+            let frontImage = frontPhoto.src.replace(/^data:image\/(png|jpeg);base64,/, '');
+            let backImage = backPhoto.src.replace(/^data:image\/(png|jpeg);base64,/, '');
+
+
+            console.log(frontImage,backImage)
+            fetch(`${domain}/visitas/recivePhoto`, {
+                method: 'POST',
+                body: JSON.stringify({ frontImage, backImage,Id }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+               window.location="/visitas/displaycomfirmSend"
+            })
+            .catch(error => {
+                console.error('Erro ao enviar as fotos para o servidor:', error);
+               
+            });
+        }
+
+        window.onbeforeunload = function () {
+            if (localStream) {
+                localStream.getTracks().forEach(function (track) {
+                    track.stop();
+                });
+            }
+        };
+    </script>
+</body>
+</html>

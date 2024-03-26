@@ -6,6 +6,17 @@
    #centered-button {
     display: none;
     }
+    #qrcode {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+        }
 
 
 /* Estilos responsivos para o botão */
@@ -21,6 +32,8 @@
 
     <script src="/assets/js/hs.theme-appearance.js"></script>
     <script src="/assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/dist/qrcode.min.js"></script>
+
     <header id="header"
       class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
       <div class="navbar-nav-wrap">
@@ -251,7 +264,7 @@
         </div>
         <div class="modal fade" id="createAKIKeyModal" tabindex="-1" aria-labelledby="createAKIKeyModalLabel" role="dialog" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content" id="default">
               <!-- Header -->
               <div class="modal-header">
                 <h4 class="modal-title" id="createAKIKeyModalLabel">Pre-cadastro</h4>
@@ -261,18 +274,6 @@
       
               <!-- Body -->
               <div class="modal-body">
-              
-                  <div class="card" id="chaveId" hidden>
-                    <div class="card-body text-center">
-                      <small class="text-cap">Chave cadastro</small>
-                      <span class="js-counter d-block display-3 text-dark mb-2"> 9  <div class="row col-divider">
-                       
-        
-                      
-                      </div>
-                      <!-- End Row -->
-                    </div>
-                  </div>
                 
                 <form id="formId">
                   <input type="text" class="form-control" placeholder="Contacto" id="terminalId">
@@ -299,6 +300,38 @@
                     <div class="d-flex gap-3">
                       <button type="button" class="btn btn-white" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                       <button type="button" class="btn btn-primary" onclick="postDataInc()">Obter Chave</button>
+                    </div>
+                  </div>
+                  <!-- End Col -->
+                </div>
+                <!-- End Row -->
+              </div>
+              <!-- End Footer -->
+            </div>
+            <div class="modal-content" id="qrcod" hidden>
+              <!-- Header -->
+              <div class="modal-header">
+                <h4 class="modal-title" id="createAKIKeyModalLabel">QR-Code</h4>
+            </div>
+              <!-- End Header -->
+      
+              <!-- Body -->
+              <div class="modal-body">
+                <div id="qrcode"></div>
+              
+              </div>
+              <!-- End Body -->
+      
+              <!-- Footer -->
+              <div class="modal-footer">
+                <div class="row align-items-sm-center flex-grow-1 mx-n2">
+                  <div class="col-sm mb-2 mb-sm-0">
+                  </div>
+                  <!-- End Col -->
+      
+                  <div class="col-sm-auto">
+                    <div class="d-flex gap-3">
+                     <button type="button" class="btn btn-primary" onclick="location.reload()">Atualizar</button>
                     </div>
                   </div>
                   <!-- End Col -->
@@ -454,6 +487,7 @@
 
     <script src="assets/js/demo.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/dist/qrcode.min.js"></script>
 
         <script src="/assets/js/vendor.min.js"></script>
         <script src="/assets/js/hs-add-field.js"></script>
@@ -465,7 +499,7 @@
       <script>
 
         let dados =[ {codigo: "123", nome:"Isaac Bunga"},{codigo: "12345678910", nome:"Gelson Santo"},{codigo: "000000", nome:"Pedro Santo"}]
-
+        let idc 
         function verificarDados(input) {
           let  meuDados;
           for (let i = 0; i < dados.length; i++){
@@ -651,6 +685,8 @@
     function postDataInc(){
       const pertences=[];
       const terminal = document.getElementById('terminalId').value;
+      const def = document.getElementById('default');
+      const qrcod = document.getElementById('qrcod');
       const terminal1=[];
        terminal1.push({contacto:terminal}); 
       const data = {
@@ -670,14 +706,28 @@
           fetch(`${domain}/visitas/addVisitantesIncompleto`, options)
             .then((response) => response.json())
             .then((data) => {
-              console.log(data);
-              if(data.error){
-              document.getElementById('result').innerHTML =data.error; 
-              document.getElementById('result').setAttribute('class', 'text-danger')
-            }else{
+             
+              if(!data.error){
+               idc =data.sucess
+               console.log(data.sucess);
+                     
+        var url = `${domain}/visitas/sendPhoto/${idc }`; 
+        var qrCodeDiv = document.getElementById("qrcode");
+
+      
+        var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(url);
+        qrCodeDiv.innerHTML = "<img src='" + qrCodeUrl + "'>";
+              def.setAttribute('hidden', true);
+              qrcod.removeAttribute('hidden');
               document.getElementById('result').innerHTML =data.sucess;
               document.getElementById('result').setAttribute('class', 'text-success')
-              //Tenho que retornar o ID deste Visitante
+           
+            }else{
+              
+              document.getElementById('result').innerHTML =data.error; 
+              document.getElementById('result').setAttribute('class', 'text-danger')
+             
+              
             }
                       
             }).catch((error) => {
@@ -855,6 +905,7 @@
 
         exibirDataAtual();
       </script>
+  
   </body>
 
 </html>

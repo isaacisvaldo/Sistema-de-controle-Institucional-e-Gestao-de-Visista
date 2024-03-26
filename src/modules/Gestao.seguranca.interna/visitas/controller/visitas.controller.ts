@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import { domain } from "../../../../config/baseUrl/url";
-import { generateCurrentDate } from "../../../../utils/fuction";
 import { VisitorRepository } from "../repository/visitor.repository";
 import { globalRepository } from "../../../Global/repository/global.repository";
 import { Visita } from "../dto/visita.dto";
@@ -8,8 +7,10 @@ import { VisitaRepository } from "../repository/visita.repository";
 import { Visitante } from "../dto/visitor.dto";
 import { visitorService } from "../visitor.service";
 import { generateUniqueCodeVisita, generateUniqueCodeVisitanteAcess } from "../../../../utils/generation.fuction";
-
-
+import {AnexoVisitante, VisitanteIncompleto} from "../types/visitas"
+import { v4 as uuidv4 } from 'uuid';
+import fs from 'fs';
+import path from 'path';
 export  async  function PainelVisitas(req: Request, res: Response) {
     try {
       const user = req.session.user;
@@ -55,6 +56,51 @@ export  async  function  Visitas(req: Request, res: Response) {
         visitas,
         count,
         domain,
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
+  export  async  function  VisitantesIncompletos(req: Request, res: Response) {
+    try {
+      const user = req.session.user;
+      const visitantesIncompletos = await VisitorRepository.findAllVisitorIncompleted()
+      console.log(visitantesIncompletos)
+     
+      res.render("Dashboard/visitantesIncompletos", {
+        user,
+        visita_visitante:[],    
+        visitantesIncompletos,
+        domain,
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
+  export  async  function  VisitanteIncompleto(req: Request, res: Response) {
+    try {
+      const user = req.session.user;
+      const {Id}= req.params;
+      const visitantesIncompletos = await VisitorRepository.findOneVisitorIncompleted(parseInt(Id))
+      const anexo = await VisitorRepository.findOneVisitorIncompletedAnexo(parseInt(Id))
+      const type_doc = await globalRepository.findAllTipoDocumento()
+    
+     
+      res.render("Dashboard/visitanteIncompleto", {
+        user, 
+        visitantesIncompletos,
+        domain,
+        Id,
+        anexo,
+        type_doc,
         error: req.flash("error"),
         warning: req.flash("warning"),
         sucess: req.flash("sucess"),
@@ -115,6 +161,75 @@ export  async  function  Visitas(req: Request, res: Response) {
       return res.status(500).json({ error: "Failed to ..." });
     }
   }
+  export  async  function  sendPhoto(req: Request, res: Response) {
+    try {
+      const user = req.session.user;
+      const {Id}=req.params
+  
+      res.render("Dashboard/sendphote", {
+        user,   
+        domain,
+        Id,
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
+  export  async  function  recivePhoto(req: Request, res: Response) {
+    try {
+      const { frontImage, backImage,Id } = req.body;
+
+      // Decodificando as imagens em base64
+      const frontBuffer = Buffer.from(frontImage, 'base64');
+      const backBuffer = Buffer.from(backImage, 'base64');
+  
+      // Definindo o caminho absoluto para a pasta uploads
+      //const uploadsDir = path.join(__dirname, 'uploads');
+      // Gerando um nome único para cada imagem
+    const frontFileName = `front-${uuidv4()}.jpeg`;
+    const backFileName = `back-${uuidv4()}.jpeg`;
+      const uploadsDir = path.join(__dirname, '..','..', '..','..','..', 'public/uploads')
+  
+      // Verificando se a pasta uploads existe, se não, criando-a
+      if (!fs.existsSync(uploadsDir)) {
+          fs.mkdirSync(uploadsDir);
+      }
+  
+      // Salvando as imagens no disco
+      fs.writeFileSync(path.join(uploadsDir, frontFileName), frontBuffer);
+      fs.writeFileSync(path.join(uploadsDir, backFileName), backBuffer);
+  
+    
+      const data :AnexoVisitante = {
+        fk_visitante: parseInt(Id),
+        file1: frontFileName,
+        file2: backFileName
+      }
+      const saveImageDoc = VisitorRepository.saveImageDoc(data)
+      return  res.status(200).json({ saveImageDoc});
+   } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
+  export  async  function  displaycomfirmSend(req: Request, res: Response) {
+    try {
+      
+      res.render("Dashboard/confirmsend", {
+     
+        error: req.flash("error"),
+        warning: req.flash("warning"),
+        sucess: req.flash("sucess"),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Failed to ..." });
+    }
+  }
   export  async  function  CrVisita(req: Request, res: Response){
     try {
        const {dt_visita,fk_area_visitada,fk_tipo_visita}= req.body
@@ -123,7 +238,6 @@ export  async  function  Visitas(req: Request, res: Response) {
         fk_area: parseInt(fk_area_visitada),
         fk_tipo_visita:parseInt(fk_tipo_visita),
         cod_Visita: await generateUniqueCodeVisita()
-        
         }
         console.log(data);
         const visita = await VisitaRepository.persistDataVisita(data)
@@ -147,11 +261,12 @@ export  async  function  Visitas(req: Request, res: Response) {
      nome: "---",
      sobrenome: "---",
      hora_entrada:horaAtualFormatada,
-    fk_tipo_identificacao:null ,
+     fk_tipo_identificacao:null ,
      num_identificacao: "---",
      Data_validade_doc:"---",
      contactos: contacto,
      pertences:[],
+     isIncompleteted:true,
      visitaId: visitaId,
       code:code
    }
@@ -171,6 +286,29 @@ export  async  function  Visitas(req: Request, res: Response) {
       console.log(validate.error);
     }
        
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Falha ao criar Usuario." });
+    }
+  }
+  export  async  function  completedCadatroVisitante(req: Request, res: Response) {
+
+ 
+    try {
+      const {tipo_documento,documentNumber,documentValid,firstName,lastName,idUser}= req.body
+      console.log("Dados do corpo da requisição:", req.body);
+   const data :VisitanteIncompleto ={
+     documentNumber: documentNumber,
+     tipo_documento: parseInt(tipo_documento),
+     fk_tipo_visita: 0,
+     documentValid:documentValid,
+     idUser: parseInt(idUser),
+     lastName:lastName,
+     firstName:firstName,
+     isIncompleteted: false
+   }
+     const update = await VisitorRepository.completedCadastroVisitante(data)
+       return  res.status(201).json({ update});
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Falha ao criar Usuario." });

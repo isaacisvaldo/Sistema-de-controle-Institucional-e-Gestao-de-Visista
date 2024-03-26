@@ -3,6 +3,7 @@
 import prisma from "../../../../config/lib/prisma";
 import { generateCurrentDate } from "../../../../utils/fuction";
 import { Visitante } from "../dto/visitor.dto";
+import { AnexoVisitante, VisitanteIncompleto } from "../types/visitas";
 export interface VisitorIdentification {
   // You can replace 'string' with the appropriate type
   num_identificacao: string; // Replace with the appropriate type
@@ -221,13 +222,67 @@ export const VisitorRepository = {
       throw new Error(`Erro ao buscar Visitantes: ${error}`);
     }
   },
+  async findAllVisitorIncompleted() {
+    try {
+      const visitor = await prisma.tb_Visitantes.findMany({
+        where:{
+        isIncompleteted: true,
+        },
+        include: {
+          tb_visitante_contacto: true,
+          tb_visita_visitantes:{
+            include:{
+              tb_visitas:true,
+            }
+          },
+        },
+      });
+      return visitor;
+    } catch (error) {
+      throw new Error(`Erro ao buscar Visitantes: ${error}`);
+    }
+  },
+  async findOneVisitorIncompleted(id:number) {
+    try {
+      const visitor = await prisma.tb_Visitantes.findMany({
+        where:{
+        visitanteId: id,
+        },
+        include: {
+          tb_visitante_contacto: true,
+          tb_visita_visitantes:{
+            include:{
+              tb_visitas:true,
+            }
+          },
+        },
+      });
+      return visitor;
+    } catch (error) {
+      throw new Error(`Erro ao buscar Visitantes: ${error}`);
+    }
+  },
+  async findOneVisitorIncompletedAnexo(id:number) {
+    try {
+      const visitor = await prisma.tb_visitanteAnexos.findUnique({
+        where:{
+        visitanteAnexosId: id,
+        }
+      
+      });
+      return visitor;
+    } catch (error) {
+      throw new Error(`Erro ao buscar Visitantes: ${error}`);
+    }
+  },
   async persistDataVisitor(data: Visitante) {
     try {
 
       const visitante = await prisma.tb_Visitantes.create({
         data: {
           nome: data.nome,
-          sobrenome: data.sobrenome
+          sobrenome: data.sobrenome,
+          isIncompleteted:data.isIncompleteted
         },
       });
       // Crie contatos
@@ -338,8 +393,74 @@ export const VisitorRepository = {
       console.log(error);
     }
   },
+  async completedCadastroVisitante(data: VisitanteIncompleto) {
+    try {
+
+      const visitante = await prisma.tb_Visitantes.update({
+        data: {
+          nome: data.firstName,
+          sobrenome: data.lastName,
+          isIncompleteted:data.isIncompleteted
+        },
+        where:{
+          visitanteId:data.idUser
+        }
+      });
+     
+
+   
+      // Associe o visitante à visita
+      await prisma.tb_Visitante_identificacao.updateMany({
+        data: {
+          validade: data.documentValid,
+          num_identificacao: data.documentNumber,
+          fk_tipo_identificacao: data.tipo_documento,
+          
+        },
+        where:{
+          fk_visitante:data.idUser,
+          fk_tipo_identificacao:null
+        }
+      });
+      await prisma.tb_Visita_visitantes.updateMany({
+        data: {
+       
+          fk_tp_identificacao: data.tipo_documento,
+        
+        },
+        where:{
+          fk_visitante:data.idUser,
+          fk_tp_identificacao:null
+        }
+      });
+
+      return { sucess: " Visitante atualizado !",visitaId:visitante.visitanteId};
+    } catch (error) {
+      console.log(error);
+      return { error: "Erro ao cadastrar " };
+    }
+  },
+  async saveImageDoc(data: AnexoVisitante) {
+    try {
+
+      const visitante = await prisma.tb_visitanteAnexos.createMany({
+        data: {
+        file1: data.file1,
+        file2: data.file2,
+        fk_visitante: data.fk_visitante
+        }
+      });
+     
+
+   
+
+      return { sucess: " Visitante atualizado !"};
+    } catch (error) {
+      console.log(error);
+      return { error: "Erro ao cadastrar " };
+    }
+  },
 };
 
-function generateUniqueCodeVisitanteAcess(arg0: number, arg1: string): any {
-  throw new Error("Function not implemented.");
-}
+
+

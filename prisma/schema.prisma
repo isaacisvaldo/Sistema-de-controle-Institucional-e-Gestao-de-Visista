@@ -152,11 +152,10 @@ model tb_Log {
 
 model tb_Anexos {
   anexoId            Int                  @id @default(autoincrement())
-  name               String
-  tipo               String
+  file               String
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
-  tb_visitanteAnexos tb_visitanteAnexos[]
+ 
 }
 
 model tb_Pertences {
@@ -180,6 +179,7 @@ model tb_Visitantes {
   nome                         String
   sobrenome                    String
   status                       Boolean                        @default(false)
+  isIncompleteted              Boolean?                       @default(false)
   createdAt                    DateTime                       @default(now())
   updatedAt                    DateTime                       @updatedAt
   tb_visitante_contacto        tb_Visitante_contacto[]
@@ -219,8 +219,8 @@ model tb_visitanteAnexos {
   visitanteAnexosId Int            @id @default(autoincrement())
   tb_visitantes     tb_Visitantes? @relation(fields: [fk_visitante], references: [visitanteId], onDelete: Cascade, onUpdate: Cascade)
   fk_visitante      Int
-  tb_anexos         tb_Anexos?     @relation(fields: [fk_anexo], references: [anexoId], onDelete: Cascade, onUpdate: Cascade)
-  fk_anexo          Int
+  file1      String
+  file2      String
   createdAt         DateTime       @default(now())
   updatedAt         DateTime       @updatedAt
 }
