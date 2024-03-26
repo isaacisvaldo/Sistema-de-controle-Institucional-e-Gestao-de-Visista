@@ -6,6 +6,7 @@
     "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
     "build": "tsup src --out-dir dist",
     "migrate:create": "npx prisma migrate dev",
+    "prod:server": "pm2 start dist/server.js --name Seg_Institucional",
     "update:prisma": "npx prisma generate",
     "seed": "npx prisma db seed",
     "studio": "npx prisma studio"

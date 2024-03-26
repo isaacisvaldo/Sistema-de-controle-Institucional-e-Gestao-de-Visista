@@ -10,7 +10,10 @@ import session, { SessionOptions } from 'express-session';
 import {createClient} from "redis"
 import bodyParser from "body-parser";
 import cors from "cors";
-const redisClient = createClient()
+const redisClient = createClient({
+  host: '127.0.0.1', // Ou use 'localhost' se preferir
+  port: 6379,         // Porta padrão do Redis
+})
 redisClient.connect().catch(console.error)
 const redisStore = new RedisStore({
   client: redisClient,
